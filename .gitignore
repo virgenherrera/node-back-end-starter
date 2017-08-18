@@ -54,6 +54,11 @@ typings/
 # Yarn Integrity file
 .yarn-integrity
 
+# build folder
+build/
+
 # dotenv environment variables file
 .env
+forever.json
+src/config/db.js
 
