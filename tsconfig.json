@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+      "module": "commonjs",
+      "target": "es6",
+      "noImplicitAny": false,
+      "alwaysStrict": true,
+      "sourceMap": true,
+      "removeComments": true,
+      "outDir": "build"
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "public/vendor"
+  ]
+}
