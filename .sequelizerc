@@ -3,7 +3,7 @@ require('dotenv').config({path: path.join(__dirname,'./.env')});
 
 module.exports = {
 	'env'				: process.env.NODE_ENV,
-	'config'			: path.resolve('./src/config/db.js'),
+	'config'			: path.resolve('./src/config/db.json'),
 	'migrations-path'	: path.resolve('./src/migrations/'),
 	'models-path'		: path.resolve('./src/models/'),
 	'seeders-path'		: path.resolve('./src/seeders/'),

@@ -2,7 +2,13 @@ import * as path		from "path";
 import * as http		from 'http';
 import * as debug		from 'debug';
 import * as os			from 'os';
+import * as dotEnv		from 'dotenv';
 import App				from './application';
+
+/**
+ * Load environment variables from .env file, where API keys and passwords are configured.
+ */
+dotEnv.config({ path: path.join(__dirname,'../.env') });
 
 /**
 * declare parent directory as basePath
@@ -72,7 +78,7 @@ function onError(error: NodeJS.ErrnoException): void {
 function onListening(): void {
 	let addr = server.address();
 	let bind = (typeof addr === 'string') ? `pipe ${addr}` : `port ${addr.port}`;
-	let msg = `${process.env.NAME} is Listening on port: ${bind}`;
+	let msg = `${process.env.SERVICE_NAME} is Listening on port: ${bind}`;
 
 	debug(msg);
 	console.log("\n"+msg);

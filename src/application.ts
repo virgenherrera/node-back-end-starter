@@ -1,12 +1,21 @@
+import * as path			from 'path';
 import * as Express			from 'express';
 import * as logger			from 'morgan';
 import * as bodyParser		from 'body-parser';
 import * as cors			from 'cors';
 import * as moment			from 'moment';
-import * as routesConfig	from './Routes';
-import sys					from './Lib/System';
+import * as favicon			from 'serve-favicon';
+import * as requestIp 		from 'request-ip';
+import * as Handlers		from './Handler';
+import * as dotEnv			from 'dotenv';
+import Dir 					from './Lib/Directory';
 import acceptUrlencoded		from './Middleware/acceptUrlencoded';
 import notFound				from './Middleware/notFound';
+
+/**
+ * Load environment variables from .env file, where API keys and passwords are configured.
+ */
+dotEnv.config({ path: path.join(__dirname,'../.env') });
 
 /**
 * First line on Console
@@ -28,39 +37,19 @@ class Application{
 
 		this
 		.middleware()
-		// .viewsConfig()
-		// .exposePubicPath()
+		.viewsConfig()
+		.exposePubicPath()
 		.exposeRoutes()
 		.catch404();
 	}
 
-	get getRoutes():Object{
-		// const routesConfig = Routes;
-		let res = {};
-
-		for(let key in routesConfig ){
-			let routerPath		= sys.getDir('route',routesConfig[key]);
-			let routerExists	= sys.fileExists(`${routerPath}.js`);
-			let router			= routerExists ? require( routerPath ) : false;
-			let resKey			= '/';
-			resKey += ( key == 'default' ) ? '' : key;
-
-			res[ resKey ] = {
-				name: key,
-				path: routesConfig[key],
-				router: router,
-			};
-		}
-
-		return res;
-	}
-
 	middleware():this{
-		// this.express.use( favicon( sys.getDir('public','favicon.ico') );
+		// this.express.use( favicon( `${Dir.Public}/'favicon.ico` ) );
 		this.express.use( logger('dev') );
 		this.express.use( bodyParser.json() );
 		this.express.use( bodyParser.urlencoded({ extended: true }) );
 		this.express.use( cors() );
+		this.express.use( requestIp .mw() );
 		this.express.use( acceptUrlencoded );
 
 		return this;
@@ -68,30 +57,27 @@ class Application{
 
 	viewsConfig():this{
 		// view engine setup
-		this.express.set('views', sys.dir.view );
+		this.express.set('views', Dir.Views );
 		this.express.set('view engine', 'pug');
 
 		return this;
 	}
 
 	exposePubicPath():this{
-		this.express.use( Express.static( sys.dir.public ) );
+		this.express.use( Express.static( Dir.Public ) );
 
 		return this;
 	}
 
-	exposeRoutes():this{
-		const loadedRouters = this.getRoutes;
-		for( let key in loadedRouters ){
-			if( process.env.NODE_ENV != 'production' ){
-				if( loadedRouters[key].router )
-					console.log(`exposing route: "${key}"${'\t'}from: "${loadedRouters[key].path}" router file`);
-			}
+	exposeRoutes(){
+		for( let key in Handlers ){
 
-			if( !loadedRouters[key].router ){
-				console.error(`WARNING: The router named: "${loadedRouters[key].name}" does not exist in the path "${loadedRouters[key].path}" please check the file "/config/routes.js"`);
-			} else {
-				this.express.use( key , loadedRouters[key].router );
+			let {name=null,path=null,router=null} = Handlers[key];
+
+			if( (name) && (path) && (router) ){
+				console.log(`exposing route:	"${path}"${'\t'}from:	"${key}" handler file`);
+				this.express.use( path , router );
+				// Debug.dd( this.express._router, this.express._router );
 			}
 		}
 

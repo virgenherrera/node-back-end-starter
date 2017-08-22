@@ -1,9 +1,7 @@
-"use strict";
-
 class debug{
-	dump(){
+	dump(...args){
 		console.log("\n//*------- start Data dumping...\n");
-		for ( var arg in arguments ){
+		for ( var arg in args ){
 			// Notify about which arg are dumping
 			console.info('\n\n\t...for argument:{'+arg+"}\n");
 			//print type
@@ -29,10 +27,10 @@ class debug{
 		process.exit();
 	}
 
-	dd(){
-		this.dump.apply( this, arguments );
+	dd(...args){
+		this.dump.apply( this, args );
 		this.die();
 	}
 }
 
-module.exports = new debug();
+export default new debug;
