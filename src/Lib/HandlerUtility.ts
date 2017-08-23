@@ -11,15 +11,13 @@ import {
 	error500
 }	from "../dto/Restful";
 
-interface iMiddlewareParams{
-	req		: Request;
-	res		: Response;
-	next	: NextFunction;
-}
-
 export default class HandlerUtility{
 
-	_middlewareParams:iMiddlewareParams;
+	_middlewareParams:{
+		req		: Request;
+		res		: Response;
+		next	: NextFunction;
+	};
 	_limit:number;
 	_offset:number;
 
@@ -84,10 +82,14 @@ export default class HandlerUtility{
 		return Number( this._offset );
 	}
 
-	public getRequestParams(paramString:string):Object{
+	public getRequestParams(paramString:string|string[]):Object{
 		let params = [{},{limit:this.limit,offset:this.offset}];
+
+		if( typeof paramString == 'string' ){
+			paramString = paramString.split(',');
+		}
+
 		let reqParamsArr = paramString
-			.split(',')
 			.map((p) =>{
 				if( p in this._middlewareParams.req ){
 					return  ( typeof this._middlewareParams.req[p] == 'object' ) ? this._middlewareParams.req[p] : { [p] : this._middlewareParams.req[p] };
