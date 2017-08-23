@@ -22,7 +22,7 @@ dotEnv.config({ path: path.join(__dirname,'../.env') });
 */
 console.log(`
 \\\\***************************************************************************************//
-		Starting ${process.env.NAME}:server in "${process.env.NODE_ENV}" mode!
+		Starting ${process.env.SERVICE_NAME}:server in "${process.env.NODE_ENV}" mode!
 		date: ${moment().format('LLLL')}
 \\\\***************************************************************************************//
 `);

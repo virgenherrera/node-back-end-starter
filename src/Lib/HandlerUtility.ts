@@ -1,11 +1,15 @@
 import {Request, Response, NextFunction}			from "express";
-import {authDto,getDto,postDto,putDto,deleteDto}	from "../dto/Restful";
-import {error401,error404,error500}					from "../Dto/Error";
-
-const Defaults = {
-	limit:50,
-	offset:0,
-};
+import pagination from '../config/pagination';
+import {
+	authDto,
+	getDto,
+	postDto,
+	putDto,
+	deleteDto,
+	error401,
+	error404,
+	error500
+}	from "../dto/Restful";
 
 interface iMiddlewareParams{
 	req		: Request;
@@ -13,8 +17,7 @@ interface iMiddlewareParams{
 	next	: NextFunction;
 }
 
-
-export default class ApiRouteUtilities{
+export default class HandlerUtility{
 
 	_middlewareParams:iMiddlewareParams;
 	_limit:number;
@@ -29,10 +32,11 @@ export default class ApiRouteUtilities{
 		this._middlewareParams.res	= res;
 		this._middlewareParams.next	= next;
 
-		if( req.query && req.query.limit ) this.limit = req.query.limit;
-		if( req.query && req.query.offset ) this.offset = req.query.offset;
-		if( req.body && req.body.limit ) this.limit = req.body.limit;
-		if( req.body && req.body.offset ) this.offset = req.body.offset;
+		// get limit AND offset from query and can be overridden from  by params
+		if( req.query && req.query.limit )	this.limit = req.query.limit;
+		if( req.body && req.body.limit )	this.limit = req.body.limit;
+		if( req.query && req.query.offset )	this.offset = req.query.offset;
+		if( req.body && req.body.offset )	this.offset = req.body.offset;
 	}
 
 	set limit(limit:number){
@@ -40,7 +44,7 @@ export default class ApiRouteUtilities{
 			// parse int
 			limit = Number(limit);
 			// allow MAX limit to defined in constants file
-			this._limit = ( limit > 0 && limit < Defaults.limit ) ? limit : Defaults.limit;
+			this._limit = ( limit > 0 && limit < pagination.limit ) ? limit : pagination.limit;
 		}
 	}
 
@@ -49,8 +53,19 @@ export default class ApiRouteUtilities{
 			// parse int
 			offset = Number(offset);
 			// offset must be Major than 0
-			this._offset = ( offset > 0 ) ? offset : Defaults.offset;
+			this._offset = ( offset > 0 ) ? offset : pagination.offset;
 		}
+	}
+
+	private Init():void{
+		// reset class Props to Default
+		this._middlewareParams = {
+			req		: null,
+			res		: null,
+			next	: null,
+		};
+		this.limit	= pagination.limit
+		this.offset	= pagination.offset;
 	}
 
 	get expressResponse():Response{
@@ -67,17 +82,6 @@ export default class ApiRouteUtilities{
 
 	get offset():number{
 		return Number( this._offset );
-	}
-
-	private Init():void{
-		// reset class Props to Default
-		this._middlewareParams = {
-			req		: null,
-			res		: null,
-			next	: null,
-		};
-		this.limit	= Defaults.limit;
-		this.offset	= Defaults.offset;
 	}
 
 	public getRequestParams(paramString:string):Object{

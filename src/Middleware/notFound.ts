@@ -1,6 +1,6 @@
 
 import {Request, Response, NextFunction} from "express";
-import {error404} from '../Dto/Error';
+import {error404} from '../Dto/Restful';
 
 export default (req:Request, res:Response, next:NextFunction):Response=>{
 	let message = `Not-existent Endpoint '${req.url}' for Method: '${req.method}'`;

@@ -1,8 +1,8 @@
-export interface iRestfulResponse{
+export default interface iDto{
 	status	: number;
 	success	: boolean;
 	message	: string;
-	data?	: any;
+	data?	: Object|Object[];
 	limit?	: number;
 	offset?	: number;
 	count?	: number;

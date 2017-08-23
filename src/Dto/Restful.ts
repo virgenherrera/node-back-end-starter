@@ -1,6 +1,7 @@
-import {iRestfulResponse} from './interfaces';
+import iDto from './iDto';
 
-export class authDto implements iRestfulResponse{
+// Success Auth
+export class authDto implements iDto{
 	public status	= 200;
 	public success	= true;
 	public message	= 'Authentication successful';
@@ -11,7 +12,8 @@ export class authDto implements iRestfulResponse{
 	}
 }
 
-export class getDto implements iRestfulResponse{
+// Success GET
+export class getDto implements iDto{
 	public status	= 200;
 	public success	= true;
 	public message	= 'Resource found';
@@ -35,7 +37,8 @@ export class getDto implements iRestfulResponse{
 	}
 }
 
-export class postDto implements iRestfulResponse{
+// Success POST
+export class postDto implements iDto{
 	public status	= 201;
 	public success	= true;
 	public message	= 'Resource created';
@@ -46,7 +49,8 @@ export class postDto implements iRestfulResponse{
 	}
 }
 
-export class putDto implements iRestfulResponse{
+// Success PUT
+export class putDto implements iDto{
 	public status	= 200;
 	public success	= true;
 	public message	= 'Resource updated';
@@ -57,7 +61,8 @@ export class putDto implements iRestfulResponse{
 	}
 }
 
-export class deleteDto implements iRestfulResponse{
+// Success DELETE
+export class deleteDto implements iDto{
 	public status	= 200;
 	public success	= true;
 	public message	= 'Resource deleted';
@@ -65,5 +70,49 @@ export class deleteDto implements iRestfulResponse{
 
 	constructor(params){
 		if( (params) )this.data = params;
+	}
+}
+
+// Failed Auth
+export class error401 implements iDto{
+	public status	=  401;
+	public success	= false;
+	public message	= "Authentication failed";
+
+	constructor(message=null){
+		if( (message) ) this.message = message;
+	}
+}
+
+// not found
+export class error404 implements iDto{
+	public status	= 404;
+	public success	= false;
+	public message	= 'The requested resource could not be found but may be available in the future.';
+
+	constructor(message=null){
+		if( (message) ) this.message = message;
+	}
+}
+
+// bad-Headers
+export class error406 implements iDto{
+	public status	= 406;
+	public success	= false;
+	public message	= "Requests header must contain: 'content-type': 'application/x-www-form-urlencoded'";
+
+	constructor(message=null){
+		if( (message) ) this.message = message;
+	}
+}
+
+// Internal Server Error
+export class error500 implements iDto{
+	public status	= 500;
+	public success	= false;
+	public message	= "Internal Server Error";
+
+	constructor(message=null){
+		if( (message) ) this.message = message;
 	}
 }
