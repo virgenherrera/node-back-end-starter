@@ -1,7 +1,7 @@
 {
   "name": "node-starter",
   "version": "1.0.0",
-  "description": "a replacement Microservice for Notify Messaging",
+  "description": "a tool for begin a node js Web project",
   "main": "dist/service.js",
   "scripts": {
     "start": "clear && tsc && node dist/service.js",
