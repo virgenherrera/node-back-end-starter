@@ -1,3 +1,4 @@
+import debug from './Lib/Debug';
 import * as path			from 'path';
 import * as Express			from 'express';
 import * as logger			from 'morgan';
@@ -8,7 +9,7 @@ import * as favicon			from 'serve-favicon';
 import * as requestIp 		from 'request-ip';
 import * as Handlers		from './Handler';
 import * as dotEnv			from 'dotenv';
-import Dir 					from './Lib/Directory';
+import Directories			from './Lib/Directories';
 import acceptUrlencoded		from './Middleware/acceptUrlencoded';
 import notFound				from './Middleware/notFound';
 
@@ -44,7 +45,7 @@ class Application{
 	}
 
 	middleware():this{
-		// this.express.use( favicon( `${Dir.Public}/'favicon.ico` ) );
+		// this.express.use( favicon( `${Directories.Public}/'favicon.ico` ) );
 		this.express.use( logger('dev') );
 		this.express.use( bodyParser.json() );
 		this.express.use( bodyParser.urlencoded({ extended: true }) );
@@ -57,27 +58,27 @@ class Application{
 
 	viewsConfig():this{
 		// view engine setup
-		this.express.set('views', Dir.Views );
+		this.express.set('views', Directories.Views );
 		this.express.set('view engine', 'pug');
 
 		return this;
 	}
 
 	exposePubicPath():this{
-		this.express.use( Express.static( Dir.Public ) );
+		this.express.use( Express.static( Directories.Public ) );
 
 		return this;
 	}
 
 	exposeRoutes(){
 		for( let key in Handlers ){
-
 			let {name=null,path=null,router=null} = Handlers[key];
 
 			if( (name) && (path) && (router) ){
-				console.log(`exposing route:	"${path}"${'\t'}from:	"${key}" handler file`);
+				if( path.charAt(0) != '/' ) path = `/${path}`;
+
+				console.log(`exposing route: "${path}"${"\n"}from:	"${key}" handler file${"\n"}`);
 				this.express.use( path , router );
-				// Debug.dd( this.express._router, this.express._router );
 			}
 		}
 

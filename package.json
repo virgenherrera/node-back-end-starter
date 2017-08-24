@@ -2,13 +2,12 @@
   "name": "node-starter",
   "version": "1.0.0",
   "description": "a replacement Microservice for Notify Messaging",
-  "main": "src/service.js",
+  "main": "dist/service.js",
   "scripts": {
-    "start": "clear && node src/service.js",
+    "start": "clear && tsc && node dist/service.js",
     "dev": "clear && gulp",
-    "prod": "clear && forever start forever.json",
-    "preinstall": "cp -nv .env.example .env && cp -nv src/config/db.example src/config/db.js",
-    "postinstall": "node src/tasks/createForeverConfigFile.js"
+    "prod": "clear && tsc && gulp provision && forever start forever.json",
+    "postinstall": "gulp provision"
   },
   "engines": {
     "node": "^6.10.3",
@@ -45,6 +44,7 @@
     "@types/mysql": "0.0.34",
     "@types/node": "^6.0.46",
     "@types/pg": "^6.1.43",
+    "@types/pug": "^2.0.4",
     "@types/request": "^2.0.1",
     "@types/request-ip": "0.0.31",
     "@types/sequelize": "^4.0.69",
@@ -52,7 +52,9 @@
     "chai": "^3.5.0",
     "chai-http": "^3.0.0",
     "gulp": "^3.9.1",
+    "gulp-ext-replace": "^0.3.0",
     "gulp-nodemon": "^2.2.1",
+    "gulp-rename": "^1.2.2",
     "gulp-sourcemaps": "^2.6.1",
     "gulp-typescript": "^3.1.1",
     "mocha": "^3.1.2",
@@ -74,7 +76,9 @@
     "mysql": "2.13.0",
     "pg": "^6.4.1",
     "pg-hstore": "^2.3.2",
+    "pug": "^2.0.0-rc.3",
     "request": "^2.81.0",
+    "request-ip": "^2.0.2",
     "sequelize": "3.30.2",
     "serve-favicon": "~2.3.2"
   }

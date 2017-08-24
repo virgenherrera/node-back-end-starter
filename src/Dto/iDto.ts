@@ -1,4 +1,4 @@
-export default interface iDto{
+export interface iDto{
 	status	: number;
 	success	: boolean;
 	message	: string;

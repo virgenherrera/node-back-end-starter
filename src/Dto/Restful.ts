@@ -1,4 +1,4 @@
-import iDto from './iDto';
+import {iDto} from './iDto';
 
 // Success Auth
 export class authDto implements iDto{

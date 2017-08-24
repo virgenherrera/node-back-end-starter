@@ -77,8 +77,8 @@ function onError(error: NodeJS.ErrnoException): void {
 */
 function onListening(): void {
 	let addr = server.address();
-	let bind = (typeof addr === 'string') ? `pipe ${addr}` : `port ${addr.port}`;
-	let msg = `${process.env.SERVICE_NAME} is Listening on port: ${bind}`;
+	let bind = (typeof addr === 'string') ? `pipe: "${addr}"` : `port: "${addr.port}"`;
+	let msg = `"${process.env.SERVICE_NAME}" is running on ${bind} in "${process.env.NODE_ENV}" mode`;
 
 	debug(msg);
 	console.log("\n"+msg);

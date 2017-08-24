@@ -1,13 +1,13 @@
 "use strict";
-const nodemon				= require('gulp-nodemon');
-const {compilerOptions}		= require('../tsconfig');
+const nodemon	= require('gulp-nodemon');
 
 module.exports = ()=>{
 	let stream = nodemon({
-		script: `${compilerOptions.outDir}/service.js`,
-		watch: "src",
-		tasks: ["tsTranspile","provideJson"],
-		env: { "DEBUG": "Application,Request,Response" }
-	});
+		script	: 'dist/service.js',
+		watch	: 'src',
+		ext		: 'ts json',
+	})
+	.on('change', ['watch','nodemon'])
+
 	return stream;
 };

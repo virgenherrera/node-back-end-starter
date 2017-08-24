@@ -1,15 +1,33 @@
 "use strict";
-const gulp			= require('gulp');
-const tsTranspile	= require('./gulpTasks/tsTranspile');
-const provideJson	= require('./gulpTasks/provideJson');
-const nodemon		= require('./gulpTasks/nodemon');
+const gulp	= require('gulp');
+const {
+	copySrcJson,
+	provideForeverJson,
+	nodemon,
+	provideEnv,
+	tsTranspile,
+}			= require('./gulpTasks');
 
-gulp.task('tsTranspile',tsTranspile);
-gulp.task('provideJson',provideJson);
+/**
+* Declare Single Tasks
+*/
+gulp.task('copySrcJson',copySrcJson);
+gulp.task('provideForeverJson',provideForeverJson);
 gulp.task('nodemon',nodemon);
+gulp.task('provideEnv',provideEnv);
+gulp.task('tsTranspile',tsTranspile);
 
-gulp.task('watch', ['tsTranspile'], () => {
-	gulp.watch('src/**/*.ts', ['tsTranspile']);
+/**
+* Declare bundle Tasks
+*/
+gulp.task('provision',['provideForeverJson','provideEnv']);
+
+gulp.task('watch', ['tsTranspile','copySrcJson'], () => {
+	gulp.watch( ["src/**/*.ts"] , ['tsTranspile','copySrcJson']);
 });
 
-gulp.task('default', ['watch', 'provideJson','nodemon']);
+
+/**
+* Default Task
+*/
+gulp.task('default', ['nodemon']);

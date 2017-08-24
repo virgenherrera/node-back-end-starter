@@ -1,6 +1,6 @@
 import {Router} from 'express';
 
-export default interface iHandler{
+export interface iHandler{
 	name	: string;
 	path	: string;
 	router	: Router;

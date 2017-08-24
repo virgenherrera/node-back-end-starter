@@ -1,38 +1,40 @@
 import * as path from "path";
 const parentDir	= path.join( __dirname , '../' );
 
-export interface iSysDirectory{
+export interface iProjectDirectories{
 	base		: string;
 	Business	: string;
 	config		: string;
 	Dto			: string;
 	Examples	: string;
+	Handler		: string;
 	Lib			: string;
 	Middleware	: string;
-	Migrations	: string;
 	Models		: string;
 	Repository	: string;
-	Seeders		: string;
 	Tasks		: string;
 	Views		: string;
 	Public		: string;
+	Migrations	: string;
+	Seeders		: string;
 }
 
-export class Directory implements iSysDirectory{
+export class Directories implements iProjectDirectories{
 	public base;
 	public Business;
 	public config;
 	public Dto;
 	public Examples;
+	public Handler;
 	public Lib;
 	public Middleware;
-	public Migrations;
 	public Models;
 	public Repository;
-	public Seeders;
 	public Tasks;
 	public Views;
 	public Public;
+	public Migrations;
+	public Seeders;
 
 	constructor(){
 		if( process.cwd() != parentDir.slice( 0 , -1 ) ){
@@ -44,20 +46,20 @@ export class Directory implements iSysDirectory{
 
 		this.base		= baseDir;
 		this.Business	= path.join(baseDir,'/Business');
-		this.config		= path.join(baseDir,'/config');
+		this.config		= path.join(baseDir,'/Config');
 		this.Dto		= path.join(baseDir,'/Dto');
 		this.Examples	= path.join(baseDir,'/Examples');
+		this.Handler	= path.join(baseDir,'/Handler');
 		this.Lib		= path.join(baseDir,'/Lib');
 		this.Middleware	= path.join(baseDir,'/Middleware');
-		this.Migrations	= path.join(baseDir,'/Migrations');
 		this.Models		= path.join(baseDir,'/Models');
 		this.Repository	= path.join(baseDir,'/Repository');
-		this.Seeders	= path.join(baseDir,'/Seeders');
 		this.Tasks		= path.join(baseDir,'/Tasks');
-		this.Views		= path.join(baseDir,'/Views');
-		this.Public		= path.join(baseDir,'/../public');
+		this.Views		= path.join(baseDir,'../views');
+		this.Public		= path.join(baseDir,'../public');
+		this.Migrations	= path.join(baseDir,'../Migrations');
+		this.Seeders	= path.join(baseDir,'../Seeders');
 	}
 }
 
-let Dir = new Directory;
-export default Dir;
+export default new Directories;
