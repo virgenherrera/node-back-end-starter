@@ -97,7 +97,7 @@ export default class HandlerUtility{
 			})
 		params = params.concat( reqParamsArr );
 
-		return Object.assign.apply(this,params);
+		return (<any>Object).assign.apply(this,params);
 	}
 
 	public getSuccessResponse(params):Response{

@@ -1,13 +1,13 @@
 import {Router, Request, Response, NextFunction} from "express";
-// import HandlerFooController			from '../../../Business/HandlerFoo';
-import ApiRouteUtilities 		from '../../lib/ApiRouteUtilities';
+import {iHandler}		from "../iHandler";
+import HandlerUtility 	from '../../lib/HandlerUtility';
 
 /* HandlerFoo Router Class */
-class HandlerFoo  extends ApiRouteUtilities{
+class HandlerFoo  extends HandlerUtility implements iHandler{
 
 	name	: string;
 	path	: string;
-	router	:Router;
+	router	: Router;
 
 	constructor(){
 		// execute parent constructor
@@ -18,13 +18,16 @@ class HandlerFoo  extends ApiRouteUtilities{
 		this.path = `/api/${this.name}`;
 		this.router = Router();
 
+		this.init();
+	}
+
+	init():void{
 		this.router.get( "/",this.getHandlerFoos.bind(this));
 	}
 
 	getHandlerFoos(req:Request,res:Response,next:NextFunction){
 		this.middlewareParams = arguments;
 		let params = this.getRequestParams('body,query,params,clientIp');
-		console.log(req.clientIp)
 		// let ctrl	= new HandlerFooController();
 
 		// return ctrl.create(params)
@@ -36,8 +39,5 @@ class HandlerFoo  extends ApiRouteUtilities{
 		return res.status(200).json(params)
 	}
 }
-
-// let {name,path,router} = new HandlerFoo;
-// export default {name,path,router};
 
 export default new HandlerFoo;

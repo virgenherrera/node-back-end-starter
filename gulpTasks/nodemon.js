@@ -7,7 +7,7 @@ module.exports = ()=>{
 		watch	: 'src',
 		ext		: 'ts json',
 	})
-	.on('change', ['watch','nodemon'])
+	.on('change', ['serve:dev'])
 
 	return stream;
 };
