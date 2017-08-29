@@ -1,19 +1,14 @@
-import * as path		from "path";
 import * as http		from 'http';
 import * as debug		from 'debug';
 import * as os			from 'os';
-import * as dotEnv		from 'dotenv';
-import App				from './application';
-
-/**
- * Load environment variables from .env file, where API keys and passwords are configured.
- */
-dotEnv.config({ path: path.join(__dirname,'../.env') });
+import getEnv			from '../Sys/getEnv';
+import Directories		from '../Sys/Directories';
+import App				from '../application';
 
 /**
 * declare parent directory as basePath
 */
-process.chdir( path.join( __dirname , '../' ) );
+process.chdir( Directories.Cwd );
 
 /**
 * declare Service PORT

@@ -6,7 +6,7 @@ const {compilerOptions}	= require('../tsconfig');
 require('dotenv').config({path: path.join(__dirname,'../.env')});
 
 const projectDirName	= path.basename(path.resolve(__dirname,'../'));
-const script			= `${compilerOptions.outDir}/service.js`;
+const script			= `${compilerOptions.outDir}/Service`;
 const sourceDir			= path.join(__dirname,'../');
 const destinationFilePath	= path.join(__dirname,'../forever.json');
 const foreverConfig 	= JSON.stringify({
@@ -15,9 +15,9 @@ const foreverConfig 	= JSON.stringify({
 	"watch"		: false,
 	"script"	: script,
 	"sourceDir"	: sourceDir,
-	"logFile"	: path.join( sourceDir , "foreverLogs/forever.log" ),
-	"outFile"	: path.join( sourceDir , "foreverLogs/out.log" ),
-	"errFile"	: path.join( sourceDir , "foreverLogs/err.log" ),
+	"logFile"	: path.join( sourceDir , "logs/forever.log" ),
+	"outFile"	: path.join( sourceDir , "logs/out.log" ),
+	"errFile"	: path.join( sourceDir , "logs/err.log" ),
 },null,2);
 
 module.exports = ()=>{

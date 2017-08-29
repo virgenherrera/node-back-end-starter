@@ -1,5 +1,3 @@
-import debug from './Lib/Debug';
-import * as path			from 'path';
 import * as Express			from 'express';
 import * as logger			from 'morgan';
 import * as bodyParser		from 'body-parser';
@@ -8,15 +6,10 @@ import * as moment			from 'moment';
 import * as favicon			from 'serve-favicon';
 import * as requestIp 		from 'request-ip';
 import * as Handlers		from './Handler';
-import * as dotEnv			from 'dotenv';
-import Directories			from './Lib/Directories';
+import getEnv				from './Sys/getEnv';
+import Directories			from './Sys/Directories';
 import acceptUrlencoded		from './Middleware/acceptUrlencoded';
 import notFound				from './Middleware/notFound';
-
-/**
- * Load environment variables from .env file, where API keys and passwords are configured.
- */
-dotEnv.config({ path: path.join(__dirname,'../.env') });
 
 /**
 * First line on Console

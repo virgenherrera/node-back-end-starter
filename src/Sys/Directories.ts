@@ -2,35 +2,42 @@ import * as path from "path";
 const parentDir	= path.join( __dirname , '../' );
 
 export interface iProjectDirectories{
-	base		: string;
+	Cwd			: string;
 	Business	: string;
 	config		: string;
 	Dto			: string;
-	Examples	: string;
 	Handler		: string;
-	Lib			: string;
 	Middleware	: string;
 	Models		: string;
 	Repository	: string;
+	Service		: string;
+	Sys			: string;
+	Base		: string;
+	Examples	: string;
 	Tasks		: string;
+	Logs		: string;
 	Views		: string;
 	Public		: string;
 	Migrations	: string;
 	Seeders		: string;
+	getPathToFile(p:string,f:string):string;
 }
 
 export class Directories implements iProjectDirectories{
-	public base;
+	public Cwd;
 	public Business;
 	public config;
 	public Dto;
-	public Examples;
 	public Handler;
-	public Lib;
 	public Middleware;
 	public Models;
 	public Repository;
+	public Service;
+	public Sys;
+	public Base;
+	public Examples;
 	public Tasks;
+	public Logs;
 	public Views;
 	public Public;
 	public Migrations;
@@ -44,21 +51,28 @@ export class Directories implements iProjectDirectories{
 
 		const baseDir = process.cwd();
 
-		this.base		= baseDir;
+		this.Cwd		= baseDir;
 		this.Business	= path.join(baseDir,'/Business');
 		this.config		= path.join(baseDir,'/Config');
 		this.Dto		= path.join(baseDir,'/Dto');
-		this.Examples	= path.join(baseDir,'/Examples');
 		this.Handler	= path.join(baseDir,'/Handler');
-		this.Lib		= path.join(baseDir,'/Lib');
 		this.Middleware	= path.join(baseDir,'/Middleware');
 		this.Models		= path.join(baseDir,'/Models');
 		this.Repository	= path.join(baseDir,'/Repository');
-		this.Tasks		= path.join(baseDir,'/Tasks');
+		this.Service	= path.join(baseDir,'/Service');
+		this.Sys		= path.join(baseDir,'/Sys');
+		this.Base		= path.join(baseDir,'../');
+		this.Examples	= path.join(baseDir,'../examples');
+		this.Tasks		= path.join(baseDir,'../gulpTasks');
+		this.Logs		= path.join(baseDir,'../logs');
 		this.Views		= path.join(baseDir,'../views');
 		this.Public		= path.join(baseDir,'../public');
-		this.Migrations	= path.join(baseDir,'../Migrations');
-		this.Seeders	= path.join(baseDir,'../Seeders');
+		this.Migrations	= path.join(baseDir,'../migrations');
+		this.Seeders	= path.join(baseDir,'../seeders');
+	}
+
+	getPathToFile(dir:string,file:string|null):string{
+		return ( dir in this ) ? path.join( this[ dir ] , file ) : null;
 	}
 }
 

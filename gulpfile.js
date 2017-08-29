@@ -27,7 +27,7 @@ gulp.task('watch',watch);
 */
 gulp.task('provision',() => runSequence(['provideForeverJson','provideEnv']) );
 gulp.task('build', cb => runSequence(['clean','tsTranspile','copySrcJson'],cb) );
-gulp.task('serve:dev',['watch','build'],nodemon);
+gulp.task('serve:dev',['build','watch'],nodemon);
 gulp.task('serve:prod',['provision','build']);
 
 

@@ -1,6 +1,6 @@
 import {Router, Request, Response} from "express";
 import {iHandler}		from "../iHandler";
-import HandlerUtility 	from '../../lib/HandlerUtility';
+import HandlerUtility 	from '../../Sys/HandlerUtility';
 
 /* HandlerFoo Router Class */
 class HandlerFoo  extends HandlerUtility implements iHandler{

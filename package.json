@@ -2,7 +2,7 @@
   "name": "node-starter",
   "version": "1.0.0",
   "description": "a tool for begin a node js Web project",
-  "main": "dist/service.js",
+  "main": "dist/Service",
   "scripts": {
     "start": "clear && gulp serve:dev",
     "dev": "clear && gulp serve:dev",
@@ -54,6 +54,7 @@
     "del": "^3.0.0",
     "gulp": "^3.9.1",
     "gulp-ext-replace": "^0.3.0",
+    "gulp-json-editor": "^2.2.1",
     "gulp-nodemon": "^2.2.1",
     "gulp-rename": "^1.2.2",
     "gulp-sourcemaps": "^2.6.1",
