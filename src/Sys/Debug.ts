@@ -1,4 +1,4 @@
-class debug{
+export class Debug{
 	dump(...args){
 		console.log("\n//*------- start Data dumping...\n");
 		for ( var arg in args ){
@@ -33,4 +33,4 @@ class debug{
 	}
 }
 
-export default new debug;
+export default new Debug;
