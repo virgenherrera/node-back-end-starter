@@ -1,26 +1,29 @@
 "use strict";
-const path				= require('path');
-const fs				= require('fs');
-// const gulp				= require('gulp');
-const {compilerOptions}	= require('../tsconfig');
-require('dotenv').config({path: path.join(__dirname,'../.env')});
-
-const projectDirName	= path.basename(path.resolve(__dirname,'../'));
-const script			= `${compilerOptions.outDir}/Service`;
-const sourceDir			= path.join(__dirname,'../');
-const destinationFilePath	= path.join(__dirname,'../forever.json');
-const foreverConfig 	= JSON.stringify({
-	"uid"		: process.env.SERVICE_NAME || projectDirName,
+require('ts-node').register({project: false, disableWarnings: true});
+require('../src/Sys/getEnv.ts');
+const dir					= new ( require('../src/Sys/Directories.ts').Directories );
+const path					= require('path');
+const fs					= require('fs');
+const gulp					= require('gulp');
+const jsonEditor			= require('gulp-json-editor');
+const streamRename			= require('stream-rename');
+const {compilerOptions}		= require('../tsconfig');
+const srcFile				= dir.getPathToFile('Examples','forever.example');
+const foreverConfig 		= {
+	"uid"		: process.env.SERVICE_NAME,
 	"append"	: true,
 	"watch"		: false,
-	"script"	: script,
-	"sourceDir"	: sourceDir,
-	"logFile"	: path.join( sourceDir , "logs/forever.log" ),
-	"outFile"	: path.join( sourceDir , "logs/out.log" ),
-	"errFile"	: path.join( sourceDir , "logs/err.log" ),
-},null,2);
+	"sourceDir"	: dir.Base,
+	"script"	: dir.getPathToFile('Base',`${compilerOptions.outDir}/Service/index.js`),
+	"logFile"	: dir.getPathToFile('Logs','forever.log'),
+	"outFile"	: dir.getPathToFile('Logs','out.log'),
+	"errFile"	: dir.getPathToFile('Logs','err.log'),
+};
 
 module.exports = ()=>{
-	return fs.writeFileSync( destinationFilePath , foreverConfig );
+	// return fs.writeFileSync( destinationFilePath , foreverConfig );
+	return gulp.src( srcFile )
+	.pipe( jsonEditor( foreverConfig ) )
+	.pipe( streamRename({ extname: '.json' }) )
+	.pipe( gulp.dest( dir.Base ) )
 }
-

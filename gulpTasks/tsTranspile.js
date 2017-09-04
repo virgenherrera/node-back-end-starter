@@ -12,14 +12,14 @@ const Transpile = {
 		.pipe( tsProject() )
 		.js
 		.pipe( sourcemaps.write(`../${compilerOptions.outDir}`) )
-		.pipe( gulp.dest( compilerOptions.outDir ) );
+		.pipe( gulp.dest( `../${compilerOptions.outDir}` ) );
 	},
 	withoutMaps	: ()=>{
 
 		return tsProject.src()
 		.pipe( tsProject() )
 		.js
-		.pipe( gulp.dest( compilerOptions.outDir ));
+		.pipe( gulp.dest( `../${compilerOptions.outDir}` ));
 	},
 };
 
