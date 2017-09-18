@@ -6,7 +6,9 @@ const envExPath		= path.join( __dirname , '../.env.example' );
 const projPath		= path.join( __dirname , '../' );
 
 module.exports = ()=>{
-	return gulp.src( envExPath )
+	let stream = gulp.src( envExPath )
 	.pipe( rename( '.env' ) )
 	.pipe( gulp.dest( projPath ) );
+
+	return stream;
 }

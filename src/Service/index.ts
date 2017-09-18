@@ -1,9 +1,15 @@
 import * as http		from 'http';
 import * as debug		from 'debug';
 import * as os			from 'os';
-import getEnv			from '../Sys/getEnv';
+import * as dotEnv		from 'dotenv';
 import Directories		from '../Sys/Directories';
-import App				from '../application';
+import getEnv			from '../Sys/getEnv';
+import App				from '../Application';
+
+/**
+* List Loaded Environment Parameters
+*/
+getEnv.listLoadedEnv();
 
 /**
 * declare parent directory as basePath
@@ -41,7 +47,7 @@ server.on('listening', onListening);
 * Normalize a port into a number, string, or false.
 */
 function normalizePort(val: number|string): number|string|boolean {
-	let port: number = (typeof val === 'string') ? parseInt(val, 10) : val;
+	let port: number = Number(val);
 	if (isNaN(port)) return val;
 	else if (port >= 0) return port;
 	else return false;

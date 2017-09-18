@@ -5,11 +5,10 @@ import * as cors			from 'cors';
 import * as moment			from 'moment';
 import * as favicon			from 'serve-favicon';
 import * as requestIp 		from 'request-ip';
-import * as Handlers		from './Handler';
-import getEnv				from './Sys/getEnv';
-import Directories			from './Sys/Directories';
-import acceptUrlencoded		from './Middleware/acceptUrlencoded';
-import notFound				from './Middleware/notFound';
+import * as Handlers		from '../Handler';
+import Directories			from '../Sys/Directories';
+import acceptUrlencoded		from '../Middleware/acceptUrlencoded';
+import notFound				from '../Middleware/notFound';
 
 /**
 * First line on Console

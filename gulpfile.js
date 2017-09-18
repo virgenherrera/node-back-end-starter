@@ -1,34 +1,26 @@
 "use strict";
-const {
-	clean,
-	copySrcJson,
-	provideForeverJson,
-	nodemon,
-	provideEnv,
-	tsTranspile,
-	watch,
-}					= require('./gulpTasks');
+const Tasks			= require('./gulpTasks');
 const gulp			= require('gulp');
 const runSequence	= require('run-sequence');
 
 /**
 * Declare Single Tasks
 */
-gulp.task('clean',clean);
-gulp.task('copySrcJson',copySrcJson);
-gulp.task('provideForeverJson',provideForeverJson);
-gulp.task('nodemon',nodemon);
-gulp.task('provideEnv',provideEnv);
-gulp.task('tsTranspile',tsTranspile);
-gulp.task('watch',watch);
+gulp.task('clean',Tasks.clean);
+gulp.task('copySrcJson',Tasks.copySrcJson);
+gulp.task('provideForeverJson',Tasks.provideForeverJson);
+gulp.task('nodemon',Tasks.nodemon);
+gulp.task('provideEnv',Tasks.provideEnv);
+gulp.task('tsTranspile',Tasks.tsTranspile);
+gulp.task('watch',Tasks.watch);
 
 /**
 * Declare bundle Tasks
 */
-gulp.task('provision',() => runSequence(['provideForeverJson','provideEnv']) );
+gulp.task('provision', cb => runSequence(['provideEnv','provideForeverJson'],cb) );
 gulp.task('build', cb => runSequence(['clean','tsTranspile','copySrcJson'],cb) );
-gulp.task('serve:dev',['build','watch'],nodemon);
-gulp.task('serve:prod',['provision','build']);
+gulp.task('serve:dev',['build','watch'],Tasks.nodemon);
+gulp.task('prepare:prod', cb => runSequence(['provideForeverJson','build'],cb));
 
 
 /**

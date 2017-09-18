@@ -3,6 +3,7 @@ const parentDir	= path.join( __dirname , '../' );
 
 export interface iProjectDirectories{
 	Cwd			: string;
+	Application	: string;
 	Business	: string;
 	config		: string;
 	Dto			: string;
@@ -25,6 +26,7 @@ export interface iProjectDirectories{
 
 export class Directories implements iProjectDirectories{
 	public Cwd;
+	public Application;
 	public Business;
 	public config;
 	public Dto;
@@ -52,6 +54,7 @@ export class Directories implements iProjectDirectories{
 		const baseDir = process.cwd();
 
 		this.Cwd		= baseDir;
+		this.Application= path.join(baseDir,'/Application');
 		this.Business	= path.join(baseDir,'/Business');
 		this.config		= path.join(baseDir,'/Config');
 		this.Dto		= path.join(baseDir,'/Dto');

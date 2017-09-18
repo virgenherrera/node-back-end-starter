@@ -2,11 +2,11 @@
   "name": "node-starter",
   "version": "1.0.0",
   "description": "a tool for begin a node js Web project",
-  "main": "dist/Service/index.js",
+  "main": "dist/Service",
   "scripts": {
     "start": "clear && gulp serve:dev",
     "dev": "clear && gulp serve:dev",
-    "prod": "clear && gulp serve:prod && forever start forever.json",
+    "prod": "clear && gulp prepare:prod && forever start forever.json",
     "postinstall": "gulp provision"
   },
   "engines": {
