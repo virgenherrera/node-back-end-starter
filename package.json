@@ -7,19 +7,22 @@
     "node": "^8.9.0",
     "npm": "^5.5.1"
   },
-  "keywords": [],
+  "keywords": [
+    "node 8",
+    "typescript 2.6"
+  ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/virgenherrera/node-starter.git"
+    "url": "git+https://github.com/virgenherrera/node-back-end-starter.git"
   },
   "contributors": [
     "Hugo Virgen <virgenherrera@gmail.com>"
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/virgenherrera/node-starter/issues"
+    "url": "https://github.com/virgenherrera/node-back-end-starter/issues"
   },
-  "homepage": "https://github.com/virgenherrera/node-starter#readme",
+  "homepage": "https://github.com/virgenherrera/node-back-end-starter#readme",
   "dependencies": {
     "@types/bcryptjs": "^2.4.1",
     "@types/body-parser": "^1.16.7",
