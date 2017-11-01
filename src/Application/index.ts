@@ -4,7 +4,6 @@ import * as bodyParser		from 'body-parser';
 import * as cors			from 'cors';
 import * as moment			from 'moment';
 import * as favicon			from 'serve-favicon';
-import * as requestIp 		from 'request-ip';
 import * as Handlers		from '../Handler';
 import Directories			from '../Sys/Directories';
 import acceptUrlencoded		from '../Middleware/acceptUrlencoded';
@@ -42,7 +41,6 @@ class Application{
 		this.express.use( bodyParser.json() );
 		this.express.use( bodyParser.urlencoded({ extended: true }) );
 		this.express.use( cors() );
-		this.express.use( requestIp .mw() );
 		this.express.use( acceptUrlencoded );
 
 		return this;

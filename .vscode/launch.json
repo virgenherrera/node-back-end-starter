@@ -5,11 +5,10 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Attach to Local Process",
       "type": "node",
       "request": "attach",
-      "processId": "${command:PickProcess}",
-      "port": 5858
+      "name": "Attach to serve-debug",
+      "port": 9229
     }
   ]
 }

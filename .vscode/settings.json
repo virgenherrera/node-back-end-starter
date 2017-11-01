@@ -1,0 +1,21 @@
+{
+    "files.associations": {
+        "*.js": "javascript"
+    },
+    "terminal.integrated.shell.windows": "C:\\Program Files\\Git\\bin\\bash.exe",
+    "editor.renderWhitespace": "boundary",
+    "editor.multiCursorModifier": "ctrlCmd",
+    "extensions.ignoreRecommendations": false,
+    "cSpell.language": "en",
+    "workbench.colorTheme": "Solarized Dark",
+    "emmet.showSuggestionsAsSnippets": true,
+    "emmet.triggerExpansionOnTab": true,
+    "emmet.includeLanguages": {
+        "javascript": "javascriptreact"
+    },
+    "emmet.syntaxProfiles": {
+        "xml": {
+            "attr_quotes": "single"
+        }
+    }
+}
