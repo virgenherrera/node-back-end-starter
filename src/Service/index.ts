@@ -4,12 +4,13 @@ import * as os			from 'os';
 import * as dotEnv		from 'dotenv';
 import Directories		from '../Sys/Directories';
 import getEnv			from '../Sys/getEnv';
+import Debug			from '../Sys/Debug';
 import App				from '../Application';
 
 /**
-* List Loaded Environment Parameters
+* Load Environment Variables from .env
 */
-getEnv.listLoadedEnv();
+getEnv();
 
 /**
 * declare parent directory as basePath
@@ -97,3 +98,4 @@ function onListening(): void {
 		}
 	}
 }
+

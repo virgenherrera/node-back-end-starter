@@ -24,7 +24,7 @@ export interface iProjectDirectories{
 	getPathToFile(p:string,f:string):string;
 }
 
-export class Directories implements iProjectDirectories{
+class Directories implements iProjectDirectories{
 	public Cwd;
 	public Application;
 	public Business;

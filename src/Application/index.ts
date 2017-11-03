@@ -4,20 +4,16 @@ import * as bodyParser		from 'body-parser';
 import * as cors			from 'cors';
 import * as moment			from 'moment';
 import * as favicon			from 'serve-favicon';
+import getEnv 				from '../Sys/getEnv';
 import * as Handlers		from '../Handler';
 import Directories			from '../Sys/Directories';
 import acceptUrlencoded		from '../Middleware/acceptUrlencoded';
 import notFound				from '../Middleware/notFound';
 
 /**
-* First line on Console
+* Be sure to execute this App with properly defined ENV
 */
-console.log(`
-\\\\***************************************************************************************//
-		Starting ${process.env.SERVICE_NAME}:server in "${process.env.NODE_ENV}" mode!
-		date: ${moment().format('LLLL')}
-\\\\***************************************************************************************//
-`);
+getEnv();
 
 // Create and config a new expressJs web Application
 class Application{
@@ -83,5 +79,5 @@ class Application{
 	}
 }
 
-let {express} = new Application;
+let { express } = new Application;
 export default express;
