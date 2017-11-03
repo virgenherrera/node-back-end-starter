@@ -4,7 +4,7 @@ import * as bodyParser		from 'body-parser';
 import * as cors			from 'cors';
 import * as moment			from 'moment';
 import * as favicon			from 'serve-favicon';
-import getEnv 				from '../Sys/getEnv';
+import loadEnvironmentVars 	from '../Sys/loadEnvironmentVars';
 import * as Handlers		from '../Handler';
 import Directories			from '../Sys/Directories';
 import acceptUrlencoded		from '../Middleware/acceptUrlencoded';
@@ -13,7 +13,7 @@ import notFound				from '../Middleware/notFound';
 /**
 * Be sure to execute this App with properly defined ENV
 */
-getEnv();
+loadEnvironmentVars();
 
 // Create and config a new expressJs web Application
 class Application{

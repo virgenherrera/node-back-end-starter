@@ -3,14 +3,14 @@ import * as debug		from 'debug';
 import * as os			from 'os';
 import * as dotEnv		from 'dotenv';
 import Directories		from '../Sys/Directories';
-import getEnv			from '../Sys/getEnv';
+import loadEnvironmentVars			from '../Sys/loadEnvironmentVars';
 import Debug			from '../Sys/Debug';
 import App				from '../Application';
 
 /**
 * Load Environment Variables from .env
 */
-getEnv();
+loadEnvironmentVars();
 
 /**
 * declare parent directory as basePath
@@ -62,15 +62,15 @@ function onError(error: NodeJS.ErrnoException): void {
 	let bind = (typeof port === 'string') ? 'Pipe ' + port : 'Port ' + port;
 	switch(error.code) {
 		case 'EACCES':
-		console.error(`${bind} requires elevated privileges`);
+			console.error(`${bind} requires elevated privileges`);
 		process.exit(1);
 		break;
 		case 'EADDRINUSE':
-		console.error(`${bind} is already in use`);
+			console.error(`${bind} is already in use`);
 		process.exit(1);
 		break;
 		default:
-		throw error;
+			throw error;
 	}
 }
 
@@ -83,8 +83,8 @@ function onListening(): void {
 	let msg = `"${process.env.SERVICE_NAME}" is running on ${bind} in "${process.env.NODE_ENV}" mode`;
 
 	debug(msg);
-	console.log("\n"+msg);
-	console.log('\tListening in the following local addresses:\n');
+	console.log(msg);
+	console.log(`	Listening in the following local addresses:`);
 
 	// inform about localhost ip addresses
 	let interfaces = os.networkInterfaces();
@@ -93,7 +93,7 @@ function onListening(): void {
 			let address = interfaces[k][k2];
 
 			if (address.family === 'IPv4' && !address.internal) {
-				console.log(`http://${address.address}:${port}`);
+				console.log(`* http://${address.address}:${port}`);
 			}
 		}
 	}

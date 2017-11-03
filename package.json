@@ -58,7 +58,7 @@
     "develop": "npm-run-all -p watch-ts serve-debug",
     "production": "npm-run-all -s cleanup build-ts serve-prod",
     "serve-dev": "nodemon -w .env -w dist/ --exitcrash -V",
-    "serve-debug": "nodemon -w .env -w dist/ --exitcrash -V --inspect",
+    "serve-debug": "nodemon -w .env -w dist/ -V --inspect",
     "serve-prod": "forever start forever.json",
     "build-ts": "tsc",
     "watch-ts": "tsc -w",
