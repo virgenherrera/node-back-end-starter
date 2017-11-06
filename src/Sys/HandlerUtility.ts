@@ -1,3 +1,4 @@
+import Debug from '../Sys/Debug';
 import {Request, Response, NextFunction}			from "express";
 import pagination from '../config/pagination';
 import {
@@ -83,7 +84,11 @@ export default class HandlerUtility{
 	}
 
 	public getRequestParams(paramString:string|string[]):Object{
-		let params = [{},{limit:this.limit,offset:this.offset}];
+		let params = [];
+
+		if( this._middlewareParams.req.method == 'GET' ){
+			params.push({ limit: this.limit, offset: this.offset } )
+		}
 
 		if( typeof paramString == 'string' ){
 			paramString = paramString.split(',');
