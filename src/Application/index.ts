@@ -4,9 +4,10 @@ import * as bodyParser		from 'body-parser';
 import * as cors			from 'cors';
 import * as moment			from 'moment';
 import * as favicon			from 'serve-favicon';
-import loadEnvironmentVars 	from '../Sys/loadEnvironmentVars';
 import * as Handlers		from '../Handler';
-import Directories			from '../Sys/Directories';
+import loadEnvironmentVars 	from '../Sys/loadEnvironmentVars';
+import Directories 			from '../Sys/Directories';
+import mongodbConnection	from '../Sys/mongodbConnection';
 import acceptUrlencoded		from '../Middleware/acceptUrlencoded';
 import notFound				from '../Middleware/notFound';
 
@@ -24,6 +25,7 @@ class Application{
 		this.express = Express();
 
 		this
+		.storageConnect()
 		.middleware()
 		.viewsConfig()
 		.exposePubicPath()
@@ -74,6 +76,12 @@ class Application{
 	catch404():this{
 		// catch 404 and handle it
 		this.express.use( notFound );
+
+		return this;
+	}
+
+	storageConnect():this{
+		mongodbConnection().then( msg => console.log(msg) );
 
 		return this;
 	}

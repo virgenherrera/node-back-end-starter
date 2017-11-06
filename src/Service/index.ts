@@ -4,7 +4,6 @@ import * as os			from 'os';
 import * as dotEnv		from 'dotenv';
 import Directories		from '../Sys/Directories';
 import loadEnvironmentVars			from '../Sys/loadEnvironmentVars';
-import Debug			from '../Sys/Debug';
 import App				from '../Application';
 
 /**
