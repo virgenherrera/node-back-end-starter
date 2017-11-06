@@ -16,8 +16,14 @@ The rest of the dependencies of this project and the initial pre-configuration w
 `yarn install`
 
 ### Step 3:
+Provide the initial config files by typing in shell the `yarn provision` command
+
+### Step 4:
 provide this project with your own Environment variables in the following files:
 - `.env` (Service Config)
+
+### Step 5 (optional):
+You can customize the production options by updating the **./forever.json** file with your own settings
 
 ### `npm|yarn` Commands
 - `npm start` Compile and Launch the service using the _"nodemon"_ module.
