@@ -1,7 +1,7 @@
-import {iDto} from './iDto';
+import {iResDto} from './iResDto';
 
 // Success Auth
-export class authDto implements iDto{
+export class authDto implements iResDto{
 	public status	= 200;
 	public success	= true;
 	public message	= 'Authentication successful';
@@ -13,7 +13,7 @@ export class authDto implements iDto{
 }
 
 // Success GET
-export class getDto implements iDto{
+export class getDto implements iResDto{
 	public status	= 200;
 	public success	= true;
 	public message	= 'Resource found';
@@ -38,7 +38,7 @@ export class getDto implements iDto{
 }
 
 // Success POST
-export class postDto implements iDto{
+export class postDto implements iResDto{
 	public status	= 201;
 	public success	= true;
 	public message	= 'Resource created';
@@ -50,7 +50,7 @@ export class postDto implements iDto{
 }
 
 // Success PUT
-export class putDto implements iDto{
+export class putDto implements iResDto{
 	public status	= 200;
 	public success	= true;
 	public message	= 'Resource updated';
@@ -62,7 +62,7 @@ export class putDto implements iDto{
 }
 
 // Success DELETE
-export class deleteDto implements iDto{
+export class deleteDto implements iResDto{
 	public status	= 200;
 	public success	= true;
 	public message	= 'Resource deleted';
@@ -74,7 +74,7 @@ export class deleteDto implements iDto{
 }
 
 // Failed Auth
-export class error401 implements iDto{
+export class error401 implements iResDto{
 	public status	=  401;
 	public success	= false;
 	public message	= "Authentication failed";
@@ -85,7 +85,7 @@ export class error401 implements iDto{
 }
 
 // not found
-export class error404 implements iDto{
+export class error404 implements iResDto{
 	public status	= 404;
 	public success	= false;
 	public message	= 'The requested resource could not be found but may be available in the future.';
@@ -96,7 +96,7 @@ export class error404 implements iDto{
 }
 
 // bad-Headers
-export class error406 implements iDto{
+export class error406 implements iResDto{
 	public status	= 406;
 	public success	= false;
 	public message	= "Requests header must contain: 'content-type': 'application/x-www-form-urlencoded'";
@@ -107,7 +107,7 @@ export class error406 implements iDto{
 }
 
 // Internal Server Error
-export class error500 implements iDto{
+export class error500 implements iResDto{
 	public status	= 500;
 	public success	= false;
 	public message	= "Internal Server Error";

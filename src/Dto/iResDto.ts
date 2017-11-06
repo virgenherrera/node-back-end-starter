@@ -1,4 +1,4 @@
-export interface iDto{
+export interface iResDto{
 	status	: number;
 	success	: boolean;
 	message	: string;

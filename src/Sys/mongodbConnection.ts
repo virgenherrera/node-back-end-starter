@@ -7,7 +7,7 @@ type connection = {
 }
 
 export default async function connectMongo():Promise<string>{
-	const ConnectUri = `${process.env.MONGODB_URI}/${process.env.MONGODB_COLLECTON}`;
+	const ConnectUri = `${process.env.MONGODB_URI}/${process.env.MONGODB_DATABASE}`;
 
 	(<any>mongoose).Promise	= global.Promise;
 	const conn:connection	= await mongoose.connect(ConnectUri, { useMongoClient: true });
