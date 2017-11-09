@@ -23,13 +23,12 @@ export class getDto implements iResDto{
 	public count;
 
 	constructor(params){
-
-		let {rows=false,count=-1} = params;
+		let {rows=false,count=-1,limit,offset} = params;
 		if( (rows) && count >= 0 ){
 			this.data	= rows;
-			this.limit	= this.limit;
-			this.offset	= this.offset;
 			this.count	= count;
+			this.limit	= params.limit;
+			this.offset	= params.offset;
 
 		} else {
 			this.data = params;

@@ -1,2 +1,2 @@
-export { default as test1 }		from './Restful/test1';
+export { default as user }		from './Restful/user';
 export { default as main }		from './Rendered/main';

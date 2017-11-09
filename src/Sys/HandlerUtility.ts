@@ -31,11 +31,9 @@ export default class HandlerUtility{
 		this._middlewareParams.res	= res;
 		this._middlewareParams.next	= next;
 
-		// get limit AND offset from query and can be overridden from  by params
+		// set limit AND offset from query
 		if( req.query && req.query.limit )	this.limit = req.query.limit;
-		if( req.body && req.body.limit )	this.limit = req.body.limit;
 		if( req.query && req.query.offset )	this.offset = req.query.offset;
-		if( req.body && req.body.offset )	this.offset = req.body.offset;
 	}
 
 	set limit(limit:number){
@@ -56,20 +54,19 @@ export default class HandlerUtility{
 		}
 	}
 
-	private Init():void{
-		// reset class Props to Default
-		this._middlewareParams = {
-			req		: null,
-			res		: null,
-			next	: null,
-		};
-		this.limit	= pagination.limit
-		this.offset	= pagination.offset;
+	get Request(): Request {
+		let { req = null } = this._middlewareParams;
+		if (req) {
+			return req;
+		}
+
+		throw 'you forgot to provide this.middlewareParams with an express Middleware parameters Response e.g.	"this.middlewareParams = arguments;"';
 	}
 
-	get expressResponse():Response{
-		if( (this._middlewareParams.res) && typeof this._middlewareParams.res === 'object' ){
-			return this._middlewareParams.res;
+	get Response():Response{
+		let { res=null } = this._middlewareParams;
+		if ( res ){
+			return res;
 		}
 
 		throw 'you forgot to provide this.middlewareParams with an express Middleware parameters Response e.g.	"this.middlewareParams = arguments;"';
@@ -83,105 +80,112 @@ export default class HandlerUtility{
 		return Number( this._offset );
 	}
 
-	public getRequestParams(paramString:string|string[]):Object{
-		let params = [];
+	private Init():void{
+		// reset class Props to Default
+		this._middlewareParams = {
+			req		: null,
+			res		: null,
+			next	: null,
+		};
+		this.limit	= pagination.limit
+		this.offset	= pagination.offset;
+	}
 
-		if( this._middlewareParams.req.method == 'GET' ){
-			params.push({ limit: this.limit, offset: this.offset } )
-		}
+	public getRequestParams(paramString:string|string[]):Object{
+		let Req = this.Request;
+		let params = [];
 
 		if( typeof paramString == 'string' ){
 			paramString = paramString.split(',');
 		}
 
 		let reqParamsArr = paramString
-			.map((p) =>{
-				if( p in this._middlewareParams.req ){
-					return  ( typeof this._middlewareParams.req[p] == 'object' ) ? this._middlewareParams.req[p] : { [p] : this._middlewareParams.req[p] };
-				}
-			})
+		.map((p) =>{
+			if( p in Req ){
+				return ( typeof Req[p] == 'object' ) ? Req[p] : { [p] : Req[p] };
+			}
+		})
 		params = params.concat( reqParamsArr );
-
+		if( Req.method == 'GET' ){
+			params.push({ limit: this.limit, offset: this.offset } )
+		}
 		return (<any>Object).assign.apply(this,params);
 	}
 
-	public getSuccessResponse(params):Response{
-		let Res = new getDto(params);
-
-		this.Init();
-
-		return this.expressResponse.status( Res.status ).json( Res );
-	}
-
-	public getErrorResponse(params):Response{
-		let Res = new error404(params);
-
-		this.Init();
-
-		return this.expressResponse.status( Res.status ).json( Res );
-	}
-
-	public postSuccessResponse(params):Response{
-		let Res = new postDto(params);
-
-		this.Init();
-
-		return this.expressResponse.status( Res.status ).json( Res );
-	}
-
-	public postErrorResponse(params):Response{
-		let Res = new error500(params);
-
-		this.Init();
-
-		return this.expressResponse.status( Res.status ).json( Res );
-	}
-
-	public putSuccessResponse(params):Response{
-		let Res = new putDto(params);
-
-		this.Init();
-
-		return this.expressResponse.status( Res.status ).json( Res );
-	}
-
-	public putErrorResponse(params):Response{
-		let Res = new error500(params);
-
-		this.Init();
-
-		return this.expressResponse.status( Res.status ).json( Res );
-	}
-
-	public deleteSuccessResponse(params):Response{
-		let Res = new deleteDto(params);
-
-		this.Init();
-
-		return this.expressResponse.status( Res.status ).json( Res );
-	}
-
-	public deleteErrorResponse(params):Response{
-		let Res = new error500(params);
-
-		this.Init();
-
-		return this.expressResponse.status( Res.status ).json( Res );
-	}
-
 	public authSuccessResponse(params):Response{
-		let Res	= new authDto(params);
+		let Res		= this.Response;
+		let Data	= new authDto(params);
 
+		// Sanitize this Request Parameters
 		this.Init();
 
-		return this.expressResponse.status( Res.status ).json( Res );
+		return Res.status( Data.status ).json( Data );
 	}
 
 	public authErrorResponse(params):Response{
-		let Res = new error401(params);
+		let Res		= this.Response;
+		let Data	= new error401(params);
 
+		// Sanitize this Request Parameters
 		this.Init();
 
-		return this.expressResponse.status( Res.status ).json( Res );
+		return Res.status( Data.status ).json( Data );
+	}
+
+	public SuccessResponse(params): Response {
+		let { method } = this.Request;
+		let Res = this.Response;
+		let Data;
+
+		// Sanitize this Request Parameters
+		this.Init();
+
+		switch(method){
+			case 'GET':
+				Data = new getDto(params)
+				break;
+			case 'POST':
+				Data = new postDto(params)
+				break;
+
+			case 'PUT':
+				Data = new putDto(params);
+				break;
+
+			case 'DELETE':
+				Data = new deleteDto(params);
+				break;
+		}
+
+		return Res.status(Data.status).json(Data);
+	}
+
+	public ErrorResponse(params): Response {
+		let { method } = this.Request;
+		let Res = this.Response;
+		let Err;
+
+		// Sanitize this Request Parameters
+		this.Init();
+
+		switch (method) {
+			case 'GET':
+				Err = new error404(params);
+				break;
+
+			case 'POST':
+				Err = new error500(params);
+				break;
+
+			case 'PUT':
+				Err = new error500(params);
+				break;
+
+			case 'DELETE':
+				Err = new error500(params);
+				break;
+		}
+
+		return Res.status( Err.status ).json( Err );
 	}
 }

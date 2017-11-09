@@ -1,28 +1,32 @@
-import {Router, Request, Response} from "express";
-import {iHandler}		from "../iHandler";
+// only for debugging
+// import Debug from '../../Sys/Debug';
+import {
+	Router,
+	Request,
+	Response
+}						from "express";
+import { iHandler }		from "../../Sys/interfaces";
 import HandlerUtility 	from '../../Sys/HandlerUtility';
 
-/* HandlerFoo Router Class */
-class HandlerFoo  extends HandlerUtility implements iHandler{
+/* mainHandler Router Class */
+class mainHandler extends HandlerUtility implements iHandler{
 
-	name	: string;
-	path	: string;
-	router	: Router;
+	/**
+	* Mandatory Properties Description
+	* name: 	this Handler Name
+	* path: 	the path that handles this class
+	* router: 	the ExpressRouter itself to fill
+	*/
+	name:string		= 'main';
+	path:string		= "/";
+	router:Router	= Router();
 
 	constructor(){
 		// execute parent constructor
 		super();
 
-		// the properties to export
-		this.name = 'main';
-		this.path = "/";
-		this.router = Router();
-
-		this.init();
-	}
-
-	init():void{
-		this.router.get( "/",this.mainView.bind(this));
+		// Attach handlers to express Router
+		this.router.get("/", this.mainView.bind(this));
 	}
 
 	mainView(req:Request,res:Response){
@@ -32,4 +36,4 @@ class HandlerFoo  extends HandlerUtility implements iHandler{
 	}
 }
 
-export default new HandlerFoo;
+export default new mainHandler;
