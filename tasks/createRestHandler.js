@@ -7,6 +7,7 @@ const {
 }	= require('fs');
 const { join }			= require('path');
 const getLastCliArg		= require('./lib/getLastCliArg');
+const ucfirst			= require('./lib/ucfirst');
 const moduleName		= getLastCliArg() || "handler" ;
 
 return (()=>{
@@ -16,7 +17,7 @@ return (()=>{
 	const fileContent		= readFileSync(origin,'utf-8');
 	const lowerRegEx		= new RegExp("{{module}}","g");
 	const CamelRegEx		= new RegExp("{{Module}}","g");
-	const CamelName			= `${moduleName.charAt(0).toUpperCase()}${moduleName.slice(1)}`;
+	const CamelName			= ucfirst(moduleName);
 	const newContent		= fileContent.toString().replace(lowerRegEx, moduleName).replace(CamelRegEx,CamelName);
 	const exportHandler		= `export { default as ${moduleName} }		from './Restful/${moduleName}';${"\n"}`;
 

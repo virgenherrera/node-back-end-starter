@@ -70,6 +70,7 @@
     "provide-env": "node ./tasks/provideEnv.js",
     "provide-forever-config": "node ./tasks/provideForeverJson.js",
     "provision": "run-p provide-env provide-forever-config",
-    "create-rest-handler": "node ./tasks/createRestHandler.js"
+    "create-rest-handler": "node ./tasks/createRestHandler.js",
+    "create-controller": "node ./tasks/createController.js"
   }
 }

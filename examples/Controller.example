@@ -1,116 +1,45 @@
-"use strict";
+import { iController }	from "../Sys/interfaces";
+import {{Module}}Repository	from "../Repository/{{module}}";
+import entity{{Module}}		from "../Entity/{{module}}";
 // only for debugging
-// const debug		= require('../lib/debug');
-const Models	= require('../models');
+// import Debug from '../Sys/Debug';
 
-/* NAME Controller Class */
-module.exports = class controllerNAME{
-	constructor(){
+/* {{Module}} Controller Class */
+export default class {{Module}}Controller implements iController{
+
+	get repository(){
+		return new {{Module}}Repository;
 	}
 
-	create(NAME){
-		return new Promise((Resolve,Reject)=>{
+	async createAction(params:any):Promise<any>{
+		let Entity	= new entity{{Module}}(params);
+		let data	= await this.repository.Create(Entity);
 
-			return Models.name.create(NAME)
-			.then( data => Resolve(data) )
-			.catch( Err => Reject(Err) );
-		});
+		return new entity{{Module}}( data );
 	}
 
-	getOne({id}){
-		return new Promise((Resolve,Reject)=>{
+	async listAction(params):Promise<any>{
+		let {count,rows} = await this.repository.GetAll(params);
+		let {limit,offset} = params;
 
-			return Models.name.findById(id)
-			.then((NAME)=>{
-				if (!NAME) return Reject('Non-existent NAME');
-				return NAME;
-			})
-			.then( data => Resolve(data) )
-			.catch( Err => Reject(Err) );
-		});
+		rows = rows.map( element => new entity{{Module}}(element) );
+
+		return {count,rows,limit,offset};
 	}
 
-	getAll(NAME){
-		return new Promise((Resolve,Reject)=>{
-			let Wh = {
-				// attributes: ['id','Field1','Field2','Field3','Field4'],
-				limit: NAME.limit,
-				offset: NAME.offset,
-			};
+	async showAction(params:any):Promise<any>{
+		let data = await this.repository.GetOne(params);
 
-			return Models.name.findAndCountAll(Wh)
-			.then((NAME)=>{
-				if (!NAME) return Reject('Non-existent NAME');
-
-				return NAME;
-			})
-			.then( data => Resolve(data) )
-			.catch( Err => Reject(Err) );
-		});
+		return new entity{{Module}}(data);
 	}
 
-	edit(id,NAME){
-		return new Promise((Resolve,Reject)=>{
+	async editAction(params:any):Promise<any>{
+		let data = await this.repository.Update(params);
 
-			return Models.name.findById(id)
-			.then((oldNAME)=>{
-				if (!oldNAME) return Reject('Non-existent NAME');
-
-				/* -- Update Fields --*/
-				// if( NAME.Field1 ){
-				// 	oldNAME.Field1 = NAME.Field1;
-				// }
-				// if( NAME.Field2 ){
-				// 	oldNAME.Field2 = NAME.Field2;
-				// }
-				// .
-				// .
-				// .
-				// if( NAME.FieldN ){
-				// 	oldNAME.FieldN = NAME.FieldN;
-				// }
-				/* -- Update Fields --*/
-
-				return oldNAME.save();
-			})
-			.then( data => Resolve(data) )
-			.catch( Err => Reject(Err) );
-		});
+		return new entity{{Module}}(data);
 	}
 
-	delete({id}){
-		return new Promise((Resolve,Reject)=>{
-			return Models.name.findById(id)
-			.then((condemnedNAME)=>{
-				if (!condemnedNAME) return Reject('Non-existent NAME');
-
-				return condemnedNAME.destroy();
-			})
-			.then( data => Resolve(data) )
-			.catch( Err => Reject(Err) );
-		});
+	async deleteAction(params:any):Promise<any>{
+		return await this.repository.Delete(params);
 	}
-
-	// getJoinedModelExample(id,cb){
-	// 	return new Promise((Resolve,Reject)=>{
-
-	// 		let Wh = {
-	// 			where: {id:id},
-	// 			include: [{
-	// 				model: Models.related,
-	// 				limit: this.limit,
-	// 				offset: this.offset,
-	// 			}],
-	// 		};
-
-	// 		return Models.name.findOne(Wh)
-	// 		.then((NAME)=>{
-	// 			if(!NAME || NAME.users.length == 0) return Reject('Non-existent NAME OR without users');
-
-	// 			return NAME;
-	// 		})
-	// 		.then( data => Resolve(data) )
-	// 		.catch( Err => Reject(Err) );
-	// 	});
-	// }
 }
