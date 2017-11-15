@@ -1,6 +1,6 @@
 
 import {Request, Response, NextFunction} from "express";
-import {error404} from '../Dto/Restful';
+import {error404} from '../Sys/ResponseDto';
 
 export default (req:Request, res:Response, next:NextFunction):Response=>{
 	let message = `Not-existent Endpoint '${req.url}' for Method: '${req.method}'`;
@@ -10,7 +10,6 @@ export default (req:Request, res:Response, next:NextFunction):Response=>{
 	res.locals.message = e404.message;
 	res.locals.error = (req.app.get('env') === 'development') ? e404 : {};
 
-
-	// render the error page
+	// return the error JSON Object
 	return res.status( e404.status ).json( e404 );
 };

@@ -56,19 +56,20 @@
     "typescript": "^2.6.1"
   },
   "scripts": {
-    "start": "npm-run-all -s clean build-ts serve-dev",
-    "develop": "npm-run-all -p watch-ts serve-debug",
-    "production": "npm-run-all -s cleanup build-ts serve-prod",
-    "serve-dev": "nodemon -w .env -w dist/ --exitcrash -V",
-    "serve-debug": "nodemon -w .env -w dist/ -V --inspect",
+    "start": "run-s clean build-ts serve-nodemon",
+    "develop": "run-p watch-ts serve-nodemon-debug",
+    "production": "run-s cleanup build-ts serve-prod",
     "serve-prod": "forever start forever.json",
+    "serve-nodemon": "nodemon -w .env -w dist/ -V",
+    "serve-nodemon-debug": "nodemon -w .env -w dist/ -V --inspect",
     "build-ts": "tsc",
     "watch-ts": "tsc -w",
     "clean": "node ./tasks/clean.js",
-    "cleanup": "npm-run-all -p clean clean-logs",
+    "cleanup": "run-p clean clean-logs",
     "clean-logs": "node ./tasks/cleanLogs.js",
     "provide-env": "node ./tasks/provideEnv.js",
     "provide-forever-config": "node ./tasks/provideForeverJson.js",
-    "provision": "npm-run-all -p provide-env provide-forever-config"
+    "provision": "run-p provide-env provide-forever-config",
+    "create-rest-handler": "node ./tasks/createRestHandler.js"
   }
 }

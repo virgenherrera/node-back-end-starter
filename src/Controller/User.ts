@@ -1,5 +1,6 @@
 import { iController }	from "../Sys/interfaces";
-import { UserRepository } from '../Model/user'
+import { UserRepository } from "../Repository/user";
+import User from "../Entity/user";
 // only for debugging
 // import Debug from '../Sys/Debug';
 
@@ -16,16 +17,18 @@ export default class UserController implements iController{
 		.Create(params);
 	}
 
-	async listAction({limit,offset}:any):Promise<any>{
+	async listAction(params):Promise<any>{
 		return await this
 		.repository
-		.GetAll({limit,offset});
+		.GetAll(params);
 	}
 
 	async showAction(params:any):Promise<any>{
-		return await this
+		let data = await this
 		.repository
 		.GetOne(params);
+
+		return new User(data);
 	}
 
 	async editAction(params:any):Promise<any>{

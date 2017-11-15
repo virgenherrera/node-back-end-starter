@@ -1,12 +1,12 @@
 import { Router }			from "express";
 import { iRestHandler }		from "../../Sys/interfaces";
 import HandlerUtility		from '../../Sys/HandlerUtility';
-import UserController		from '../../controller/User';
+import {{Module}}Controller		from '../../controller/{{Module}}';
 // only for debugging
 // import Debug from '../../Sys/Debug';
 
-/* user Handler Class */
-class userHandler extends HandlerUtility implements iRestHandler{
+/* {{module}} Handler Class */
+class {{module}}Handler extends HandlerUtility implements iRestHandler{
 
 	/**
 	* Mandatory Properties Description
@@ -14,7 +14,7 @@ class userHandler extends HandlerUtility implements iRestHandler{
 	* path:		the path that this handlerClass will manage
 	* router:	the ExpressRouter itself to fill
 	*/
-	name:string		= 'user';
+	name:string		= '{{module}}';
 	path:string		= `/api/${this.name}s`;
 	router:Router	= Router();
 
@@ -32,7 +32,7 @@ class userHandler extends HandlerUtility implements iRestHandler{
 	}
 
 	get controller(){
-		return new UserController;
+		return new {{Module}}Controller;
 	}
 
 	getAllHandler(...args:any[]):any{
@@ -86,4 +86,4 @@ class userHandler extends HandlerUtility implements iRestHandler{
 	}
 }
 
-export default new userHandler;
+export default new {{module}}Handler;

@@ -2,7 +2,6 @@
     "files.associations": {
         "*.js": "javascript"
     },
-    "terminal.integrated.shell.windows": "C:\\Program Files\\Git\\bin\\bash.exe",
     "editor.renderWhitespace": "boundary",
     "editor.multiCursorModifier": "ctrlCmd",
     "extensions.ignoreRecommendations": false,

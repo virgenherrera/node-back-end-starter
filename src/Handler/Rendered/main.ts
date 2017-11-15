@@ -1,12 +1,8 @@
-// only for debugging
-// import Debug from '../../Sys/Debug';
-import {
-	Router,
-	Request,
-	Response
-}						from "express";
+import { Router }		from "express";
 import { iHandler }		from "../../Sys/interfaces";
 import HandlerUtility 	from '../../Sys/HandlerUtility';
+// only for debugging
+// import Debug from '../../Sys/Debug';
 
 /* mainHandler Router Class */
 class mainHandler extends HandlerUtility implements iHandler{
@@ -26,13 +22,14 @@ class mainHandler extends HandlerUtility implements iHandler{
 		super();
 
 		// Attach handlers to express Router
-		this.router.get("/", this.mainView.bind(this));
+		this.router
+		.get("/", this.mainView.bind(this));
 	}
 
-	mainView(req:Request,res:Response){
-		this.middlewareParams = arguments;
+	mainView(...args:any[]):any{
+		this.middlewareParams = args;
 
-		return res.render('index',{title:'Express Js'});
+		return this.Response.render('index',{title:'Express Js'});
 	}
 }
 

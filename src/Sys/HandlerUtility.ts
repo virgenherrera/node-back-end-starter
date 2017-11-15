@@ -2,15 +2,13 @@ import Debug from '../Sys/Debug';
 import {Request, Response, NextFunction}			from "express";
 import pagination from '../config/pagination';
 import {
-	authDto,
-	getDto,
-	postDto,
-	putDto,
-	deleteDto,
-	error401,
-	error404,
+	Get,
+	Post,
+	Put,
+	Delete,
+	error400,
 	error500
-}	from "../dto/Restful";
+}	from "./ResponseDto";
 
 export default class HandlerUtility{
 
@@ -91,7 +89,26 @@ export default class HandlerUtility{
 		this.offset	= pagination.offset;
 	}
 
-	public getRequestParams(paramString:string|string[]):Object{
+	getSort():object{
+		let {query={}} = this.Request;
+		let {sort=''} = query;
+		let Res = {};
+
+		let parsed = sort.split(',').forEach((item:string)=>{
+			if( !item ) return;
+			let order = 'asc';
+			if( item.charAt(0) == '-' ){
+				order = 'desc';
+				item = item.substring(1);
+			}
+
+			Res[ item ] = order;
+		});
+
+		return Res;
+	}
+
+	public getRequestParams(paramString:string|string[]):object{
 		let Req = this.Request;
 		let params = [];
 
@@ -107,32 +124,33 @@ export default class HandlerUtility{
 		})
 		params = params.concat( reqParamsArr );
 		if( Req.method == 'GET' ){
-			params.push({ limit: this.limit, offset: this.offset } )
+			params.push({ limit: this.limit, offset: this.offset, sort: this.getSort() } )
 		}
+
 		return (<any>Object).assign.apply(this,params);
 	}
 
-	public authSuccessResponse(params):Response{
-		let Res		= this.Response;
-		let Data	= new authDto(params);
+	// public authSuccessResponse(params):Response{
+	// 	let Res		= this.Response;
+	// 	let Data	= new authDto(params);
 
-		// Sanitize this Request Parameters
-		this.Init();
+	// 	// Sanitize this Request Parameters
+	// 	this.Init();
 
-		return Res.status( Data.status ).json( Data );
-	}
+	// 	return Res.status( Data.status ).json( Data );
+	// }
 
-	public authErrorResponse(params):Response{
-		let Res		= this.Response;
-		let Data	= new error401(params);
+	// public authErrorResponse(params):Response{
+	// 	let Res		= this.Response;
+	// 	let Data	= new error401(params);
 
-		// Sanitize this Request Parameters
-		this.Init();
+	// 	// Sanitize this Request Parameters
+	// 	this.Init();
 
-		return Res.status( Data.status ).json( Data );
-	}
+	// 	return Res.status( Data.status ).json( Data );
+	// }
 
-	public SuccessResponse(params): Response {
+	public SuccessJsonResponse(params): Response {
 		let { method } = this.Request;
 		let Res = this.Response;
 		let Data;
@@ -142,49 +160,36 @@ export default class HandlerUtility{
 
 		switch(method){
 			case 'GET':
-				Data = new getDto(params)
+				Data = new Get(params)
 				break;
 			case 'POST':
-				Data = new postDto(params)
+				Data = new Post(params)
 				break;
 
 			case 'PUT':
-				Data = new putDto(params);
+				Data = new Put(params);
 				break;
 
 			case 'DELETE':
-				Data = new deleteDto(params);
+				Data = new Delete(params);
 				break;
 		}
 
 		return Res.status(Data.status).json(Data);
 	}
 
-	public ErrorResponse(params): Response {
-		let { method } = this.Request;
+	public ErrorJsonResponse(params): Response {
 		let Res = this.Response;
+		let { message=null } = params;
 		let Err;
+		if( message ){
+			Err = new error400(params.message)
+		} else{
+			Err = new error500(params);
+		}
 
 		// Sanitize this Request Parameters
 		this.Init();
-
-		switch (method) {
-			case 'GET':
-				Err = new error404(params);
-				break;
-
-			case 'POST':
-				Err = new error500(params);
-				break;
-
-			case 'PUT':
-				Err = new error500(params);
-				break;
-
-			case 'DELETE':
-				Err = new error500(params);
-				break;
-		}
 
 		return Res.status( Err.status ).json( Err );
 	}

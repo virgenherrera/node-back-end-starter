@@ -1,5 +1,5 @@
 import {Request, Response, NextFunction} from "express";
-import {error406} from '../Dto/Restful';
+import {error406} from '../Sys/ResponseDto';
 
 
 // API access allowed only to content-type': 'application/x-www-form-urlencoded except for GET

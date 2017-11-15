@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { UserRepository } from '../Model/user'
 
 
 export interface iHandler{
@@ -18,10 +17,28 @@ export interface iRestHandler extends iHandler{
 }
 
 export interface iController{
-	readonly repository	:UserRepository;
+	readonly repository	:object;
 	createAction	(p:object):Promise<any>;
 	listAction		(p:object):Promise<any>;
 	showAction		(p:object):Promise<any>;
 	editAction		(p:object):Promise<any>;
 	deleteAction	(p:object):Promise<any>;
 }
+
+export interface iRepository{
+	GetOne(p:object):Promise<object>;
+	GetAll(p:object):Promise<object>;
+	Create(p:object):Promise<object>;
+	Update(p:object):Promise<object>;
+	Delete(p:object):Promise<object>;
+}
+
+export interface iResDto{
+	status	: number;
+	success	: boolean;
+	message	: string;
+	data?	: object|object[];
+	limit?	: number;
+	offset?	: number;
+	count?	: number;
+};
