@@ -3,33 +3,31 @@ import {iRepository} from "../Sys/interfaces";
 // only for debugging
 // import Debug from "../Sys/Debug";
 
-export class UserRepository extends UserModel implements iRepository{
+export default class UserRepository implements iRepository{
 	async GetOne({ id = null }):Promise<any>{
-		return await UserModel
-		.findById(id)
-		.exec();
+		return await UserModel.findById(id).exec();
 	}
 
 	async GetAll({limit,offset,sort={}}): Promise<any> {
-		let rows = await UserModel
+		// Important to return Total count
+		// do not forget to include!!!!
+		let count	= await UserModel.count({}).exec();
+		let rows	= await UserModel
 		.find()
 		.skip( offset )
 		.limit( limit )
 		.sort( sort )
 		.exec();
 
-		return {
-			count: await UserModel.count({}).exec(),
-			rows: rows,
-			limit: limit,
-			offset: offset,
-		};
+		return {count,rows};
 	}
 
 	async Create(params):Promise<any>{
-		let preparedEntity = new UserModel(params);
+		let preparedEntity	= new UserModel(params);
+		let storedEntity	= await preparedEntity.save();
 
-		return await preparedEntity.save();
+		// to avoid bubble private chars
+		return await UserModel.findById(storedEntity).exec();
 	}
 
 	async Update(params):Promise<any>{
