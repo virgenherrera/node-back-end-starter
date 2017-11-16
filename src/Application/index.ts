@@ -32,7 +32,7 @@ class Application{
 
 	middleware():this{
 		middleware.forEach(mid=>{
-			this.express.use.call(this.express, mid );
+			this.express.use( mid );
 		});
 
 		return this;
