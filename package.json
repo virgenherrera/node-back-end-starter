@@ -75,6 +75,7 @@
     "create-controller": "node ./tasks/createController.js",
     "create-model": "node ./tasks/createModel.js",
     "create-repository": "node ./tasks/createRepository.js",
-    "create-entity": "node ./tasks/createEntity.js"
+    "create-entity": "node ./tasks/createEntity.js",
+    "create-module": "node ./tasks/createModule.js"
   }
 }
