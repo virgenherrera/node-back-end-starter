@@ -1,15 +1,12 @@
 import * as Express			from 'express';
-import * as logger			from 'morgan';
-import * as bodyParser		from 'body-parser';
-import * as cors			from 'cors';
 import * as moment			from 'moment';
 import * as favicon			from 'serve-favicon';
 import * as Handlers		from '../Handler';
-import loadEnvironmentVars 	from '../Sys/loadEnvironmentVars';
-import Directories 			from '../Sys/Directories';
+import loadEnvironmentVars	from '../Sys/loadEnvironmentVars';
+import Directories			from '../Sys/Directories';
 import mongodbConnection	from '../Sys/mongodbConnection';
-import acceptUrlencoded		from '../Middleware/acceptUrlencoded';
 import notFound				from '../Middleware/notFound';
+import { middleware }		from "../config/middleware";
 
 /**
 * Be sure to execute this App with properly defined ENV
@@ -34,12 +31,9 @@ class Application{
 	}
 
 	middleware():this{
-		// this.express.use( favicon( `${Directories.Public}/'favicon.ico` ) );
-		this.express.use( logger('dev') );
-		this.express.use( bodyParser.json() );
-		this.express.use( bodyParser.urlencoded({ extended: true }) );
-		this.express.use( cors() );
-		this.express.use( acceptUrlencoded );
+		middleware.forEach(mid=>{
+			this.express.use.call(this.express, mid );
+		});
 
 		return this;
 	}
