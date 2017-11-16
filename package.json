@@ -73,6 +73,7 @@
     "provision": "run-p provide-env provide-forever-config",
     "create-rest-handler": "node ./tasks/createRestHandler.js",
     "create-controller": "node ./tasks/createController.js",
-    "create-model": "node ./tasks/createModel.js"
+    "create-model": "node ./tasks/createModel.js",
+    "create-repository": "node ./tasks/createRepository.js"
   }
 }
