@@ -1,0 +1,19 @@
+import { Document, Schema, Model, model } from "mongoose";
+// only for debugging
+// import Debug from "../Sys/Debug";
+
+export interface i{{Module}}{
+{{iCont}}}
+
+interface i{{Module}}Model extends i{{Module}},Document{
+	// Define Model's Contracts here!
+}
+
+export const {{Module}}Schema: Schema = new Schema({
+{{schemaDef}}},
+{
+	safe:true,
+	timestamps: true
+});
+
+export const {{Module}}Model: Model<i{{Module}}Model> = model<i{{Module}}Model>("{{Module}}", {{Module}}Schema);

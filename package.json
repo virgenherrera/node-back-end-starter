@@ -53,7 +53,8 @@
     "pug": "^2.0.0-rc.4",
     "request": "^2.83.0",
     "serve-favicon": "^2.4.5",
-    "typescript": "^2.6.1"
+    "typescript": "^2.6.1",
+    "yargs": "^10.0.3"
   },
   "scripts": {
     "start": "run-s clean build-ts serve-nodemon",
@@ -71,6 +72,7 @@
     "provide-forever-config": "node ./tasks/provideForeverJson.js",
     "provision": "run-p provide-env provide-forever-config",
     "create-rest-handler": "node ./tasks/createRestHandler.js",
-    "create-controller": "node ./tasks/createController.js"
+    "create-controller": "node ./tasks/createController.js",
+    "create-model": "node ./tasks/createModel.js"
   }
 }
