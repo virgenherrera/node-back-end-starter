@@ -1,0 +1,14 @@
+import { i{{Module}} } from '../Model/{{module}}';
+// only for debugging
+// import Debug from '../Sys/Debug';
+
+export default class entity{{Module}} implements i{{Module}}{
+	public _id:string;
+{{propDefinition}}
+	constructor(params=null){
+		if(params){
+			if( params._id ) this._id = params._id;
+{{propAssign}}
+		}
+	}
+}

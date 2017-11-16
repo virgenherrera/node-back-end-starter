@@ -74,6 +74,7 @@
     "create-rest-handler": "node ./tasks/createRestHandler.js",
     "create-controller": "node ./tasks/createController.js",
     "create-model": "node ./tasks/createModel.js",
-    "create-repository": "node ./tasks/createRepository.js"
+    "create-repository": "node ./tasks/createRepository.js",
+    "create-entity": "node ./tasks/createEntity.js"
   }
 }
