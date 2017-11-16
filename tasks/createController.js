@@ -20,6 +20,11 @@ return (()=>{
 	const newContent		= fileContent.toString().replace(lowerRegEx, name).replace(CamelRegEx,CamelName);
 	const exportHandler		= `export { default as ${name} }		from './Restful/${name}';${"\n"}`;
 
+	if( !name ){
+		console.error(`Cannot create unnamed controller`);
+		process.exit(1);
+	}
+
 	if( existsSync( destiny ) ){
 		console.error(`Cannot Overwrite!${"\n"}Handler:	${destiny}${"\n"}Already Exists`);
 		process.exit(1);
