@@ -1,7 +1,7 @@
 import * as Express			from 'express';
 import * as moment			from 'moment';
 import * as favicon			from 'serve-favicon';
-import * as Handlers		from '../Handler';
+import * as Handlers		from '../config/handler';
 import loadEnvironmentVars	from '../Sys/loadEnvironmentVars';
 import Directories			from '../Sys/Directories';
 import mongodbConnection	from '../Sys/mongodbConnection';
