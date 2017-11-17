@@ -25,10 +25,11 @@ class {{module}}Handler extends HandlerUtility implements iRestHandler{
 		// Attach handlers to express Router
 		this.router
 		.get("/", this.getAllHandler.bind( this ) )
-		.get("/:id", this.getOneHandler.bind( this ) )
+		// .get("/:id", this.getOneHandler.bind( this ) )
 		.post( "/", this.postHandler.bind( this ) )
-		.put("/:id", this.putHandler.bind( this ) )
-		.delete("/:id", this.deleteHandler.bind( this ) );
+		// .put("/:id", this.putHandler.bind( this ) )
+		// .delete("/:id", this.deleteHandler.bind( this ) )
+		;
 	}
 
 	get controller(){
@@ -46,13 +47,13 @@ class {{module}}Handler extends HandlerUtility implements iRestHandler{
 	}
 
 	getOneHandler(...args:any[]):any{
-		this.middlewareParams = args;
-		let params:any = this.getRequestParams('params');
+		// this.middlewareParams = args;
+		// let params:any = this.getRequestParams('params');
 
-		return this.controller
-		.showAction( params )
-		.then( this.SuccessJsonResponse.bind( this ) )
-		.catch( this.ErrorJsonResponse.bind( this ) );
+		// return this.controller
+		// .showAction( params )
+		// .then( this.SuccessJsonResponse.bind( this ) )
+		// .catch( this.ErrorJsonResponse.bind( this ) );
 	}
 
 	postHandler(...args:any[]):any{
@@ -66,23 +67,23 @@ class {{module}}Handler extends HandlerUtility implements iRestHandler{
 	}
 
 	putHandler(...args:any[]):any{
-		this.middlewareParams = args;
-		let params:any = this.getRequestParams('params,body');
+		// this.middlewareParams = args;
+		// let params:any = this.getRequestParams('params,body');
 
-		return this.controller
-		.editAction( params )
-		.then( this.SuccessJsonResponse.bind( this ) )
-		.catch( this.ErrorJsonResponse.bind( this ) );
+		// return this.controller
+		// .editAction( params )
+		// .then( this.SuccessJsonResponse.bind( this ) )
+		// .catch( this.ErrorJsonResponse.bind( this ) );
 	}
 
 	deleteHandler(...args:any[]):any{
-		this.middlewareParams = args;
-		let params:any = this.getRequestParams('params');
+		// this.middlewareParams = args;
+		// let params:any = this.getRequestParams('params');
 
-		return this.controller
-		.deleteAction( params )
-		.then( this.SuccessJsonResponse.bind( this ) )
-		.catch( this.ErrorJsonResponse.bind( this ) );
+		// return this.controller
+		// .deleteAction( params )
+		// .then( this.SuccessJsonResponse.bind( this ) )
+		// .catch( this.ErrorJsonResponse.bind( this ) );
 	}
 }
 

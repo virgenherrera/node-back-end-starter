@@ -4,6 +4,14 @@ import {iRepository} from "../Sys/interfaces";
 // import Debug from "../Sys/Debug";
 
 export default class {{Module}}Repository implements iRepository{
+	async GetById({ id = null }):Promise<any>{
+		return await {{Module}}.findById(id).exec();
+	}
+
+	async findOne(params):Promise<any>{
+		return await {{Module}}.findOne(params).exec();
+	}
+
 	async GetOne({ id = null }):Promise<any>{
 		return await {{Module}}Model.findById(id).exec();
 	}

@@ -28,7 +28,7 @@ export default class UserController implements iController{
 	}
 
 	async showAction(params:any):Promise<any>{
-		let data = await this.repository.GetOne(params);
+		let data = await this.repository.GetById(params);
 
 		return new entityUser(data);
 	}

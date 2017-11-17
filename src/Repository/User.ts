@@ -4,8 +4,12 @@ import {iRepository} from "../Sys/interfaces";
 // import Debug from "../Sys/Debug";
 
 export default class UserRepository implements iRepository{
-	async GetOne({ id = null }):Promise<any>{
+	async GetById({ id = null }):Promise<any>{
 		return await UserModel.findById(id).exec();
+	}
+
+	async findOne(params):Promise<any>{
+		return await UserModel.findOne(params).exec();
 	}
 
 	async GetAll({limit,offset,sort={}}): Promise<any> {

@@ -26,7 +26,8 @@ export interface iController{
 }
 
 export interface iRepository{
-	GetOne(p:object):Promise<object>;
+	GetById(p:object):Promise<object>;
+	findOne?(p:object):Promise<object>;
 	GetAll(p:object):Promise<object>;
 	Create(p:object):Promise<object>;
 	Update(p:object):Promise<object>;
