@@ -1,5 +1,6 @@
-import * as path from "path";
-const parentDir	= path.join( __dirname , '../' );
+import { join }			from "path";
+import { existsSync }	from "fs";
+const parentDir			= join( __dirname , '../' );
 
 export interface iProjectDirectories{
 	Cwd			: string;
@@ -22,6 +23,7 @@ export interface iProjectDirectories{
 	Migrations	: string;
 	Seeders		: string;
 	getPathToFile(p:string,f:string):string;
+	fileExists(p:string,f:string):boolean;
 }
 
 class Directories implements iProjectDirectories{
@@ -54,28 +56,33 @@ class Directories implements iProjectDirectories{
 		const baseDir = process.cwd();
 
 		this.Cwd		= baseDir;
-		this.Application= path.join(baseDir,'/Application');
-		this.Controller	= path.join(baseDir,'/Controller');
-		this.config		= path.join(baseDir,'/Config');
-		this.Dto		= path.join(baseDir,'/Dto');
-		this.Handler	= path.join(baseDir,'/Handler');
-		this.Middleware	= path.join(baseDir,'/Middleware');
-		this.Models		= path.join(baseDir,'/Models');
-		this.Repository	= path.join(baseDir,'/Repository');
-		this.Service	= path.join(baseDir,'/Service');
-		this.Sys		= path.join(baseDir,'/Sys');
-		this.Base		= path.join(baseDir,'../');
-		this.Examples	= path.join(baseDir,'../examples');
-		this.Tasks		= path.join(baseDir,'../gulpTasks');
-		this.Logs		= path.join(baseDir,'../logs');
-		this.Views		= path.join(baseDir,'../views');
-		this.Public		= path.join(baseDir,'../public');
-		this.Migrations	= path.join(baseDir,'../migrations');
-		this.Seeders	= path.join(baseDir,'../seeders');
+		this.Application= join(baseDir,'/Application');
+		this.Controller	= join(baseDir,'/Controller');
+		this.config		= join(baseDir,'/Config');
+		this.Dto		= join(baseDir,'/Dto');
+		this.Handler	= join(baseDir,'/Handler');
+		this.Middleware	= join(baseDir,'/Middleware');
+		this.Models		= join(baseDir,'/Models');
+		this.Repository	= join(baseDir,'/Repository');
+		this.Service	= join(baseDir,'/Service');
+		this.Sys		= join(baseDir,'/Sys');
+		this.Base		= join(baseDir,'../');
+		this.Examples	= join(baseDir,'../examples');
+		this.Tasks		= join(baseDir,'../gulpTasks');
+		this.Logs		= join(baseDir,'../logs');
+		this.Views		= join(baseDir,'../views');
+		this.Public		= join(baseDir,'../public');
+		this.Migrations	= join(baseDir,'../migrations');
+		this.Seeders	= join(baseDir,'../seeders');
 	}
 
 	getPathToFile(dir:string,file:string|null):string{
-		return ( dir in this ) ? path.join( this[ dir ] , file ) : null;
+		return ( dir in this ) ? join( this[ dir ] , file ) : null;
+	}
+
+	fileExists(dir:string,file:string|null):boolean{
+
+		return ( existsSync( join( this[ dir ] , file ) ) ) ;
 	}
 }
 
