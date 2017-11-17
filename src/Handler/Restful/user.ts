@@ -15,7 +15,7 @@ class userHandler extends HandlerUtility implements iRestHandler{
 	* router:	the ExpressRouter itself to fill
 	*/
 	name:string		= 'user';
-	path:string		= `/api/${this.name}s`;
+	path:string		= `/api/v1/${this.name}s`;
 	router:Router	= Router();
 
 	constructor(){
