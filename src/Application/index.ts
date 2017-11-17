@@ -8,17 +8,18 @@ import mongodbConnection	from '../Sys/mongodbConnection';
 import notFound				from '../Middleware/notFound';
 import { middleware }		from "../config/middleware";
 
-/**
-* Be sure to execute this App with properly defined ENV
-*/
-loadEnvironmentVars();
-
 // Create and config a new expressJs web Application
 class Application{
 
 	public express: Express.Application;
 
 	constructor(){
+		/**
+		* Be sure to execute this App with properly defined ENV
+		*/
+		loadEnvironmentVars();
+
+		// Initialize Express js app
 		this.express = Express();
 
 		this
@@ -54,7 +55,7 @@ class Application{
 
 	exposeRoutes(){
 		for( let key in Handlers ){
-			let {name=null,path=null,router=null} = Handlers[key];
+			let {name=null,path=null,router=null} = Handlers[key];1
 
 			if( (name) && (path) && (router) ){
 				if( path.charAt(0) != '/' ) path = `/${path}`;
