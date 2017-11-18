@@ -1,6 +1,6 @@
 import { iController }	from "../Sys/interfaces";
 import UserRepository	from "../Repository/user";
-import entityUser		from "../Entity/user";
+import pocoUser		from "../Poco/user";
 // only for debugging
 // import Debug from '../Sys/Debug';
 
@@ -12,17 +12,17 @@ export default class UserController implements iController{
 	}
 
 	async createAction(params:any):Promise<any>{
-		let Entity	= new entityUser(params);
+		let Entity	= new pocoUser(params);
 		let data	= await this.repository.Create(Entity);
 
-		return new entityUser( data );
+		return new pocoUser( data );
 	}
 
 	async listAction(params):Promise<any>{
 		let {count,rows} = await this.repository.GetAll(params);
 		let {limit,offset} = params;
 
-		rows = rows.map( element => new entityUser(element) );
+		rows = rows.map( element => new pocoUser(element) );
 
 		return {count,rows,limit,offset};
 	}
@@ -30,13 +30,13 @@ export default class UserController implements iController{
 	async showAction(params:any):Promise<any>{
 		let data = await this.repository.GetById(params);
 
-		return new entityUser(data);
+		return new pocoUser(data);
 	}
 
 	async editAction(params:any):Promise<any>{
 		let data = await this.repository.Update(params);
 
-		return new entityUser(data);
+		return new pocoUser(data);
 	}
 
 	async deleteAction(params:any):Promise<any>{

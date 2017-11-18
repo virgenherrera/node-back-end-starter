@@ -1,79 +1,60 @@
 import { join }			from "path";
 import { existsSync }	from "fs";
+const { cwd,chdir }		= process;
 const parentDir			= join( __dirname , '../' );
 
-export interface iProjectDirectories{
-	Cwd			: string;
-	Application	: string;
-	Controller	: string;
-	config		: string;
-	Dto			: string;
-	Handler		: string;
-	Middleware	: string;
-	Models		: string;
-	Repository	: string;
-	Service		: string;
-	Sys			: string;
-	Base		: string;
-	Examples	: string;
-	Tasks		: string;
-	Logs		: string;
-	Views		: string;
-	Public		: string;
-	Migrations	: string;
-	Seeders		: string;
-	getPathToFile(p:string,f:string):string;
-	fileExists(p:string,f:string):boolean;
-}
+class Directories{
+	public Base:string;
+	public Cwd:string;
 
-class Directories implements iProjectDirectories{
-	public Cwd;
-	public Application;
-	public Controller;
-	public config;
-	public Dto;
-	public Handler;
-	public Middleware;
-	public Models;
-	public Repository;
-	public Service;
-	public Sys;
-	public Base;
-	public Examples;
-	public Tasks;
-	public Logs;
-	public Views;
-	public Public;
-	public Migrations;
-	public Seeders;
+	public Application:string;
+	public config:string;
+	public Controller:string;
+	public Handler:string;
+	public Middleware:string;
+	public Model:string;
+	public Poco:string;
+	public Repository:string;
+	public Service:string;
+	public Sys:string;
+
+	public Examples:string;
+	public Logs:string;
+	public Migrations:string;
+	public Public:string;
+	public Seeders:string;
+	public Tasks:string;
+	public Views:string;
 
 	constructor(){
-		if( process.cwd() != parentDir.slice( 0 , -1 ) ){
+		if( cwd() != parentDir.slice( 0 , -1 ) ){
 			// declare parent directory (src) as workingDir
-			process.chdir( parentDir );
+			chdir( parentDir );
 		}
 
-		const baseDir = process.cwd();
+		const baseDir = cwd();
 
+		this.Base		= join(baseDir,'../');
 		this.Cwd		= baseDir;
+
 		this.Application= join(baseDir,'/Application');
-		this.Controller	= join(baseDir,'/Controller');
 		this.config		= join(baseDir,'/Config');
-		this.Dto		= join(baseDir,'/Dto');
+		this.Controller	= join(baseDir,'/Controller');
 		this.Handler	= join(baseDir,'/Handler');
 		this.Middleware	= join(baseDir,'/Middleware');
-		this.Models		= join(baseDir,'/Models');
+		this.Model		= join(baseDir,'/Model');
+		this.Poco		= join(baseDir,'/Poco');
 		this.Repository	= join(baseDir,'/Repository');
 		this.Service	= join(baseDir,'/Service');
 		this.Sys		= join(baseDir,'/Sys');
-		this.Base		= join(baseDir,'../');
+
 		this.Examples	= join(baseDir,'../examples');
-		this.Tasks		= join(baseDir,'../gulpTasks');
 		this.Logs		= join(baseDir,'../logs');
-		this.Views		= join(baseDir,'../views');
-		this.Public		= join(baseDir,'../public');
 		this.Migrations	= join(baseDir,'../migrations');
+		this.Public		= join(baseDir,'../public');
 		this.Seeders	= join(baseDir,'../seeders');
+		this.Tasks		= join(baseDir,'../tasks');
+		this.Views		= join(baseDir,'../views');
 	}
 
 	getPathToFile(dir:string,file:string|null):string{
