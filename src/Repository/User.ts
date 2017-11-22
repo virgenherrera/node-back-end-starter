@@ -8,8 +8,8 @@ export default class UserRepository implements iRepository{
 		return await UserModel.findById(id).exec();
 	}
 
-	async FindOne(params):Promise<any>{
-		return await UserModel.findOne(params).exec();
+	async FindOne(params,fields=null):Promise<any>{
+		return await UserModel.findOne(params,fields).exec();
 	}
 
 	async GetAll({limit,offset,sort={}}): Promise<any> {

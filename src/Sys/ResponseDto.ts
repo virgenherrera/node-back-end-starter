@@ -103,9 +103,10 @@ export class error401 implements iResDto{
 	public status	= 401;
 	public success	= false;
 	public message	= "Authentication failed";
+	public errors;
 
 	constructor(message=null){
-		if( message ) this.message = message;
+		if( message ) this.errors = message;
 	}
 }
 

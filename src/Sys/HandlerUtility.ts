@@ -1,12 +1,14 @@
-import Debug from '../Sys/Debug';
+// import Debug from '../Sys/Debug';
 import {Request, Response, NextFunction}			from "express";
 import pagination from '../config/pagination';
 import {
+	Auth,
 	Get,
 	Post,
 	Put,
 	Delete,
 	error400,
+	error401,
 	error500
 }	from "./ResponseDto";
 
@@ -89,7 +91,7 @@ export default class HandlerUtility{
 		this.offset	= pagination.offset;
 	}
 
-	getSort():object{
+	private getSort():object{
 		let {query={}} = this.Request;
 		let {sort=''} = query;
 		let Res = {};
@@ -130,29 +132,13 @@ export default class HandlerUtility{
 		return (<any>Object).assign.apply(this,params);
 	}
 
-	// public authSuccessResponse(params):Response{
-	// 	let Res		= this.Response;
-	// 	let Data	= new authDto(params);
-
-	// 	// Sanitize this Request Parameters
-	// 	this.Init();
-
-	// 	return Res.status( Data.status ).json( Data );
-	// }
-
-	// public authErrorResponse(params):Response{
-	// 	let Res		= this.Response;
-	// 	let Data	= new error401(params);
-
-	// 	// Sanitize this Request Parameters
-	// 	this.Init();
-
-	// 	return Res.status( Data.status ).json( Data );
-	// }
+	public httpMethodOverride(method:string):void{
+		this._middlewareParams.req.method = method;
+	}
 
 	public SuccessJsonResponse(params): Response {
-		let { method } = this.Request;
-		let Res = this.Response;
+		const { method } = this.Request;
+		const Res = this.Response;
 		let Data;
 
 		// Sanitize this Request Parameters
@@ -173,16 +159,24 @@ export default class HandlerUtility{
 			case 'DELETE':
 				Data = new Delete(params);
 				break;
+
+			case 'LOGIN':
+				Data = new Auth(params);
+			break;
 		}
 
 		return Res.status(Data.status).json(Data);
 	}
 
 	public ErrorJsonResponse(params): Response {
-		let Res = this.Response;
-		let { message=null } = params;
+		const { method } = this.Request;
+		const Res = this.Response;
+		const { message=null } = params;
 		let Err;
-		if( message ){
+		if( method == 'LOGIN' ){
+			Err = new error401(params)
+		}
+		else if( message ){
 			Err = new error400(params.message)
 		} else{
 			Err = new error500(params);

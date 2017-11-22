@@ -13,7 +13,7 @@ export default class User implements iUser{
 
 	constructor(params=null){
 		if(params){
-			if( params._id )			this._id = params._id;
+			if( params._id )			this._id = (typeof params._id == 'object') ? params._id.toString() : params._id;
 			if( params.firstName )		this.firstName = params.firstName;
 			if( params.lastName )		this.lastName = params.lastName;
 			if( params.email )			this.email = params.email;
