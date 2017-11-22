@@ -76,6 +76,6 @@
     "create-model": "node ./tasks/createModel.js",
     "create-repository": "node ./tasks/createRepository.js",
     "create-poco": "node ./tasks/createPoco.js.js",
-    "create-entity": "node ./tasks/createEntity.js"
+    "create-module": "node ./tasks/createModule.js"
   }
 }
