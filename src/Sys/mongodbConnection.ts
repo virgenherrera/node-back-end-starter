@@ -1,20 +1,16 @@
-import Debug from './Debug';
 import * as mongoose from 'mongoose';
 
-type connection = {
-	name:	string;
-	host: string;
-	port: number;
-}
-
 export default async function connectMongo():Promise<string>{
-	const ConnectUri = `${process.env.MONGODB_URI}/${process.env.MONGODB_DATABASE}`;
+	const ENV = process.env.NODE_ENV.toUpperCase();
+	const mongoAddress	= process.env[`MONGO_${ENV}_ADDRESS`];
+	const mongoDatabase	= process.env[`MONGO_${ENV}_DATABASE`];
+	const ConnectionUri	= `${mongoAddress}/${mongoDatabase}`;
 
 	(<any>mongoose).Promise	= global.Promise;
 	let conn:any;
 
 	try {
-		conn = await mongoose.connect(ConnectUri, { useMongoClient: true });
+		conn = await mongoose.connect(ConnectionUri, {useMongoClient: true});
 	} catch ({name,message}) {
 
 		console.error(`${name}: ${message}`);
@@ -22,5 +18,5 @@ export default async function connectMongo():Promise<string>{
 		process.exit(1)
 	}
 
-	return `${"\n"}Using: "${conn.name}" Database in ${conn.host}:${conn.port} MongoDB`;
+	return `${"\n"}Using: "${conn.name}" Database in ${conn.host}:${conn.port} MongoDB server`;
 }
