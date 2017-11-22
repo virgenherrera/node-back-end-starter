@@ -5,7 +5,6 @@ const {
 	readFileSync
 }	= require('fs');
 const { join }			= require('path');
-const getLastCliArg		= require('./lib/getLastCliArg');
 const ucfirst			= require('./lib/ucfirst');
 const parseCliArgs		= require("./lib/parseCliArgs");
 
@@ -32,3 +31,6 @@ return (()=>{
 		writeFileSync(destiny,newContent,{encoding:'utf-8'});
 	}
 })();
+
+{{SERVICE_NAME}}
+{{JWT_SECRET}}
