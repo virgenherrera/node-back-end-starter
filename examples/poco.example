@@ -2,7 +2,7 @@ import { i{{Module}} } from '../Model/{{module}}';
 // only for debugging
 // import Debug from '../Sys/Debug';
 
-export default class entity{{Module}} implements i{{Module}}{
+export default class {{Module}} implements i{{Module}}{
 	public _id:string;
 {{propDefinition}}
 	constructor(params=null){

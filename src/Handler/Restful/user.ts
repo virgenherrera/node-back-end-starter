@@ -1,4 +1,5 @@
 import { Router }			from "express";
+import { plural }			from 'pluralize';
 import { iRestHandler }		from "../../Sys/interfaces";
 import HandlerUtility		from '../../Sys/HandlerUtility';
 import UserController		from '../../controller/User';
@@ -15,7 +16,7 @@ class userHandler extends HandlerUtility implements iRestHandler{
 	* router:	the ExpressRouter itself to fill
 	*/
 	name:string		= 'user';
-	path:string		= `/api/v1/${this.name}s`;
+	path:string		= `/api/v1/${plural(this.name)}`;
 	router:Router	= Router();
 
 	constructor(){

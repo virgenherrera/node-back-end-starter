@@ -9,6 +9,7 @@ export interface iUser{
 	lastName		: string;
 	email			: string;
 	password		: string;
+	role			: string;
 	rememberToken	: string;
 }
 
@@ -41,6 +42,12 @@ export const UserSchema: Schema = new Schema({
 		trim		: true,
 		select		: false,
 		set			: val => hashSync(val, genSaltSync(12) ),
+	},
+	role			: {
+		type		: String,
+		trim		: true,
+		lowercase	: true,
+		default		: 'user'
 	},
 	rememberToken	: {
 		type		: String,

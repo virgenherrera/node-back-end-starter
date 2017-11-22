@@ -1,6 +1,6 @@
 import { iController }	from "../Sys/interfaces";
 import {{Module}}Repository	from "../Repository/{{module}}";
-import entity{{Module}}		from "../Entity/{{module}}";
+import {{Module}}		from "../Poco/{{module}}";
 // only for debugging
 // import Debug from '../Sys/Debug';
 
@@ -12,17 +12,17 @@ export default class {{Module}}Controller implements iController{
 	}
 
 	async createAction(params:any):Promise<any>{
-		let Entity	= new entity{{Module}}(params);
+		let Entity	= new {{Module}}(params);
 		let data	= await this.repository.Create(Entity);
 
-		return new entity{{Module}}( data );
+		return new {{Module}}( data );
 	}
 
 	async listAction(params):Promise<any>{
 		let {count,rows} = await this.repository.GetAll(params);
 		let {limit,offset} = params;
 
-		rows = rows.map( element => new entity{{Module}}(element) );
+		rows = rows.map( element => new {{Module}}(element) );
 
 		return {count,rows,limit,offset};
 	}
@@ -30,13 +30,13 @@ export default class {{Module}}Controller implements iController{
 	async showAction(params:any):Promise<any>{
 		let data = await this.repository.GetById(params);
 
-		return new entity{{Module}}(data);
+		return new {{Module}}(data);
 	}
 
 	async editAction(params:any):Promise<any>{
 		let data = await this.repository.Update(params);
 
-		return new entity{{Module}}(data);
+		return new {{Module}}(data);
 	}
 
 	async deleteAction(params:any):Promise<any>{
