@@ -11,6 +11,7 @@ class Directories{
 	public config:string;
 	public Controller:string;
 	public Handler:string;
+	public Lib:string;
 	public Middleware:string;
 	public Model:string;
 	public Poco:string;
@@ -41,6 +42,7 @@ class Directories{
 		this.config		= join(baseDir,'/Config');
 		this.Controller	= join(baseDir,'/Controller');
 		this.Handler	= join(baseDir,'/Handler');
+		this.Lib		= join(baseDir,'/Lib');
 		this.Middleware	= join(baseDir,'/Middleware');
 		this.Model		= join(baseDir,'/Model');
 		this.Poco		= join(baseDir,'/Poco');
@@ -62,7 +64,6 @@ class Directories{
 	}
 
 	fileExists(dir:string,file:string|null):boolean{
-
 		return ( existsSync( join( this[ dir ] , file ) ) ) ;
 	}
 }

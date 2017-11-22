@@ -1,6 +1,7 @@
 import {hashSync,genSaltSync} from "bcryptjs";
 import { Document, Schema, Model, model } from "mongoose";
-import {isEmail} from "../Sys/validations";
+import isEmail from "../Lib/isEmail";
+import validRole from "../Lib/validRole";
 // only for debugging
 // import Debug from "../Sys/Debug";
 
@@ -47,7 +48,7 @@ export const UserSchema: Schema = new Schema({
 		type		: String,
 		trim		: true,
 		lowercase	: true,
-		default		: 'user'
+		set			: validRole,
 	},
 	rememberToken	: {
 		type		: String,
@@ -60,3 +61,4 @@ export const UserSchema: Schema = new Schema({
 });
 
 export const UserModel: Model<iUserModel> = model<iUserModel>("User", UserSchema);
+
