@@ -2,7 +2,7 @@ import { Router }		from "express";
 import { iHandler }		from "../../Sys/interfaces";
 import HandlerUtility 	from '../../Sys/HandlerUtility';
 // only for debugging
-// import Debug from '../../Sys/Debug';
+// import { dd } from '../../Sys/Debug';
 
 /* mainHandler Router Class */
 class mainHandler extends HandlerUtility implements iHandler{

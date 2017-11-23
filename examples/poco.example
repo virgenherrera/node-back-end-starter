@@ -1,6 +1,6 @@
 import { i{{Module}} } from '../Model/{{module}}';
 // only for debugging
-// import Debug from '../Sys/Debug';
+// import { dd } from '../Sys/Debug';
 
 export default class {{Module}} implements i{{Module}}{
 	public _id:string;

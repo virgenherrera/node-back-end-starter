@@ -5,7 +5,7 @@ import HandlerUtility		from '../../Sys/HandlerUtility';
 import restJwtAuth			from '../../Middleware/restJwtAuth';
 import UserController		from '../../Controller/User';
 // only for debugging
-// import Debug from '../../Sys/Debug';
+// import { dd } from '../../Sys/Debug';
 
 /* user Handler Class */
 class userHandler extends HandlerUtility implements iRestHandler{

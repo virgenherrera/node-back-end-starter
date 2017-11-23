@@ -2,7 +2,7 @@ import { iController }	from "../Sys/interfaces";
 import UserRepository	from "../Repository/user";
 import User		from "../Poco/user";
 // only for debugging
-// import Debug from '../Sys/Debug';
+// import {dump} from '../Sys/Debug';
 
 /* User Controller Class */
 export default class UserController implements iController{
@@ -28,9 +28,10 @@ export default class UserController implements iController{
 	}
 
 	async showAction(params:any):Promise<any>{
-		let data = await this.repository.GetById(params);
+		let data	= await this.repository.GetById(params);
+		data		= (data) ? new User(data) : null;
 
-		return new User(data);
+		return data;
 	}
 
 	async editAction(params:any):Promise<any>{

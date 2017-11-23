@@ -1,7 +1,7 @@
 import {{{Module}}Model} from "../Model/{{module}}";
 import {iRepository} from "../Sys/interfaces";
 // only for debugging
-// import Debug from "../Sys/Debug";
+// import { dd } from "../Sys/Debug";
 
 export default class {{Module}}Repository implements iRepository{
 	async GetById({ id = null }):Promise<any>{

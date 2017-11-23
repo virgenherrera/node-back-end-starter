@@ -3,7 +3,7 @@ import { iRestHandler }		from "../../Sys/interfaces";
 import HandlerUtility		from '../../Sys/HandlerUtility';
 import SessionController	from '../../Controller/Session';
 // only for debugging
-// import Debug from '../../Sys/Debug';
+// import { dd } from '../../Sys/Debug';
 
 /* login Handler Class */
 class loginHandler extends HandlerUtility implements iRestHandler{

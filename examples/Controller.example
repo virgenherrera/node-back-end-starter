@@ -2,7 +2,7 @@ import { iController }	from "../Sys/interfaces";
 import {{Module}}Repository	from "../Repository/{{module}}";
 import {{Module}}		from "../Poco/{{module}}";
 // only for debugging
-// import Debug from '../Sys/Debug';
+// import { dd } from '../Sys/Debug';
 
 /* {{Module}} Controller Class */
 export default class {{Module}}Controller implements iController{
@@ -29,8 +29,9 @@ export default class {{Module}}Controller implements iController{
 
 	async showAction(params:any):Promise<any>{
 		let data = await this.repository.GetById(params);
+		data	= (data) ? new {{Module}}(data) : null;
 
-		return new {{Module}}(data);
+		return data;
 	}
 
 	async editAction(params:any):Promise<any>{

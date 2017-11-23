@@ -2,7 +2,7 @@ import { Request, Response, NextFunction }	from "express";
 import HandlerUtility						from '../Sys/HandlerUtility';
 import SessionController					from '../Controller/Session';
 // only for debugging
-// import Debug from '../Sys/Debug';
+// import { dd } from '../Sys/Debug';
 
 export default function restJwtAuth(req:Request,res:Response,next:NextFunction):any{
 	const ctrl		= new SessionController;

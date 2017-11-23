@@ -4,7 +4,7 @@ import { iController }	from "../Sys/interfaces";
 import UserRepository	from "../Repository/user";
 import User		from "../Poco/user";
 // only for debugging
-// import Debug from '../Sys/Debug';
+import { dd } from '../Sys/Debug';
 
 /* Session Controller Class */
 export default class SessionController implements iController{
@@ -42,16 +42,25 @@ export default class SessionController implements iController{
 		let decodedToken;
 		try {
 			decodedToken = verify(token,this.secret);
+			let Wh = {
+				_id	: decodedToken.id,
+				role: decodedToken.role,
+			};
+			let data = await this.repository.FindOne(Wh,'email role');
+
+			return new User(data);
 		} catch (e) {
 			throw e;
 		}
 
-		let Wh = {
-			_id	: decodedToken.id,
-			role: decodedToken.role,
-		};
-		let data = await this.repository.FindOne(Wh,'email role');
 
-		return new User(data);
+		// if( !data ) throw 'Invalid Token';
+
+		// Debug.dd(
+		// 	decodedToken,
+		// 	data
+		// 	// new User(data)
+		// );
+
 	}
 }

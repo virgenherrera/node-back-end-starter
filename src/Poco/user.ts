@@ -1,6 +1,6 @@
 import { iUser } from '../Model/user';
 // only for debugging
-// import Debug from '../Sys/Debug';
+// import { dd } from '../Sys/Debug';
 
 export default class User implements iUser{
 	_id				: string;

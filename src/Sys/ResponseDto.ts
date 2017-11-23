@@ -1,6 +1,6 @@
 import {iResDto} from '../Sys/interfaces';
 // only for debugging
-import Debug from '../Sys/Debug';
+import { dd } from '../Sys/Debug';
 
 // Success Auth
 export class Auth implements iResDto{

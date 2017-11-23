@@ -1,7 +1,7 @@
 import {UserModel} from "../Model/user";
 import {iRepository} from "../Sys/interfaces";
 // only for debugging
-// import Debug from "../Sys/Debug";
+// import { dd } from "../Sys/Debug";
 
 export default class UserRepository implements iRepository{
 	async GetById({ id = null }):Promise<any>{
