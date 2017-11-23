@@ -1,7 +1,7 @@
 import { Router }			from "express";
 import { iRestHandler }		from "../../Sys/interfaces";
 import HandlerUtility		from '../../Sys/HandlerUtility';
-import SessionController		from '../../controller/Session';
+import SessionController	from '../../Controller/Session';
 // only for debugging
 // import Debug from '../../Sys/Debug';
 

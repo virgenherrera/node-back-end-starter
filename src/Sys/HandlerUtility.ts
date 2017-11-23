@@ -72,6 +72,15 @@ export default class HandlerUtility{
 		throw 'you forgot to provide this.middlewareParams with an express Middleware parameters Response e.g.	"this.middlewareParams = arguments;"';
 	}
 
+	get Next():NextFunction{
+		let { next=null } = this._middlewareParams;
+		if ( next ){
+			return next;
+		}
+
+		throw 'you forgot to provide this.middlewareParams with an express Middleware parameters Response e.g.	"this.middlewareParams = arguments;"';
+	}
+
 	get limit():number{
 		return Number( this._limit );
 	}
@@ -171,9 +180,12 @@ export default class HandlerUtility{
 	public ErrorJsonResponse(params): Response {
 		const { method } = this.Request;
 		const Res = this.Response;
-		const { message=null } = params;
+		const {
+			name=null,
+			message=null
+		} = params;
 		let Err;
-		if( method == 'LOGIN' ){
+		if( method == 'LOGIN' || name == 'JsonWebTokenError' ){
 			Err = new error401(params)
 		}
 		else if( message ){

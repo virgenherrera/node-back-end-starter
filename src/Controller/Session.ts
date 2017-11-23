@@ -1,5 +1,5 @@
 import { compareSync } from "bcryptjs";
-import { sign } from "jsonwebtoken";
+import { sign,verify } from "jsonwebtoken";
 import { iController }	from "../Sys/interfaces";
 import UserRepository	from "../Repository/user";
 import User		from "../Poco/user";
@@ -38,8 +38,19 @@ export default class SessionController implements iController{
 		};
 	}
 
-	async validateAction(params:any):Promise<any>{
-		let data = await this.repository.GetById(params);
+	async validateAction(token:string):Promise<any>{
+		let decodedToken;
+		try {
+			decodedToken = verify(token,this.secret);
+		} catch (e) {
+			throw e;
+		}
+
+		let Wh = {
+			_id	: decodedToken.id,
+			role: decodedToken.role,
+		};
+		let data = await this.repository.FindOne(Wh,'email role');
 
 		return new User(data);
 	}
