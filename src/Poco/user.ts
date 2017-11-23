@@ -12,14 +12,12 @@ export default class User implements iUser{
 	rememberToken	: string;
 
 	constructor(params=null){
-		if(params){
-			if( params._id )			this._id = (typeof params._id == 'object') ? params._id.toString() : params._id;
-			if( params.firstName )		this.firstName = params.firstName;
-			if( params.lastName )		this.lastName = params.lastName;
-			if( params.email )			this.email = params.email;
-			if( params.password )		this.password = params.password;
-			if( params.role )			this.role = params.role;
-			if( params.rememberToken )	this.rememberToken = params.rememberToken;
-		}
+		this._id = params._id;
+		this.firstName = params.firstName;
+		this.lastName = params.lastName;
+		this.email = params.email;
+		this.password = params.password;
+		this.role = params.role;
+		this.rememberToken = params.rememberToken;
 	}
 }

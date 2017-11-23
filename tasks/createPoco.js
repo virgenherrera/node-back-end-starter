@@ -13,7 +13,7 @@ const propCont			= (attr=null,type=null)=>{
 }
 const propAssign			= (attr=null)=>{
 	if(!attr) return;
-	return `			if( params.${attr} ) this.${attr} = params.${attr};${"\n"}`;
+	return `		this.${attr} = params.${attr};${"\n"}`;
 }
 
 return (()=>{

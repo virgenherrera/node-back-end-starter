@@ -2,7 +2,7 @@ import { Router }			from "express";
 import { plural }			from 'pluralize';
 import { iRestHandler }		from "../../Sys/interfaces";
 import HandlerUtility		from '../../Sys/HandlerUtility';
-import jwtAuth				from '../../Middleware/jwtAuth';
+import restJwtAuth			from '../../Middleware/restJwtAuth';
 import UserController		from '../../Controller/User';
 // only for debugging
 // import Debug from '../../Sys/Debug';
@@ -26,11 +26,11 @@ class userHandler extends HandlerUtility implements iRestHandler{
 
 		// Attach handlers to express Router
 		this.router
-		.get("/", jwtAuth, this.getAllHandler.bind( this ) )
-		.get("/:id", jwtAuth, this.getOneHandler.bind( this ) )
-		.post( "/", jwtAuth, this.postHandler.bind( this ) )
-		.put("/:id", jwtAuth, this.putHandler.bind( this ) )
-		.delete("/:id", jwtAuth, this.deleteHandler.bind( this ) );
+		.get("/", restJwtAuth, this.getAllHandler.bind( this ) )
+		.get("/:id", restJwtAuth, this.getOneHandler.bind( this ) )
+		.post( "/", restJwtAuth, this.postHandler.bind( this ) )
+		.put("/:id", restJwtAuth, this.putHandler.bind( this ) )
+		.delete("/:id", restJwtAuth, this.deleteHandler.bind( this ) );
 	}
 
 	get controller(){

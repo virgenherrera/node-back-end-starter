@@ -22,8 +22,10 @@ export default class HandlerUtility{
 	_limit:number;
 	_offset:number;
 
-	constructor(){
+	constructor(params=null){
 		this.Init();
+
+		if( params && Array.isArray(params) ) this.middlewareParams = params;
 	}
 
 	set middlewareParams([req,res,next]){
