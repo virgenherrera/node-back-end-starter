@@ -1,0 +1,6 @@
+--require ts-node/register
+--ui bdd
+--reporter spec
+--exit
+
+test/**/*.test.ts
