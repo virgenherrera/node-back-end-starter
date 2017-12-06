@@ -9,7 +9,7 @@ export default class {{Module}}Repository implements IfullRepository {
 	}
 
 	async findOne(params, fields = null): Promise<any> {
-		return await {{Module}}Model.findOne(params,fields).exec();
+		return await {{Module}}Model.findOne(params, fields).exec();
 	}
 
 	async GetOne({ id = null }): Promise<any {
@@ -27,7 +27,7 @@ export default class {{Module}}Repository implements IfullRepository {
 		.sort( sort )
 		.exec();
 
-		return {count,rows};
+		return {count, rows};
 	}
 
 	async Create(params): Promise<any> {
