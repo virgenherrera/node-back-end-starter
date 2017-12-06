@@ -12,7 +12,7 @@ export default class {{Module}}Repository implements IfullRepository {
 		return await {{Module}}Model.findOne(params, fields).exec();
 	}
 
-	async GetOne({ id = null }): Promise<any {
+	async GetOne({ id = null }): Promise<any> {
 		return await {{Module}}Model.findById(id).exec();
 	}
 
@@ -44,7 +44,7 @@ export default class {{Module}}Repository implements IfullRepository {
 {{letDeclarations}}} = params;
 		const Entity = await {{Module}}Model.findById(id).exec();
 
-		if(!Entity) { return `non-existent Entity with id: ${id}`; }
+		if (!Entity) { return `non-existent Entity with id: ${id}`; }
 
 {{valAssignations}}
 		return await Entity.save();

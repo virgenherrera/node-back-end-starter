@@ -4,27 +4,20 @@ import SessionController from '../Controller/Session';
 // only for debugging
 // import { dd } from '../Sys/Debug';
 
-export default function restJwtAuth( req: Request, res: Response, next: NextFunction ): any {
+export default async function restJwtAuth( req: Request, res: Response, next: NextFunction ): Promise<any> {
+	const handUtil = new HandlerUtility(req, res, next);
 	const ctrl		= new SessionController;
 	const bRegExp	= new RegExp('Bearer ', 'g');
 	const rawToken	= getRawToken( req );
 	const token		= ( rawToken ) ? rawToken.replace( bRegExp, '') : '';
 
-	return ctrl
-	.validateAction( token )
-	.then((decodedToken = null) => {
-		if ( !decodedToken ) {
-			throw new Error('error decoding token');
-		}
-
+	try {
+		const decodedToken = await ctrl.validateAction( token );
 		req['decodedToken'] = decodedToken;
 		return next();
-	})
-	.catch( E => {
-		const handUtil = this.handlerUtility;
-		handUtil.middlewareParams = [req, res, next];
+	} catch (E) {
 		return handUtil.ErrorJsonResponse(E);
-	});
+	}
 }
 
 function getRawToken( req: Request ): string {

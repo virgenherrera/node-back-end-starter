@@ -27,7 +27,7 @@
     "lint": "node ./node_modules/tslint/bin/tslint -c tslint.json -p tsconfig.json",
     "start": "run-s cleanup test build-ts serve-nodemon",
     "develop": "run-s clean build-ts serve-development",
-    "serve-development": "run-p serve-nodemon watch-ts",
+    "serve-development": "run-p serve-nodemon-debug watch-ts",
     "production": "run-s cleanup test build-ts serve-prod",
     "serve-prod": "forever start forever.json",
     "serve-nodemon": "nodemon -w .env -w dist/ -V",

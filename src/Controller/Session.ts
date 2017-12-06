@@ -4,7 +4,7 @@ import { IcreateAction } from '../Sys/interfaces';
 import UserRepository from '../Repository/user';
 import User from '../Poco/user';
 // only for debugging
-// import { dd } from '../Sys/Debug';
+import { dd } from '../Sys/Debug';
 
 /* Session Controller Class */
 export default class SessionController implements IcreateAction {
@@ -15,11 +15,7 @@ export default class SessionController implements IcreateAction {
 		return new UserRepository;
 	}
 
-	async createAction(params: any): Promise<any> {
-		const {
-			email= null,
-			password= null,
-		} = params;
+	async createAction({email= null, password= null}): Promise<any> {
 		const data	= await this.repository.FindOne({email}, 'email password role');
 
 		if ( !data ) { throw new Error(`Non-existent email: ${email}`); }

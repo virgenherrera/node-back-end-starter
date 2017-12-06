@@ -27,7 +27,8 @@ class UserHandler implements IRestFull {
 		.get('/:id', restJwtAuth, this.getOneHandler.bind( this ) )
 		.post( '/', restJwtAuth, this.postHandler.bind( this ) )
 		.put('/:id', restJwtAuth, this.putHandler.bind( this ) )
-		.delete('/:id', restJwtAuth, this.deleteHandler.bind( this ) );
+		.delete('/:id', restJwtAuth, this.deleteHandler.bind( this ) )
+		;
 	}
 
 
@@ -35,68 +36,71 @@ class UserHandler implements IRestFull {
 		return new UserController;
 	}
 
-	get handlerUtility( ): HandlerUtility {
-		return new HandlerUtility;
-	}
-
-	getAllHandler( req: Request, res: Response, next: NextFunction ): Promise<Response> {
-		const handUtil = this.handlerUtility;
-		handUtil.middlewareParams = [req, res, next];
+	async getAllHandler( req: Request, res: Response, next: NextFunction ): Promise<Response> {
+		const handUtil = new HandlerUtility(req, res, next);
 		const params = handUtil.getRequestParams('query');
+		let data;
 
-		return this
-		.controller
-		.listAction(params)
-		.then( handUtil.SuccessJsonResponse.bind( handUtil ) )
-		.catch( handUtil.ErrorJsonResponse.bind( handUtil ) );
+		try {
+			data = await this.controller.listAction(params);
+			return handUtil.SuccessJsonResponse(data);
+		} catch (E) {
+			return handUtil.ErrorJsonResponse(E);
+		}
 	}
 
-	getOneHandler( req: Request, res: Response, next: NextFunction ): Promise<Response> {
-		const handUtil = this.handlerUtility;
-		handUtil.middlewareParams = [req, res, next];
+	async getOneHandler( req: Request, res: Response, next: NextFunction ): Promise<Response> {
+		const handUtil = new HandlerUtility(req, res, next);
 		const params = handUtil.getRequestParams('params');
+		let data;
 
-		return this
-		.controller
-		.showAction( params )
-		.then( handUtil.SuccessJsonResponse.bind( handUtil ) )
-		.catch( handUtil.ErrorJsonResponse.bind( handUtil ) );
+		try {
+			data = await this.controller.showAction( params );
+			return handUtil.SuccessJsonResponse(data);
+		} catch (E) {
+			return handUtil.ErrorJsonResponse(E);
+
+		}
 	}
 
-	postHandler( req: Request, res: Response, next: NextFunction ): Promise<Response> {
-		const handUtil = this.handlerUtility;
-		handUtil.middlewareParams = [req, res, next];
+	async postHandler( req: Request, res: Response, next: NextFunction ): Promise<Response> {
+		const handUtil = new HandlerUtility(req, res, next);
 		const params = handUtil.getRequestParams('body');
+		let data;
 
-		return this
-		.controller
-		.createAction( params )
-		.then( handUtil.SuccessJsonResponse.bind( handUtil ) )
-		.catch( handUtil.ErrorJsonResponse.bind( handUtil ) );
+		try {
+			data = await this.controller.createAction( params );
+			return handUtil.SuccessJsonResponse(data);
+		} catch (E) {
+			return handUtil.ErrorJsonResponse(E);
+		}
 	}
 
-	putHandler( req: Request, res: Response, next: NextFunction ): Promise<Response> {
-		const handUtil = this.handlerUtility;
-		handUtil.middlewareParams = [req, res, next];
+	async putHandler( req: Request, res: Response, next: NextFunction ): Promise<Response> {
+		const handUtil = new HandlerUtility(req, res, next);
 		const params = handUtil.getRequestParams('params,body');
+		let data;
 
-		return this
-		.controller
-		.editAction( params )
-		.then( handUtil.SuccessJsonResponse.bind( handUtil ) )
-		.catch( handUtil.ErrorJsonResponse.bind( handUtil ) );
+		try {
+			data = await this.controller.editAction( params );
+			return handUtil.SuccessJsonResponse(data);
+		} catch (E) {
+			return handUtil.ErrorJsonResponse(E);
+
+		}
 	}
 
-	deleteHandler( req: Request, res: Response, next: NextFunction ): Promise<Response> {
-		const handUtil = this.handlerUtility;
-		handUtil.middlewareParams = [req, res, next];
-		const params:  any = handUtil.getRequestParams('params');
+	async deleteHandler( req: Request, res: Response, next: NextFunction ): Promise<Response> {
+		const handUtil = new HandlerUtility(req, res, next);
+		const params = handUtil.getRequestParams('params');
+		let data;
 
-		return this
-		.controller
-		.deleteAction( params )
-		.then( handUtil.SuccessJsonResponse.bind( handUtil ) )
-		.catch( handUtil.ErrorJsonResponse.bind( handUtil ) );
+		try {
+			data = await this.controller.deleteAction( params );
+			return handUtil.SuccessJsonResponse(data);
+		} catch (E) {
+			return handUtil.ErrorJsonResponse(E);
+		}
 	}
 }
 

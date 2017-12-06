@@ -10,7 +10,6 @@ export interface IHandler {
 
 export interface IRestHandler extends IHandler {
 	readonly controller: any;
-	readonly handlerUtility: any;
 }
 
 export interface IgetAllHandler extends IHandler {

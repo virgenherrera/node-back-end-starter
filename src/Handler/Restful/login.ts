@@ -3,10 +3,10 @@ import { IpostHandler } from '../../Sys/interfaces';
 import HandlerUtility from '../../Sys/HandlerUtility';
 import SessionController from '../../Controller/Session';
 // only for debugging
-// import { dd } from '../../Sys/Debug';
+import { dd } from '../../Sys/Debug';
 
 /* login Handler Class */
-class LoginHandler extends HandlerUtility implements IpostHandler {
+class LoginHandler implements IpostHandler {
 
 	/**
 	* Mandatory Properties Description
@@ -19,8 +19,6 @@ class LoginHandler extends HandlerUtility implements IpostHandler {
 	router: Router	= Router();
 
 	constructor() {
-		// execute parent constructor
-		super();
 
 		// Attach handlers to express Router
 		this.router
@@ -32,16 +30,17 @@ class LoginHandler extends HandlerUtility implements IpostHandler {
 		return new SessionController;
 	}
 
-	postHandler( req: Request, res: Response, next: NextFunction ): any {
-		this.middlewareParams = [req, res, next];
-		this.httpMethodOverride('LOGIN');
-		const params: any = this.getRequestParams('query');
+	async postHandler( req: Request, res: Response, next: NextFunction ): Promise<any> {
+		const handUtil = new HandlerUtility(req, res, next);
+		const params: any = handUtil.getRequestParams('body');
+		let data;
 
-		return this
-		.controller
-		.createAction( params )
-		.then( this.SuccessJsonResponse.bind( this ) )
-		.catch( this.ErrorJsonResponse.bind( this ) );
+		try {
+			data = await this.controller.createAction( params );
+			return handUtil.SuccessJsonResponse(data);
+		} catch (E) {
+			return handUtil.ErrorJsonResponse(E);
+		}
 	}
 }
 

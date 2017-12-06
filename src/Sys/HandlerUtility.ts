@@ -13,32 +13,25 @@ import {
 }	from './ResponseDto';
 
 export default class HandlerUtility {
-	_middlewareParams: {
-		req: Request;
-		res: Response;
-		next: NextFunction;
-	};
+
+	req: Request;
+	res: Response;
+	next: NextFunction;
+
 	_limit: number;
 	_offset: number;
-	_sort = null;
 
-	set middlewareParams(params) {
-		const [req, res, next] = params;
-		// dd(
-		// 	req, res, next
-		// );
+	constructor( req: Request, res: Response, next: NextFunction ) {
+		this.req = req;
+		this.res = res;
+		this.next = next;
 
-		this._middlewareParams.req	= req;
-		this._middlewareParams.res	= res;
-		this._middlewareParams.next	= next;
+		const { query = {} } = req;
+		const { limit = '', offset = '' } = query;
 
 		// set limit AND offset from query
-		if ( req.query && req.query.limit ) {
-			this.limit = req.query.limit;
-		}
-		if ( req.query && req.query.offset ) {
-			this.offset = req.query.offset;
-		}
+		this.limit = limit;
+		this.offset = offset;
 	}
 
 	set limit(limit: number) {
@@ -59,24 +52,6 @@ export default class HandlerUtility {
 		}
 	}
 
-	get Request(): Request {
-		const { req = null } = this._middlewareParams;
-		if (req) {
-			return req;
-		}
-
-		throw new Error('Missing Request');
-	}
-
-	get Response(): Response {
-		const { res= null } = this._middlewareParams;
-		if ( res ) {
-			return res;
-		}
-
-		throw new Error('Missing Response');
-	}
-
 	get limit(): number {
 		return Number( this._limit );
 	}
@@ -86,7 +61,7 @@ export default class HandlerUtility {
 	}
 
 	get sort(): object {
-		const {query= {}} = this.Request;
+		const {query= {}} = this.req;
 		const {sort= ''} = query;
 		const Res = {};
 
@@ -106,19 +81,8 @@ export default class HandlerUtility {
 		return Res;
 	}
 
-	private Init(): void {
-		// reset class Props to Default
-		this._middlewareParams = {
-			req		: null,
-			res		: null,
-			next	: null,
-		};
-		this.limit	= pagination.limit;
-		this.offset	= pagination.offset;
-	}
-
-	public getRequestParams(paramString: string|string[]): any {
-		const Req = this.Request;
+	public getRequestParams(paramString: string | string[]): any {
+		const Req = this.req;
 		let params = [];
 
 		if ( typeof paramString === 'string' ) {
@@ -140,16 +104,13 @@ export default class HandlerUtility {
 	}
 
 	public httpMethodOverride(method: string): void {
-		this._middlewareParams.req.method = method;
+		this.req.method = method;
 	}
 
 	public SuccessJsonResponse(params): Response {
-		const { method } = this.Request;
-		const Res = this.Response;
+		const { method } = this.req;
+		const Res = this.res;
 		let Data;
-
-		// Sanitize this Request Parameters
-		this.Init();
 
 		switch (method) {
 			case 'GET':
@@ -176,8 +137,8 @@ export default class HandlerUtility {
 	}
 
 	public ErrorJsonResponse(params): Response {
-		const { method } = this.Request;
-		const Res = this.Response;
+		const { method } = this.req;
+		const Res = this.res;
 		const {
 			name= null,
 			message= null
@@ -190,9 +151,6 @@ export default class HandlerUtility {
 		} else {
 			Err = new Error500(params);
 		}
-
-		// Sanitize this Request Parameters
-		this.Init();
 
 		return Res.status( Err.status ).json( Err );
 	}
