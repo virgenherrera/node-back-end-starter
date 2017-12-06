@@ -16,7 +16,7 @@ export default class {{Module}}Repository implements IfullRepository {
 		return await {{Module}}Model.findById(id).exec();
 	}
 
-	async GetAll({limit, offset, sort = {}}): Promise<any> {
+	async GetAll({limit, offset, sort = {} }): Promise<any> {
 		// Important to return Total count
 		// do not forget to include!!!!
 		const count	= await {{Module}}Model.count({}).exec();

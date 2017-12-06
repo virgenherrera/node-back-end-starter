@@ -1,11 +1,11 @@
-import { Document, Schema, Model, model } from "mongoose";
+import { Document, Schema, Model, model } from 'mongoose';
 // only for debugging
 // import { dd } from "../Sys/Debug";
 
-export interface I{{Module}}{
+export interface I{{Module}} {
 {{iCont}}}
 
-interface I{{Module}}Model extends i{{Module}},Document{
+interface I{{Module}}Model extends I{{Module}}, Document{
 	// Define Model's Contracts here!
 }
 
@@ -15,4 +15,4 @@ export const {{Module}}Schema: Schema = new Schema({
 	timestamps: true
 });
 
-export const {{Module}}Model: Model<i{{Module}}Model> = model<i{{Module}}Model>("{{Module}}", {{Module}}Schema);
+export const {{Module}}Model: Model<I{{Module}}Model> = model<I{{Module}}Model>('{{Module}}', {{Module}}Schema);

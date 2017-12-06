@@ -2,10 +2,10 @@ import { I{{Module}} } from '../Model/{{module}}';
 // only for debugging
 // import { dd } from '../Sys/Debug';
 
-export default class {{Module}} implements I{{Module}}{
-	public _id:string;
+export default class {{Module}} implements I{{Module}} {
+	public _id: string;
 {{propDefinition}}
-	constructor(params=null){
+	constructor(params = null) {
 		this._id = params._id;
 {{propAssign}}	}
 }
