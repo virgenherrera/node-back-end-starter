@@ -5,27 +5,27 @@ import {{Module}} from '../Poco/{{module}}';
 // import { dd } from '../Sys/Debug';
 
 /* {{Module}} Controller Class */
-export default class {{Module}}Controller implements IcrudController{
+export default class {{Module}}Controller implements IcrudController {
 
 	get repository(){
 		return new {{Module}}Repository;
 	}
 
 	async createAction(params): Promise<any> {
-		let Entity	= new {{Module}}(params);
-		let data	= await this.repository.Create(Entity);
+		const Entity	= new {{Module}}(params);
+		const data		= await this.repository.Create(Entity);
 
 		return new {{Module}}( data );
 	}
 
 	async listAction(params): Promise<any> {
-		let {limit,offset} = params;
+		const {limit, offset} = params;
 		const data = await this.repository.GetAll(params);
 
 		data.rows = data.rows.map( row => new {{Module}}(row) );
 		const {count, rows} = data;
 
-		return {count,rows,limit,offset};
+		return {count, rows, limit, offset};
 	}
 
 	async showAction(params): Promise<any> {
@@ -36,7 +36,7 @@ export default class {{Module}}Controller implements IcrudController{
 	}
 
 	async editAction(params): Promise<any> {
-		let data = await this.repository.Update(params);
+		const data = await this.repository.Update(params);
 
 		return new {{Module}}(data);
 	}

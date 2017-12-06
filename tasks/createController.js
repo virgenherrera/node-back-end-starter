@@ -16,8 +16,10 @@ return (()=>{
 	const origin			= join( __dirname , '../examples/Controller.example' );
 	const destiny			= join(__dirname, `../src/Controller/${CamelName}.ts`);
 	const fileContent		= readFileSync(origin,'utf-8');
-	const newContent		= fileContent.toString().replace(lowerRegEx, name).replace(CamelRegEx,CamelName);
-	const exportHandler		= `export { default as ${name} }		from './Restful/${name}';${"\n"}`;
+	const newContent		= fileContent
+	.toString()
+	.replace(lowerRegEx, name)
+	.replace(CamelRegEx,CamelName);
 
 	if( !name ){
 		console.error(`Cannot create unnamed controller`);

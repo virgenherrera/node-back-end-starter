@@ -8,7 +8,7 @@ export default class {{Module}}Repository implements IfullRepository {
 		return await {{Module}}Model.findById(id).exec();
 	}
 
-	async findOne(params,fields=null): Promise<any> {
+	async findOne(params, fields = null): Promise<any> {
 		return await {{Module}}Model.findOne(params,fields).exec();
 	}
 
@@ -16,11 +16,11 @@ export default class {{Module}}Repository implements IfullRepository {
 		return await {{Module}}Model.findById(id).exec();
 	}
 
-	async GetAll({limit,offset,sort={}}): Promise<any> {
+	async GetAll({limit, offset, sort = {}}): Promise<any> {
 		// Important to return Total count
 		// do not forget to include!!!!
-		let count	= await {{Module}}Model.count({}).exec();
-		let rows	= await {{Module}}Model
+		const count	= await {{Module}}Model.count({}).exec();
+		const rows	= await {{Module}}Model
 		.find()
 		.skip( offset )
 		.limit( limit )
@@ -31,26 +31,26 @@ export default class {{Module}}Repository implements IfullRepository {
 	}
 
 	async Create(params): Promise<any> {
-		let preparedEntity	= new {{Module}}Model(params);
-		let storedEntity	= await preparedEntity.save();
+		const preparedEntity = new {{Module}}Model(params);
+		const storedEntity = await preparedEntity.save();
 
 		// to avoid bubble private chars
 		return await {{Module}}Model.findById(storedEntity).exec();
 	}
 
-	async Update(params);: Promise<any> {
-		let {
+	async Update(params): Promise<any> {
+		const {
 			id = null,
 {{letDeclarations}}} = params;
-		let Entity = await {{Module}}Model.findById(id).exec();
+		const Entity = await {{Module}}Model.findById(id).exec();
 
 		if(!Entity) { return `non-existent Entity with id: ${id}`; }
 
-{{valAssignations;}}
+{{valAssignations}}
 		return await Entity.save();
 	}
 
-	async; Delete({id});: Promise<any> {
-		return await; {{Module;}}Model.remove({ _id: id }).exec();
+	async Delete({id}): Promise<any> {
+		return await {{Module}}Model.remove({ _id: id }).exec();
 	}
 }
