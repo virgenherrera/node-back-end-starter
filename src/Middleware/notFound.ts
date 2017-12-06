@@ -1,10 +1,10 @@
 
-import {Request, Response, NextFunction} from "express";
-import {error404} from '../Sys/ResponseDto';
+import {Request, Response, NextFunction} from 'express';
+import {Error404} from '../Sys/ResponseDto';
 
-export default (req:Request, res:Response, next:NextFunction):Response=>{
-	let message = `Not-existent Endpoint '${req.url}' for Method: '${req.method}'`;
-	let e404 = new error404(message);
+export default (req: Request, res: Response, next: NextFunction): Response => {
+	const message = `Not-existent Endpoint '${req.url}' for Method: '${req.method}'`;
+	const e404 = new Error404(message);
 
 	// set locals, only providing error in development
 	res.locals.message = e404.message;

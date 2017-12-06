@@ -1,20 +1,24 @@
 {
-    "files.associations": {
-        "*.js": "javascript"
-    },
-    "editor.renderWhitespace": "boundary",
-    "editor.multiCursorModifier": "ctrlCmd",
-    "extensions.ignoreRecommendations": false,
-    "cSpell.language": "en",
-    "workbench.colorTheme": "Solarized Dark",
-    "emmet.showSuggestionsAsSnippets": true,
-    "emmet.triggerExpansionOnTab": true,
-    "emmet.includeLanguages": {
-        "javascript": "javascriptreact"
-    },
-    "emmet.syntaxProfiles": {
-        "xml": {
-            "attr_quotes": "single"
-        }
-    }
+	"files.associations": {
+		"*.js": "javascript"
+	},
+	"editor.renderWhitespace": "boundary",
+	"editor.multiCursorModifier": "ctrlCmd",
+	"extensions.ignoreRecommendations": false,
+	"cSpell.language": "en",
+	"workbench.colorTheme": "Solarized Dark",
+	"emmet.showSuggestionsAsSnippets": true,
+	"emmet.triggerExpansionOnTab": true,
+	"emmet.includeLanguages": {
+		"javascript": "javascriptreact"
+	},
+	"emmet.syntaxProfiles": {
+		"xml": {
+			"attr_quotes": "single"
+		}
+	},
+	"tslint.enable": true,
+	"tslint.run": "onType",
+	"tslint.autoFixOnSave": true,
+	"tslint.alwaysShowRuleFailuresAsWarnings": true
 }

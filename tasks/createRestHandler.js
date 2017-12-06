@@ -21,7 +21,7 @@ return (()=>{
 	const CamelRegEx		= new RegExp("{{Module}}","g");
 	const CamelName			= ucfirst(name);
 	const newContent		= fileContent.toString().replace(lowerRegEx, name).replace(CamelRegEx,CamelName);
-	const exportHandler		= `export { default as ${name} }		from '../Handler/Restful/${name}';${"\n"}`;
+	const exportHandler		= `export { default as ${name} } from '../Handler/Restful/${CamelName}';${"\n"}`;
 
 	if( !name ){
 		console.error(`Cannot create unnamed handler`);

@@ -1,5 +1,5 @@
 // import { dd } from '../Sys/Debug';
-import {Request, Response, NextFunction}			from "express";
+import {Request, Response, NextFunction} from 'express';
 import pagination from '../config/pagination';
 import {
 	Auth,
@@ -7,39 +7,42 @@ import {
 	Post,
 	Put,
 	Delete,
-	error400,
-	error401,
-	error500
-}	from "./ResponseDto";
+	Error400,
+	Error401,
+	Error500
+}	from './ResponseDto';
 
-export default class HandlerUtility{
-
-	_middlewareParams:{
-		req		: Request;
-		res		: Response;
-		next	: NextFunction;
+export default class HandlerUtility {
+	_middlewareParams: {
+		req: Request;
+		res: Response;
+		next: NextFunction;
 	};
-	_limit:number;
-	_offset:number;
+	_limit: number;
+	_offset: number;
+	_sort = null;
 
-	constructor(params=null){
-		this.Init();
+	set middlewareParams(params) {
+		const [req, res, next] = params;
+		// dd(
+		// 	req, res, next
+		// );
 
-		if( params && Array.isArray(params) ) this.middlewareParams = params;
-	}
-
-	set middlewareParams([req,res,next]){
 		this._middlewareParams.req	= req;
 		this._middlewareParams.res	= res;
 		this._middlewareParams.next	= next;
 
 		// set limit AND offset from query
-		if( req.query && req.query.limit )	this.limit = req.query.limit;
-		if( req.query && req.query.offset )	this.offset = req.query.offset;
+		if ( req.query && req.query.limit ) {
+			this.limit = req.query.limit;
+		}
+		if ( req.query && req.query.offset ) {
+			this.offset = req.query.offset;
+		}
 	}
 
-	set limit(limit:number){
-		if( typeof limit === 'number' || ( typeof limit === 'string' && /^\d+$/.test( limit ) ) ){
+	set limit(limit: number) {
+		if ( typeof limit === 'number' || ( typeof limit === 'string' && /^\d+$/.test( limit ) ) ) {
 			// parse int
 			limit = Number(limit);
 			// allow MAX limit to defined in constants file
@@ -47,8 +50,8 @@ export default class HandlerUtility{
 		}
 	}
 
-	set offset(offset:number){
-		if( typeof offset === 'number' || ( typeof offset === 'string' && /^\d+$/.test( offset ) ) ){
+	set offset(offset: number) {
+		if ( typeof offset === 'number' || ( typeof offset === 'string' && /^\d+$/.test( offset ) ) ) {
 			// parse int
 			offset = Number(offset);
 			// offset must be Major than 0
@@ -57,60 +60,42 @@ export default class HandlerUtility{
 	}
 
 	get Request(): Request {
-		let { req = null } = this._middlewareParams;
+		const { req = null } = this._middlewareParams;
 		if (req) {
 			return req;
 		}
 
-		throw 'you forgot to provide this.middlewareParams with an express Middleware parameters Response e.g.	"this.middlewareParams = arguments;"';
+		throw new Error('Missing Request');
 	}
 
-	get Response():Response{
-		let { res=null } = this._middlewareParams;
-		if ( res ){
+	get Response(): Response {
+		const { res= null } = this._middlewareParams;
+		if ( res ) {
 			return res;
 		}
 
-		throw 'you forgot to provide this.middlewareParams with an express Middleware parameters Response e.g.	"this.middlewareParams = arguments;"';
+		throw new Error('Missing Response');
 	}
 
-	get Next():NextFunction{
-		let { next=null } = this._middlewareParams;
-		if ( next ){
-			return next;
-		}
-
-		throw 'you forgot to provide this.middlewareParams with an express Middleware parameters Response e.g.	"this.middlewareParams = arguments;"';
-	}
-
-	get limit():number{
+	get limit(): number {
 		return Number( this._limit );
 	}
 
-	get offset():number{
+	get offset(): number {
 		return Number( this._offset );
 	}
 
-	private Init():void{
-		// reset class Props to Default
-		this._middlewareParams = {
-			req		: null,
-			res		: null,
-			next	: null,
-		};
-		this.limit	= pagination.limit
-		this.offset	= pagination.offset;
-	}
+	get sort(): object {
+		const {query= {}} = this.Request;
+		const {sort= ''} = query;
+		const Res = {};
 
-	private getSort():object{
-		let {query={}} = this.Request;
-		let {sort=''} = query;
-		let Res = {};
-
-		let parsed = sort.split(',').forEach((item:string)=>{
-			if( !item ) return;
+		const parsed = sort
+		.split(',')
+		.forEach((item: string) => {
+			if ( !item ) { return; }
 			let order = 'asc';
-			if( item.charAt(0) == '-' ){
+			if ( item.charAt(0) === '-' ) {
 				order = 'desc';
 				item = item.substring(1);
 			}
@@ -121,29 +106,40 @@ export default class HandlerUtility{
 		return Res;
 	}
 
-	public getRequestParams(paramString:string|string[]):object{
-		let Req = this.Request;
+	private Init(): void {
+		// reset class Props to Default
+		this._middlewareParams = {
+			req		: null,
+			res		: null,
+			next	: null,
+		};
+		this.limit	= pagination.limit;
+		this.offset	= pagination.offset;
+	}
+
+	public getRequestParams(paramString: string|string[]): any {
+		const Req = this.Request;
 		let params = [];
 
-		if( typeof paramString == 'string' ){
+		if ( typeof paramString === 'string' ) {
 			paramString = paramString.split(',');
 		}
 
-		let reqParamsArr = paramString
-		.map((p) =>{
-			if( p in Req ){
-				return ( typeof Req[p] == 'object' ) ? Req[p] : { [p] : Req[p] };
+		const reqParamsArr = paramString
+		.map((p) => {
+			if ( p in Req ) {
+				return ( typeof Req[p] === 'object' ) ? Req[p] : { [p] : Req[p] };
 			}
-		})
+		});
 		params = params.concat( reqParamsArr );
-		if( Req.method == 'GET' ){
-			params.push({ limit: this.limit, offset: this.offset, sort: this.getSort() } )
+		if ( Req.method === 'GET' ) {
+			params.push({ limit: this.limit, offset: this.offset, sort: this.sort } );
 		}
 
-		return (<any>Object).assign.apply(this,params);
+		return (<any>Object).assign.apply(this, params);
 	}
 
-	public httpMethodOverride(method:string):void{
+	public httpMethodOverride(method: string): void {
 		this._middlewareParams.req.method = method;
 	}
 
@@ -155,12 +151,12 @@ export default class HandlerUtility{
 		// Sanitize this Request Parameters
 		this.Init();
 
-		switch(method){
+		switch (method) {
 			case 'GET':
-				Data = new Get(params)
+				Data = new Get(params);
 				break;
 			case 'POST':
-				Data = new Post(params)
+				Data = new Post(params);
 				break;
 
 			case 'PUT':
@@ -183,17 +179,16 @@ export default class HandlerUtility{
 		const { method } = this.Request;
 		const Res = this.Response;
 		const {
-			name=null,
-			message=null
+			name= null,
+			message= null
 		} = params;
 		let Err;
-		if( method == 'LOGIN' || name == 'JsonWebTokenError' ){
-			Err = new error401(params)
-		}
-		else if( message ){
-			Err = new error400(params.message)
-		} else{
-			Err = new error500(params);
+		if ( method === 'LOGIN' || name === 'JsonWebTokenError' ) {
+			Err = new Error401(params);
+		} else if ( message ) {
+			Err = new Error400(params.message);
+		} else {
+			Err = new Error500(params);
 		}
 
 		// Sanitize this Request Parameters

@@ -1,7 +1,7 @@
-import * as logger			from 'morgan';
-import * as bodyParser		from 'body-parser';
-import * as cors			from 'cors';
-import acceptUrlencoded		from '../Middleware/acceptUrlencoded';
+import * as logger from 'morgan';
+import * as bodyParser from 'body-parser';
+import * as cors from 'cors';
+import acceptUrlencoded from '../Middleware/acceptUrlencoded';
 
 /**
 * The application's global middleware stack.

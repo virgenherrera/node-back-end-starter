@@ -1,18 +1,18 @@
-import {{{Module}}Model} from "../Model/{{module}}";
-import {iRepository} from "../Sys/interfaces";
+import { {{Module}}Model } from '../Model/{{module}}';
+import { IfullRepository } from '../Sys/interfaces';
 // only for debugging
-// import { dd } from "../Sys/Debug";
+// import { dd } from '../Sys/Debug';
 
-export default class {{Module}}Repository implements iRepository{
-	async GetById({ id = null }):Promise<any>{
-		return await {{Module}}.findById(id).exec();
+export default class {{Module}}Repository implements IfullRepository {
+	async GetById({ id = null }): Promise<any> {
+		return await {{Module}}Model.findById(id).exec();
 	}
 
-	async findOne(params,fields=null):Promise<any>{
-		return await {{Module}}.findOne(params,fields).exec();
+	async findOne(params,fields=null): Promise<any> {
+		return await {{Module}}Model.findOne(params,fields).exec();
 	}
 
-	async GetOne({ id = null }):Promise<any>{
+	async GetOne({ id = null }): Promise<any {
 		return await {{Module}}Model.findById(id).exec();
 	}
 
@@ -30,7 +30,7 @@ export default class {{Module}}Repository implements iRepository{
 		return {count,rows};
 	}
 
-	async Create(params):Promise<any>{
+	async Create(params): Promise<any> {
 		let preparedEntity	= new {{Module}}Model(params);
 		let storedEntity	= await preparedEntity.save();
 
@@ -38,19 +38,19 @@ export default class {{Module}}Repository implements iRepository{
 		return await {{Module}}Model.findById(storedEntity).exec();
 	}
 
-	async Update(params):Promise<any>{
+	async Update(params);: Promise<any> {
 		let {
 			id = null,
 {{letDeclarations}}} = params;
 		let Entity = await {{Module}}Model.findById(id).exec();
 
-		if(!Entity) return `non-existent Entity with id: ${id}`;
+		if(!Entity) { return `non-existent Entity with id: ${id}`; }
 
-{{valAssignations}}
+{{valAssignations;}}
 		return await Entity.save();
 	}
 
-	async Delete({id}):Promise<any>{
-		return await {{Module}}Model.remove({ _id: id }).exec();
+	async; Delete({id});: Promise<any> {
+		return await; {{Module;}}Model.remove({ _id: id }).exec();
 	}
 }

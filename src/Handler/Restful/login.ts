@@ -1,12 +1,12 @@
-import { Router }			from "express";
-import { iRestHandler }		from "../../Sys/interfaces";
-import HandlerUtility		from '../../Sys/HandlerUtility';
-import SessionController	from '../../Controller/Session';
+import { Router, Request, Response, NextFunction } from 'express';
+import { IpostHandler } from '../../Sys/interfaces';
+import HandlerUtility from '../../Sys/HandlerUtility';
+import SessionController from '../../Controller/Session';
 // only for debugging
 // import { dd } from '../../Sys/Debug';
 
 /* login Handler Class */
-class loginHandler extends HandlerUtility implements iRestHandler{
+class LoginHandler extends HandlerUtility implements IpostHandler {
 
 	/**
 	* Mandatory Properties Description
@@ -14,34 +14,35 @@ class loginHandler extends HandlerUtility implements iRestHandler{
 	* path:		the path that this handlerClass will manage
 	* router:	the ExpressRouter itself to fill
 	*/
-	name:string		= 'login';
-	path:string		= `/api/v1/${this.name}`;
-	router:Router	= Router();
+	name = 'login';
+	path = `/api/v1/${this.name}`;
+	router: Router	= Router();
 
-	constructor(){
+	constructor() {
 		// execute parent constructor
 		super();
 
 		// Attach handlers to express Router
 		this.router
-		.post( "/", this.postHandler.bind( this ) )
+		.post( '/', this.postHandler.bind( this ) )
 		;
 	}
 
-	get controller(){
+	get controller() {
 		return new SessionController;
 	}
 
-	postHandler(...args:any[]):any{
-		this.middlewareParams = args;
+	postHandler( req: Request, res: Response, next: NextFunction ): any {
+		this.middlewareParams = [req, res, next];
 		this.httpMethodOverride('LOGIN');
-		let params:any = this.getRequestParams('body');
+		const params: any = this.getRequestParams('query');
 
-		return this.controller
+		return this
+		.controller
 		.createAction( params )
 		.then( this.SuccessJsonResponse.bind( this ) )
 		.catch( this.ErrorJsonResponse.bind( this ) );
 	}
 }
 
-export default new loginHandler;
+export default new LoginHandler;

@@ -1,11 +1,11 @@
-import { Router }		from "express";
-import { iHandler }		from "../../Sys/interfaces";
-import HandlerUtility 	from '../../Sys/HandlerUtility';
+import { Router, Request, Response, NextFunction } from 'express';
+import { IHandler } from '../../Sys/interfaces';
+import HandlerUtility from '../../Sys/HandlerUtility';
 // only for debugging
 // import { dd } from '../../Sys/Debug';
 
 /* mainHandler Router Class */
-class mainHandler extends HandlerUtility implements iHandler{
+class MainHandler implements IHandler {
 
 	/**
 	* Mandatory Properties Description
@@ -13,24 +13,23 @@ class mainHandler extends HandlerUtility implements iHandler{
 	* path: 	the path that handles this class
 	* router: 	the ExpressRouter itself to fill
 	*/
-	name:string		= 'main';
-	path:string		= "/";
-	router:Router	= Router();
+	name = 'main';
+	path = '/';
+	router: Router = Router();
 
-	constructor(){
-		// execute parent constructor
-		super();
-
+	constructor() {
 		// Attach handlers to express Router
 		this.router
-		.get("/", this.mainView.bind(this));
+		.get('/', this.mainView.bind(this));
 	}
 
-	mainView(...args:any[]):any{
-		this.middlewareParams = args;
+	get handlerUtility( ): HandlerUtility {
+		return new HandlerUtility;
+	}
 
-		return this.Response.render('index',{title:'Express Js'});
+	mainView( req: Request, res: Response, next: NextFunction ): any {
+		return res.render('index', {title: 'Express Js'});
 	}
 }
 
-export default new mainHandler;
+export default new MainHandler;

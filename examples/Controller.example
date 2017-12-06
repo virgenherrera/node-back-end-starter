@@ -1,46 +1,47 @@
-import { iController }	from "../Sys/interfaces";
-import {{Module}}Repository	from "../Repository/{{module}}";
-import {{Module}}		from "../Poco/{{module}}";
+import { IcrudController } from '../Sys/interfaces';
+import {{Module}}Repository from '../Repository/{{module}}';
+import {{Module}} from '../Poco/{{module}}';
 // only for debugging
 // import { dd } from '../Sys/Debug';
 
 /* {{Module}} Controller Class */
-export default class {{Module}}Controller implements iController{
+export default class {{Module}}Controller implements IcrudController{
 
 	get repository(){
 		return new {{Module}}Repository;
 	}
 
-	async createAction(params:any):Promise<any>{
+	async createAction(params): Promise<any> {
 		let Entity	= new {{Module}}(params);
 		let data	= await this.repository.Create(Entity);
 
 		return new {{Module}}( data );
 	}
 
-	async listAction(params):Promise<any>{
-		let {count,rows} = await this.repository.GetAll(params);
+	async listAction(params): Promise<any> {
 		let {limit,offset} = params;
+		const data = await this.repository.GetAll(params);
 
-		rows = rows.map( element => new {{Module}}(element) );
+		data.rows = data.rows.map( row => new {{Module}}(row) );
+		const {count, rows} = data;
 
 		return {count,rows,limit,offset};
 	}
 
-	async showAction(params:any):Promise<any>{
+	async showAction(params): Promise<any> {
 		let data = await this.repository.GetById(params);
 		data	= (data) ? new {{Module}}(data) : null;
 
 		return data;
 	}
 
-	async editAction(params:any):Promise<any>{
+	async editAction(params): Promise<any> {
 		let data = await this.repository.Update(params);
 
 		return new {{Module}}(data);
 	}
 
-	async deleteAction(params:any):Promise<any>{
+	async deleteAction(params): Promise<any> {
 		return await this.repository.Delete(params);
 	}
 }

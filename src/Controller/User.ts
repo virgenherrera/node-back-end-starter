@@ -1,46 +1,47 @@
-import { iController }	from "../Sys/interfaces";
-import UserRepository	from "../Repository/user";
-import User		from "../Poco/user";
+import { IcrudController } from '../Sys/interfaces';
+import UserRepository from '../Repository/user';
+import User from '../Poco/user';
 // only for debugging
 // import {dump} from '../Sys/Debug';
 
 /* User Controller Class */
-export default class UserController implements iController{
+export default class UserController implements IcrudController {
 
-	get repository(){
+	get repository() {
 		return new UserRepository;
 	}
 
-	async createAction(params:any):Promise<any>{
-		let Entity	= new User(params);
-		let data	= await this.repository.Create(Entity);
+	async createAction(params): Promise<any> {
+		const Entity	= new User(params);
+		const data	= await this.repository.Create(Entity);
 
 		return new User( data );
 	}
 
-	async listAction(params):Promise<any>{
-		let {count,rows} = await this.repository.GetAll(params);
-		let {limit,offset} = params;
+	async listAction(params): Promise<any> {
+		const {limit, offset} = params;
+		const data = await this.repository.GetAll(params);
 
-		rows = rows.map( element => new User(element) );
+		data.rows = data.rows.map( row => new User(row) );
+		const {count, rows} = data;
 
-		return {count,rows,limit,offset};
+		return {count, rows, limit, offset};
 	}
 
-	async showAction(params:any):Promise<any>{
+	async showAction(params): Promise<any> {
 		let data	= await this.repository.GetById(params);
 		data		= (data) ? new User(data) : null;
 
 		return data;
 	}
 
-	async editAction(params:any):Promise<any>{
-		let data = await this.repository.Update(params);
+	async editAction(params): Promise<any> {
+		const data = await this.repository.Update(params);
 
 		return new User(data);
 	}
 
-	async deleteAction(params:any):Promise<any>{
+	async deleteAction(params): Promise<any> {
 		return await this.repository.Delete(params);
 	}
 }

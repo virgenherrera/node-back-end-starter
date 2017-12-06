@@ -1,8 +1,8 @@
-import { i{{Module}} } from '../Model/{{module}}';
+import { I{{Module}} } from '../Model/{{module}}';
 // only for debugging
 // import { dd } from '../Sys/Debug';
 
-export default class {{Module}} implements i{{Module}}{
+export default class {{Module}} implements I{{Module}}{
 	public _id:string;
 {{propDefinition}}
 	constructor(params=null){

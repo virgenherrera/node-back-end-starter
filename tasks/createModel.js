@@ -9,19 +9,19 @@ const ucfirst			= require('./lib/ucfirst');
 const parseCliArgs		= require("./lib/parseCliArgs");
 const interfaceCont		= (attr=null,type=null)=>{
 	if(!attr || !type) return;
-	return `	${attr}:${type};${"\n"}`;
+	return `	${attr}: ${type};${"\n"}`;
 }
 const schemaAttrCont	= (attr=null,type=null)=>{
 	if(!attr || !type) return;
 	return `	${attr}			: {
-		type		: ${ucfirst(type)},
-		unique		: false,
 		index		: false,
 		lowercase	: false,
-		uppercase	: false,
 		required	: false,
-		trim		: true,
 		select		: true,
+		trim		: true,
+		type		: ${ucfirst(type)},
+		unique		: false,
+		uppercase	: false,
 		// set			: (val)=>{/* setter func here! */},
 		// get			: ()=>{/* getter func here! */},
 		// validate	: {
@@ -61,7 +61,11 @@ return (()=>{
 		schemaDefinition += schemaAttrCont(attr,type);
 	});
 
-	const newContent		= fileContent.toString().replace(ModuleRegex, ucfirst( name )).replace(iContRegex,iContent).replace(schemaDefRegex,schemaDefinition);
+	const newContent		= fileContent
+	.toString()
+	.replace(ModuleRegex, ucfirst( name ))
+	.replace(iContRegex,iContent)
+	.replace(schemaDefRegex,schemaDefinition);
 
 	if( existsSync( destiny ) ){
 		console.error(`Cannot Overwrite!${"\n"}Handler:	${destiny}${"\n"}Already Exists`);

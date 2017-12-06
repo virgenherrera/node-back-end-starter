@@ -1,4 +1,4 @@
 export default {
-	limit:50,
-	offset:0,
+	limit: 50,
+	offset: 0,
 };

@@ -1,14 +1,14 @@
-import { Router }			from "express";
-import { plural }			from 'pluralize';
-import { iRestHandler }		from "../../Sys/interfaces";
-import HandlerUtility		from '../../Sys/HandlerUtility';
-import restJwtAuth			from '../../Middleware/restJwtAuth';
-import {{Module}}Controller		from '../../Controller/{{Module}}';
+import { Router, Request, Response, NextFunction } from 'express';
+import { plural } from 'pluralize';
+import { IRestFull } from '../../Sys/interfaces';
+import HandlerUtility from '../../Sys/HandlerUtility';
+import restJwtAuth from '../../Middleware/restJwtAuth';
+import {{Module}}Controller from '../../Controller/{{Module}}';
 // only for debugging
 // import { dd } from '../../Sys/Debug';
 
 /* {{module}} Handler Class */
-class {{module}}Handler extends HandlerUtility implements iRestHandler{
+class {{Module}}Handler implements IRestFull {
 
 	/**
 	* Mandatory Properties Description
@@ -16,21 +16,18 @@ class {{module}}Handler extends HandlerUtility implements iRestHandler{
 	* path:		the path that this handlerClass will manage
 	* router:	the ExpressRouter itself to fill
 	*/
-	name:string		= '{{module}}';
-	path:string		= `/api/v1/${plural(this.name)}`;
-	router:Router	= Router();
+	name = '{{module}}';
+	path = `/api/v1/${plural(this.name)}`;
+	router: Router = Router();
 
 	constructor(){
-		// execute parent constructor
-		super();
-
 		// Attach handlers to express Router
 		this.router
-		.get("/", restJwtAuth, this.getAllHandler.bind( this ) )
-		// .get("/:id", restJwtAuth, this.getOneHandler.bind( this ) )
-		.post( "/", restJwtAuth, this.postHandler.bind( this ) )
-		// .put("/:id", restJwtAuth, this.putHandler.bind( this ) )
-		// .delete("/:id", restJwtAuth, this.deleteHandler.bind( this ) )
+		.get('/', restJwtAuth, this.getAllHandler.bind( this ) )
+		.get('/:id', restJwtAuth, this.getOneHandler.bind( this ) )
+		.post( '/', restJwtAuth, this.postHandler.bind( this ) )
+		.put('/:id', restJwtAuth, this.putHandler.bind( this ) )
+		.delete('/:id', restJwtAuth, this.deleteHandler.bind( this ) )
 		;
 	}
 
@@ -38,55 +35,69 @@ class {{module}}Handler extends HandlerUtility implements iRestHandler{
 		return new {{Module}}Controller;
 	}
 
-	getAllHandler(...args:any[]):any{
-		this.middlewareParams = args;
-		let params:any = this.getRequestParams('query');
+	get handlerUtility( ): HandlerUtility {
+		return new HandlerUtility;
+	}
 
-		return this.controller
+	getAllHandler( req: Request, res: Response, next: NextFunction ): Promise<Response> {
+		const handUtil = this.handlerUtility;
+		handUtil.middlewareParams = [req, res, next];
+		const params = handUtil.getRequestParams('query');
+
+		return this
+		.controller
 		.listAction( params )
-		.then( this.SuccessJsonResponse.bind( this ) )
-		.catch( this.ErrorJsonResponse.bind( this ) );
+		.then( handUtil.SuccessJsonResponse.bind( this ) )
+		.catch( handUtil.ErrorJsonResponse.bind( this ) );
 	}
 
-	getOneHandler(...args:any[]):any{
-		// this.middlewareParams = args;
-		// let params:any = this.getRequestParams('params');
+	getOneHandler( req: Request, res: Response, next: NextFunction ): Promise<Response> {
+		const handUtil = this.handlerUtility;
+		handUtil.middlewareParams = [req, res, next];
+		const params = handUtil.getRequestParams('params');
 
-		// return this.controller
-		// .showAction( params )
-		// .then( this.SuccessJsonResponse.bind( this ) )
-		// .catch( this.ErrorJsonResponse.bind( this ) );
+		return this
+		.controller
+		.showAction( params )
+		.then( handUtil.SuccessJsonResponse.bind( this ) )
+		.catch( handUtil.ErrorJsonResponse.bind( this ) );
 	}
 
-	postHandler(...args:any[]):any{
-		this.middlewareParams = args;
-		let params:any = this.getRequestParams('body');
+	postHandler( req: Request, res: Response, next: NextFunction ): Promise<Response> {
+		const handUtil = this.handlerUtility;
+		handUtil.middlewareParams = [req, res, next];
+		const params = handUtil.getRequestParams('body');
 
-		return this.controller
+		return this
+		.controller
 		.createAction( params )
-		.then( this.SuccessJsonResponse.bind( this ) )
-		.catch( this.ErrorJsonResponse.bind( this ) );
+		.then( handUtil.SuccessJsonResponse.bind( this ) )
+		.catch( handUtil.ErrorJsonResponse.bind( this ) );
 	}
 
-	putHandler(...args:any[]):any{
-		// this.middlewareParams = args;
-		// let params:any = this.getRequestParams('params,body');
+	putHandler( req: Request, res: Response, next: NextFunction ): Promise<Response> {
+		const handUtil = this.handlerUtility;
+		handUtil.middlewareParams = [req, res, next];
+		const params = handUtil.getRequestParams('params,body');
 
-		// return this.controller
-		// .editAction( params )
-		// .then( this.SuccessJsonResponse.bind( this ) )
-		// .catch( this.ErrorJsonResponse.bind( this ) );
+		return this
+		.controller
+		.editAction( params )
+		.then( handUtil.SuccessJsonResponse.bind( this ) )
+		.catch( handUtil.ErrorJsonResponse.bind( this ) );
 	}
 
-	deleteHandler(...args:any[]):any{
-		// this.middlewareParams = args;
-		// let params:any = this.getRequestParams('params');
+	deleteHandler( req: Request, res: Response, next: NextFunction ): Promise<Response> {
+		const handUtil = this.handlerUtility;
+		handUtil.middlewareParams = [req, res, next];
+		const params = handUtil.getRequestParams('params');
 
-		// return this.controller
-		// .deleteAction( params )
-		// .then( this.SuccessJsonResponse.bind( this ) )
-		// .catch( this.ErrorJsonResponse.bind( this ) );
+		return this
+		.controller
+		.deleteAction( params )
+		.then( handUtil.SuccessJsonResponse.bind( this ) )
+		.catch( handUtil.ErrorJsonResponse.bind( this ) );
 	}
 }
 
-export default new {{module}}Handler;
+export default new {{Module}}Handler;

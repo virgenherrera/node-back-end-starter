@@ -1,22 +1,20 @@
-import {hashSync,genSaltSync} from "bcryptjs";
-import { Document, Schema, Model, model } from "mongoose";
-import isEmail from "../Lib/isEmail";
-import validRole from "../Lib/validRole";
+import {hashSync, genSaltSync} from 'bcryptjs';
+import { Document, Schema, Model, model } from 'mongoose';
+import isEmail from '../Lib/isEmail';
+import validRole from '../Lib/validRole';
 // only for debugging
 // import { dd } from "../Sys/Debug";
 
-export interface iUser{
-	firstName		: string;
-	lastName		: string;
-	email			: string;
-	password		: string;
-	role			: string;
-	rememberToken	: string;
+export interface IUser {
+	firstName: string;
+	lastName: string;
+	email: string;
+	password: string;
+	role: string;
+	rememberToken: string;
 }
 
-interface iUserModel extends iUser,Document{
-	// Define Models Contracts here!
-}
+interface IUserModel extends IUser, Document {}
 
 export const UserSchema: Schema = new Schema({
 	firstName		: {
@@ -56,9 +54,9 @@ export const UserSchema: Schema = new Schema({
 	},
 },
 {
-	safe:true,
+	safe: true,
 	timestamps: true
 });
 
-export const UserModel: Model<iUserModel> = model<iUserModel>("User", UserSchema);
+export const UserModel: Model<IUserModel> = model<IUserModel>('User', UserSchema);
 

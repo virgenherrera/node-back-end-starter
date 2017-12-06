@@ -9,7 +9,7 @@ const ucfirst			= require('./lib/ucfirst');
 const parseCliArgs		= require("./lib/parseCliArgs");
 const propCont			= (attr=null,type=null)=>{
 	if(!attr || !type) return;
-	return `	public ${attr}:${type};${"\n"}`;
+	return `	public ${attr}: ${type};${"\n"}`;
 }
 const propAssign			= (attr=null)=>{
 	if(!attr) return;

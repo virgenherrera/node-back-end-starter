@@ -11,6 +11,6 @@
 *	-	"iHandler" or "iRestHandler" Interfaces
 */
 
-export { default as main }		from '../Handler/Rendered/main';
-export { default as user }		from '../Handler/Restful/user';
-export { default as login }		from '../Handler/Restful/login';
+export { default as main } from '../Handler/Rendered/main';
+export { default as user } from '../Handler/Restful/user';
+export { default as login } from '../Handler/Restful/login';
