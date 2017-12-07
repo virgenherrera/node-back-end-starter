@@ -19,7 +19,7 @@ The rest of the dependencies of this project and the initial pre-configuration w
 Provide the initial config files by typing in shell the `yarn provision` command
 
 ### Step 4:
-provide this project with your own Environment variables in the following files:
+update this project with your own Environment variables in the following files:
 - `.env` (Service Config)
 
 ### Step 5 (optional):
@@ -29,5 +29,5 @@ You can customize the production options by updating the **./forever.json** file
 - `yarn start` Compile and Launch the service using the _"nodemon"_ module.
 - `yarn develop` Compile in watcher mode and Launch the service with debug availability using the _"nodemon"_ module.
 - `yarn production` Compile and Launch the service using the _"forever"_ module.
-- `yarn provision` provides _.env_ and _forever.json_ files
+- `yarn provision` provides _.env_ and _forever.json_ ./persistance/_config.js_ files
 - `yarn sequelize` Use Locally sequelize-cli package.
