@@ -48,7 +48,6 @@
     "create-module": "node ./tasks/createModule.js"
   },
   "dependencies": {
-    "axios": "^0.17.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.2",
     "cors": "^2.8.4",
@@ -71,7 +70,6 @@
     "yargs": "^10.0.3"
   },
   "devDependencies": {
-    "@types/axios": "^0.14.0",
     "@types/bcryptjs": "^2.4.1",
     "@types/body-parser": "^1.16.7",
     "@types/cors": "^2.8.1",
