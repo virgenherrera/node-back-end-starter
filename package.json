@@ -45,7 +45,8 @@
     "create-model": "node ./tasks/createModel.js",
     "create-repository": "node ./tasks/createRepository.js",
     "create-poco": "node ./tasks/createPoco.js",
-    "create-module": "node ./tasks/createModule.js"
+    "create-module": "node ./tasks/createModule.js",
+    "sequelize": "node ./node_modules/sequelize-cli/lib/sequelize"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -62,8 +63,12 @@
     "morgan": "^1.9.0",
     "nodemon": "^1.12.1",
     "npm-run-all": "^4.1.1",
+    "pg": "6",
+    "pg-hstore": "^2.3.2",
     "pluralize": "^7.0.0",
     "pug": "^2.0.0-rc.4",
+    "sequelize": "^4.27.0",
+    "sequelize-cli": "^3.2.0",
     "serve-favicon": "^2.4.5",
     "ts-node": "^3.3.0",
     "typescript": "^2.6.2",
@@ -83,6 +88,7 @@
     "@types/node": "^8.0.47",
     "@types/pluralize": "^0.0.28",
     "@types/pug": "^2.0.4",
+    "@types/sequelize": "^4.0.79",
     "@types/serve-favicon": "^2.2.29",
     "tslint": "^5.8.0"
   }

@@ -9,7 +9,7 @@ These dependencies must be installed globally as the initial step to configure t
 - forever
 
 ### Step 1:
-`npm i -g yarn@1.2.1 nodemon@1.12.1 typescript@2.6.1 forever@0.15.3`
+`npm i -g yarn@1.2.1 typescript@2.6.1 forever@0.15.3`
 
 ### Step 2:
 The rest of the dependencies of this project and the initial pre-configuration will be installed running the command:
@@ -25,7 +25,9 @@ provide this project with your own Environment variables in the following files:
 ### Step 5 (optional):
 You can customize the production options by updating the **./forever.json** file with your own settings
 
-### `npm|yarn` Commands
-- `npm start` Compile and Launch the service using the _"nodemon"_ module.
-- `npm develop` Compile in watcher mode and Launch the service with debug availability using the _"nodemon"_ module.
-- `npm production` Compile and Launch the service using the _"forever"_ module.
+### `yarn` Commands
+- `yarn start` Compile and Launch the service using the _"nodemon"_ module.
+- `yarn develop` Compile in watcher mode and Launch the service with debug availability using the _"nodemon"_ module.
+- `yarn production` Compile and Launch the service using the _"forever"_ module.
+- `yarn provision` provides _.env_ and _forever.json_ files
+- `yarn sequelize` Use Locally sequelize-cli package.
