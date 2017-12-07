@@ -61,6 +61,10 @@ build/
 
 # dotenv environment variables file
 .env
+
+# forever config file
 forever.json
-src/config/db.js
+
+# Database config file
+persistance/config.js
 
