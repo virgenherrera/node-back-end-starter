@@ -5,24 +5,24 @@ export function dump(...args) {
 			// Notify about which arg are dumping
 			console.log(`\n\t...for argument:{${arg}}\n`);
 			// print type
-			console.log(`Type: ${typeof arguments[arg]}`);
+			console.log(`Type: ${typeof args[arg]}`);
 			// print length if exists
-			if ( arguments[arg] && Array.isArray(arguments[arg]) ) {
-				console.log(`Length: ${arguments[arg].length}`);
+			if ( args[arg] && Array.isArray(args[arg]) ) {
+				console.log(`Length: ${args[arg].length}`);
 			}
 
-			if ( arguments[arg] && typeof arguments[arg] === 'object' && !Array.isArray(arguments[arg]) ) {
-				const keys = Object.keys( arguments[arg] ).join(`','`);
+			if ( args[arg] && typeof args[arg] === 'object' && !Array.isArray(args[arg]) ) {
+				const keys = Object.keys( args[arg] ).join(`','`);
 				if ( keys ) {
 					console.log(`Keys: '${keys}'`);
 				}
 			}
 			// print Value
-			if ( typeof arguments[arg] === 'string' || /^\d+$/.test( arguments[arg] ) ) {
-				console.log( 'Value: ', arguments[ arg ] );
+			if (typeof args[arg] === 'string' || typeof args[arg] === 'number' ) {
+				console.log( 'Value: ', args[ arg ] );
 			} else {
 				console.log( 'Value: ');
-				console.dir( arguments[ arg ] );
+				console.dir( args[ arg ] );
 			}
 		}
 	}
