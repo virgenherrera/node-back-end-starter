@@ -2,13 +2,18 @@
 const {
 	copyFileSync,
 	existsSync,
+	statSync,
+	mkdirSync,
 }	= require('fs');
 const { join }			= require('path');
-const { name } = require('../package.json');
 
 	return (()=>{
 		const origin			= join( __dirname , '../examples','dbConfig.example' );
 		const destiny			= join( __dirname , '../persistance','config.js' );
+
+		if( !existsSync( join(__dirname, '../persistance') ) ){
+			mkdirSync( join(__dirname, '../', 'persistance') )
+		}
 
 	if( existsSync( destiny ) ){
 		console.error(`Cannot Overwrite!${"\n"}file:	${destiny}${"\n"}Already Exists`);

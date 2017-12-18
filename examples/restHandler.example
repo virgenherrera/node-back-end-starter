@@ -20,7 +20,7 @@ class {{Module}}Handler implements IRestFull {
 	path = `/api/v1/${plural(this.name)}`;
 	router: Router = Router();
 
-	constructor(){
+	constructor() {
 		// Attach handlers to express Router
 		this.router
 		.get('/', restJwtAuth, this.getAllHandler.bind( this ) )
@@ -31,7 +31,7 @@ class {{Module}}Handler implements IRestFull {
 		;
 	}
 
-	get controller(){
+	get controller() {
 		return new {{Module}}Controller;
 	}
 

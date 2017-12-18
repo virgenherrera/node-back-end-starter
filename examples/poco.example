@@ -1,11 +1,14 @@
-import { I{{Module}} } from '../Model/{{module}}';
 // only for debugging
 // import { dd } from '../Sys/Debug';
 
-export default class {{Module}} implements I{{Module}} {
-	public _id: string;
-{{propDefinition}}
+export default class {{Module}} {
+	public id: string;{{propDefinition}}
+	public createdAt: Date;
+	public updatedAt: Date;
+
 	constructor(params = null) {
-		this._id = params._id;
-{{propAssign}}	}
+		this.id = params.id;{{propAssign}}
+		this.createdAt = params.createdAt;
+		this.updatedAt = params.updatedAt;
+	}
 }

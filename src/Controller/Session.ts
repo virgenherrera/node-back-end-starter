@@ -1,10 +1,10 @@
-import { compareSync } from 'bcryptjs';
 import { sign, verify } from 'jsonwebtoken';
+import { validatePassword } from '../Lib/passwordUtil';
 import { IcreateAction } from '../Sys/interfaces';
 import UserRepository from '../Repository/user';
 import User from '../Poco/user';
 // only for debugging
-import { dd } from '../Sys/Debug';
+// import { dd } from '../Sys/Debug';
 
 /* Session Controller Class */
 export default class SessionController implements IcreateAction {
@@ -16,14 +16,18 @@ export default class SessionController implements IcreateAction {
 	}
 
 	async createAction({email= null, password= null}): Promise<any> {
-		const data	= await this.repository.FindOne({email}, 'email password role');
+		const data	= await this.repository.FindOne({email}, 'full');
 
-		if ( !data ) { throw new Error(`Non-existent email: ${email}`); }
-		if ( !compareSync(password, data.password) ) { throw new Error(`bad credentials`); }
+		if ( !data ) {
+			throw new Error(`Non-existent email: ${email}`);
+		}
+		if ( !validatePassword(password, data.dataValues.password) ) {
+			throw new Error(`bad credentials`);
+		}
 
-		const { _id, role } = new User(data);
+		const { id, role } = new User(data);
 		const jwtPayload = {
-			id	: _id,
+			id	: id,
 			role: role
 		};
 
@@ -37,10 +41,10 @@ export default class SessionController implements IcreateAction {
 		try {
 			decodedToken = verify(token, this.secret);
 			const Wh = {
-				_id	: decodedToken.id,
+				id	: decodedToken.id,
 				role: decodedToken.role,
 			};
-			const data = await this.repository.FindOne(Wh, 'email role');
+			const data = await this.repository.FindOne(Wh, 'full');
 
 			return new User(data);
 		} catch (e) {

@@ -1,10 +1,11 @@
-var path = require('path');
-require('dotenv').config({path: path.join(__dirname,'./.env')});
+"use strict";
+var { join, resolve } = require('path');
+require('dotenv').config({path: join(__dirname,'./.env')});
 
 module.exports = {
 	'env' : process.env.NODE_ENV,
-	'config': path.resolve('./persistance/config.js'),
-	'migrations-path': path.resolve('./migrations/'),
-	'models-path': path.resolve('./src/Model/'),
-	'seeders-path': path.resolve('./seeders/'),
+	'config': resolve('./persistance/config.js'),
+	'migrations-path': resolve('./migrations/'),
+	'models-path': resolve('./src/Model/'),
+	'seeders-path': resolve('./seeders/'),
 }

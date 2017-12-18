@@ -1,48 +1,32 @@
-import { {{Module}}Model } from '../Model/{{module}}';
+import {{Module}}Model from '../Model/{{module}}';
 import { IfullRepository } from '../Sys/interfaces';
 // only for debugging
 // import { dd } from '../Sys/Debug';
 
 export default class {{Module}}Repository implements IfullRepository {
-	async GetById({ id = null }): Promise<any> {
-		return await {{Module}}Model.findById(id).exec();
+	async GetById({ id = null, scope = 'default' }): Promise<any> {
+		return await {{Module}}Model.scope( scope ).findById(id);
 	}
 
-	async findOne(params, fields = null): Promise<any> {
-		return await {{Module}}Model.findOne(params, fields).exec();
+	async findOne(params, scope: string = 'default'): Promise<any> {
+		return await {{Module}}Model.scope( scope ).findOne(params);
 	}
 
-	async GetOne({ id = null }): Promise<any> {
-		return await {{Module}}Model.findById(id).exec();
-	}
+	async GetAll({ where = {}, limit = null, offset = null, sort = [], scope = 'default' }): Promise<any> {
+		const Wh = {where, limit, offset, order: sort};
 
-	async GetAll({limit, offset, sort = {} }): Promise<any> {
-		// Important to return Total count
-		// do not forget to include!!!!
-		const count	= await {{Module}}Model.count({}).exec();
-		const rows	= await {{Module}}Model
-		.find()
-		.skip( offset )
-		.limit( limit )
-		.sort( sort )
-		.exec();
-
-		return {count, rows};
+		return await {{Module}}Model.scope( scope ).findAndCountAll(Wh);
 	}
 
 	async Create(params): Promise<any> {
-		const preparedEntity = new {{Module}}Model(params);
-		const storedEntity = await preparedEntity.save();
-
-		// to avoid bubble private chars
-		return await {{Module}}Model.findById(storedEntity).exec();
+		return await {{Module}}Model.create(params);
 	}
 
 	async Update(params): Promise<any> {
 		const {
 			id = null,
 {{letDeclarations}}} = params;
-		const Entity = await {{Module}}Model.findById(id).exec();
+		const Entity = await {{Module}}Model.findById(id);
 
 		if (!Entity) { return `non-existent Entity with id: ${id}`; }
 
@@ -50,7 +34,10 @@ export default class {{Module}}Repository implements IfullRepository {
 		return await Entity.save();
 	}
 
-	async Delete({id}): Promise<any> {
-		return await {{Module}}Model.remove({ _id: id }).exec();
+	async Delete(id): Promise<any> {
+		const Wh = {
+			where: {id}
+		};
+		return await {{Module}}Model.destroy(Wh);
 	}
 }

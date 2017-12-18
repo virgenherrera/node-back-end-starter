@@ -27,7 +27,7 @@ export default class HandlerUtility {
 		this.next = next;
 
 		const { query = {} } = req;
-		const { limit = '', offset = '' } = query;
+		const { limit = -1, offset = -1 } = query;
 
 		// set limit AND offset from query
 		this.limit = limit;
@@ -63,19 +63,19 @@ export default class HandlerUtility {
 	get sort(): object {
 		const {query= {}} = this.req;
 		const {sort= ''} = query;
-		const Res = {};
+		const Res = [];
 
 		const parsed = sort
 		.split(',')
 		.forEach((item: string) => {
 			if ( !item ) { return; }
-			let order = 'asc';
+			let order = 'ASC';
 			if ( item.charAt(0) === '-' ) {
-				order = 'desc';
+				order = 'DESC';
 				item = item.substring(1);
 			}
 
-			Res[ item ] = order;
+			Res.push([ item, order ]);
 		});
 
 		return Res;

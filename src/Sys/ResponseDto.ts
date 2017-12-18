@@ -2,6 +2,73 @@ import {IResDto} from '../Sys/interfaces';
 // only for debugging
 // import { dd } from '../Sys/Debug';
 
+// Response to a successful request that won't be returning a body
+export class NoContent implements IResDto {
+	public status	= 204;
+	public success	= true;
+	public message	= 'No Content';
+
+	constructor() {
+	}
+}
+
+// Used for validation errors
+export class Error400 implements IResDto {
+	public status	= 400;
+	public success	= false;
+	public message	= 'Request could not be understood due to malformed syntax. You SHOULD NOT repeat the request without modifications.';
+	public errors	= false;
+
+	constructor(errors= null) {
+		if ( errors )	{ this.errors = errors; }
+	}
+}
+
+// Failed Auth
+export class Error401 implements IResDto {
+	public status	= 401;
+	public success	= false;
+	public message	= 'Authentication failed';
+	public errors;
+
+	constructor(message= null) {
+		if ( message ) { this.errors = message; }
+	}
+}
+
+// not found
+export class Error404 implements IResDto {
+	public status	= 404;
+	public success	= false;
+	public message	= 'The requested resource could not be found but may be available in the future.';
+
+	constructor(message= null) {
+		if ( message )	{ this.message = message; }
+	}
+}
+
+// bad-Headers
+export class Error406 implements IResDto {
+	public status	= 406;
+	public success	= false;
+	public message	= `Requests header must contain: \'content-type\': \'application/x-www-form-urlencoded\'`;
+
+	constructor(message= null) {
+		if ( message )	{ this.message = message; }
+	}
+}
+
+// Internal Server Error
+export class Error500 implements IResDto {
+	public status	= 500;
+	public success	= false;
+	public message	= 'Internal Server Error';
+
+	constructor(message= null) {
+		if ( message )	{ this.message = message; }
+	}
+}
+
 // Success Auth
 export class Auth implements IResDto {
 	public status	= 200;
@@ -69,76 +136,7 @@ export class Delete implements IResDto {
 	public status	= 200;
 	public success	= true;
 	public message	= 'Resource deleted';
-	public data;
 
 	constructor(params) {
-		if ( params )	{ this.data = params; }
-	}
-}
-
-// Response to a successful request that won't be returning a body
-export class NoContent implements IResDto {
-	public status	= 204;
-	public success	= true;
-	public message	= 'No Content';
-
-	constructor() {
-	}
-}
-
-// Used for validation errors
-export class Error400 implements IResDto {
-	public status	= 400;
-	public success	= false;
-	public message	= 'Request could not be understood due to malformed syntax. You SHOULD NOT repeat the request without modifications.';
-	public errors	= false;
-
-	constructor(errors= null) {
-		if ( errors )	{ this.errors = errors; }
-	}
-}
-
-// Failed Auth
-export class Error401 implements IResDto {
-	public status	= 401;
-	public success	= false;
-	public message	= 'Authentication failed';
-	public errors;
-
-	constructor(message= null) {
-		if ( message ) { this.errors = message; }
-	}
-}
-
-// not found
-export class Error404 implements IResDto {
-	public status	= 404;
-	public success	= false;
-	public message	= 'The requested resource could not be found but may be available in the future.';
-
-	constructor(message= null) {
-		if ( message )	{ this.message = message; }
-	}
-}
-
-// bad-Headers
-export class Error406 implements IResDto {
-	public status	= 406;
-	public success	= false;
-	public message	= `Requests header must contain: \'content-type\': \'application/x-www-form-urlencoded\'`;
-
-	constructor(message= null) {
-		if ( message )	{ this.message = message; }
-	}
-}
-
-// Internal Server Error
-export class Error500 implements IResDto {
-	public status	= 500;
-	public success	= false;
-	public message	= 'Internal Server Error';
-
-	constructor(message= null) {
-		if ( message )	{ this.message = message; }
 	}
 }

@@ -9,18 +9,19 @@ const ucfirst			= require('./lib/ucfirst');
 const parseCliArgs		= require("./lib/parseCliArgs");
 const propCont			= (attr=null,type=null)=>{
 	if(!attr || !type) return;
-	return `	public ${attr}: ${type};${"\n"}`;
+	if( type == 'date' ) type = ucfirst(type);
+	return `${'\n\t'}public ${attr}: ${type};`;
 }
 const propAssign			= (attr=null)=>{
 	if(!attr) return;
-	return `		this.${attr} = params.${attr};${"\n"}`;
+	return `${'\n\t\t'}this.${attr} = params.${attr};`;
 }
 
 return (()=>{
 	let {name=null,attributes=null} = parseCliArgs();
 	let propContent = '';
 	let propAssignContent = '';
-	const moduleRegExp				= new RegExp("{{module}}","g");
+	// const moduleRegExp				= new RegExp("{{module}}","g");
 	const ModuleRegExp				= new RegExp("{{Module}}","g");
 	const propDefinitionRegExp		= new RegExp("{{propDefinition}}","g");
 	const propAssignRegExp		= new RegExp("{{propAssign}}","g");
@@ -49,7 +50,7 @@ return (()=>{
 
 	const newContent = fileContent
 	.toString()
-	.replace(moduleRegExp, name)
+	// .replace(moduleRegExp, name)
 	.replace(ModuleRegExp, ucfirst(name))
 	.replace(propDefinitionRegExp, propContent)
 	.replace(propAssignRegExp, propAssignContent)

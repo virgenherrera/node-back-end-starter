@@ -1,10 +1,11 @@
 import * as http from 'http';
 import * as debug from 'debug';
 import * as os from 'os';
-import * as dotEnv from 'dotenv';
+import * as socketIo from 'socket.io';
 import Directories from '../Sys/Directories';
 import loadEnvironmentVars from '../Sys/loadEnvironmentVars';
 import App from '../Application';
+import SocketIoService from './SocketIoService';
 
 /**
 * Load Environment Variables from .env
@@ -37,6 +38,12 @@ App.set('port', port);
 const server = http.createServer(App);
 
 /**
+* Bind RealTime Service to HTTP server.
+*/
+const ioServer		= socketIo( server );
+const rtService		= new SocketIoService( ioServer );
+
+/**
 * Listen on provided port, on all network interfaces.
 */
 server.listen(port);
@@ -47,8 +54,15 @@ server.on('listening', onListening);
 * Normalize a port into a number, string, or false.
 */
 function normalizePort(val: number|string): number|string|boolean {
-	const port: number = Number(val);
-	if (isNaN(port)) { return val; } else if (port >= 0) { return port; } else { return false; }
+	const pt: any = Number(val);
+
+	if (isNaN(pt)) {
+		return val;
+	} else if (pt >= 0) {
+		return pt;
+	} else {
+		return false;
+	}
 }
 
 /**

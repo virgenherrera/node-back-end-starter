@@ -1,7 +1,7 @@
 import * as logger from 'morgan';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
-import acceptUrlencoded from '../Middleware/acceptUrlencoded';
+import acceptUrlencodedOrJson from '../Middleware/acceptUrlencodedOrJson';
 
 /**
 * The application's global middleware stack.
@@ -13,8 +13,8 @@ import acceptUrlencoded from '../Middleware/acceptUrlencoded';
 
 export const middleware = [
 	logger('dev'),
-	bodyParser.json(),
-	bodyParser.urlencoded({ extended: true }),
+	bodyParser.json({strict: true}),
+	bodyParser.urlencoded({ extended: false }),
 	cors(),
-	acceptUrlencoded,
+	acceptUrlencodedOrJson,
 ];

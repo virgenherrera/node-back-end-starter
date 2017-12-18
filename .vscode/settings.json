@@ -1,12 +1,11 @@
 {
-	"files.associations": {
+  "workbench.colorTheme": "Solarized Dark",
+  "files.associations": {
 		"*.js": "javascript"
 	},
 	"editor.renderWhitespace": "boundary",
 	"editor.multiCursorModifier": "ctrlCmd",
 	"extensions.ignoreRecommendations": false,
-	"cSpell.language": "en",
-	"workbench.colorTheme": "Solarized Dark",
 	"emmet.showSuggestionsAsSnippets": true,
 	"emmet.triggerExpansionOnTab": true,
 	"emmet.includeLanguages": {

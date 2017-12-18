@@ -4,9 +4,10 @@ import * as favicon from 'serve-favicon';
 import * as Handlers from '../config/handler';
 import loadEnvironmentVars from '../Sys/loadEnvironmentVars';
 import Directories from '../Sys/Directories';
-import mongodbConnection from '../Sys/mongodbConnection';
+import sequelizeConnection from '../Sys/sequelizeConnection';
 import notFound from '../Middleware/notFound';
 import { middleware } from '../config/middleware';
+import { USE_DATA_PERSISTANCE } from '../config/config';
 
 // Create and config a new expressJs web Application
 class Application {
@@ -22,18 +23,25 @@ class Application {
 		// Initialize Express js app
 		this.express = Express();
 
+		if (USE_DATA_PERSISTANCE) {
+			this.storageConnect();
+		} else {
+			console.log(`/* Omitting the data storage layer */`);
+			console.log(`	if you wish to activate it, change the value of "USE_DATA_PERSISTANCE" to true in ./src/config/config.ts`);
+		}
+
 		this
-		.storageConnect()
-		.middleware()
-		.viewsConfig()
-		.exposePubicPath()
-		.exposeRoutes()
-		.catch404();
+			.middleware()
+			.viewsConfig()
+			.exposePubicPath()
+			.exposeRoutes()
+			.catch404()
+			;
 	}
 
 	middleware(): this {
 		middleware.forEach(mid => {
-			this.express.use( mid );
+			this.express.use(mid);
 		});
 
 		return this;
@@ -41,29 +49,29 @@ class Application {
 
 	viewsConfig(): this {
 		// view engine setup
-		this.express.set('views', Directories.Views );
+		this.express.set('views', Directories.Views);
 		this.express.set('view engine', 'pug');
 
 		return this;
 	}
 
 	exposePubicPath(): this {
-		this.express.use( Express.static( Directories.Public ) );
+		this.express.use(Express.static(Directories.Public));
 
 		return this;
 	}
 
 	exposeRoutes() {
 
-		for ( const key in Handlers ) {
-			if ( Handlers.hasOwnProperty(key) ) {
-				const { name= null, path= null, router= null } = Handlers[key];
+		for (const key in Handlers) {
+			if (Handlers.hasOwnProperty(key)) {
+				const { name = null, path = null, router = null } = Handlers[key];
 
-				if ( (name) && (path) && (router) ) {
-					const pString = ( path.charAt(0) !== '/' ) ? `/${path}` : path;
+				if ((name) && (path) && (router)) {
+					const pString = (path.charAt(0) !== '/') ? `/${path}` : path;
 
 					console.log(`exposing route: '${pString}'${'\n'}from:	'${key}' handler file${'\n'}`);
-					this.express.use( pString , router );
+					this.express.use(pString, router);
 				}
 			}
 		}
@@ -73,13 +81,13 @@ class Application {
 
 	catch404(): this {
 		// catch 404 and handle it
-		this.express.use( notFound );
+		this.express.use(notFound);
 
 		return this;
 	}
 
 	storageConnect(): this {
-		mongodbConnection().then( msg => console.log(msg) );
+		sequelizeConnection().then(data => console.log(data));
 
 		return this;
 	}

@@ -7,7 +7,7 @@ import {{Module}} from '../Poco/{{module}}';
 /* {{Module}} Controller Class */
 export default class {{Module}}Controller implements IcrudController {
 
-	get repository(){
+	get repository() {
 		return new {{Module}}Repository;
 	}
 
@@ -41,7 +41,7 @@ export default class {{Module}}Controller implements IcrudController {
 		return new {{Module}}(data);
 	}
 
-	async deleteAction(params): Promise<any> {
-		return await this.repository.Delete(params);
+	async deleteAction({id}): Promise<any> {
+		return await this.repository.Delete(id);
 	}
 }

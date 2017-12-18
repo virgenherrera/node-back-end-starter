@@ -1,62 +1,60 @@
-import {hashSync, genSaltSync} from 'bcryptjs';
-import { Document, Schema, Model, model } from 'mongoose';
-import isEmail from '../Lib/isEmail';
-import validRole from '../Lib/validRole';
-// only for debugging
-// import { dd } from "../Sys/Debug";
+import { AllowNull, Column, CreatedAt, DataType, DefaultScope, IsEmail, Length, Model, Scopes, Table, Unique, UpdatedAt } from 'sequelize-typescript';
+import { obfuscatePassword } from '../Lib/passwordUtil';
+const defaultAttributes = ['id', 'first_name', 'last_name', 'email', 'role'];
 
-export interface IUser {
-	firstName: string;
-	lastName: string;
+
+@Scopes({
+	default: { attributes: defaultAttributes },
+	full: { attributes: defaultAttributes.concat(['password', 'createdAt', 'updatedAt']) },
+})
+@Table({
+	tableName: 'users',
+})
+export default class UserModel extends Model<UserModel> {
+
+	@Column({
+		allowNull: false,
+		primaryKey: true,
+		defaultValue: DataType.UUIDV4,
+		type: DataType.UUID,
+	})
+	id: string;
+
+	@AllowNull(false)
+	@Column
+	first_name: string;
+
+	@AllowNull(false)
+	@Column
+	last_name: string;
+
+	@IsEmail
+	@AllowNull(false)
+	@Unique
+	@Column
 	email: string;
-	password: string;
+
+	@Length({min: 5})
+	@AllowNull(false)
+	@Column
+	get password(): string {
+		return this.getDataValue('password');
+	}
+	set password(value: string) {
+		this.setDataValue('password', obfuscatePassword( value ) );
+	}
+
+	@Column({
+		allowNull: false,
+		type: DataType.ENUM('user', 'admin'),
+		defaultValue: 'user',
+	})
 	role: string;
-	rememberToken: string;
+
+	@CreatedAt
+	createdAt: Date;
+
+	@UpdatedAt
+	updatedAt: Date;
 }
-
-interface IUserModel extends IUser, Document {}
-
-export const UserSchema: Schema = new Schema({
-	firstName		: {
-		type		: String,
-	},
-	lastName		: {
-		type		: String,
-	},
-	email			: {
-		type		: String,
-		unique		: true,
-		index		: true,
-		trim		: true,
-		lowercase	: true,
-		required	: true,
-		validate	: {
-			validator: isEmail,
-			message	: '{VALUE} is not a valid email!'
-		},
-	},
-	password		: {
-		type		: String,
-		required	: true,
-		trim		: true,
-		select		: false,
-		set			: val => hashSync(val, genSaltSync(12) ),
-	},
-	role			: {
-		type		: String,
-		trim		: true,
-		lowercase	: true,
-		set			: validRole,
-	},
-	rememberToken	: {
-		type		: String,
-		select		: false,
-	},
-},
-{
-	safe: true,
-	timestamps: true
-});
-
-export const UserModel: Model<IUserModel> = model<IUserModel>('User', UserSchema);
 

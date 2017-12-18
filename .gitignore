@@ -65,6 +65,6 @@ build/
 # forever config file
 forever.json
 
-# Database config file
-persistance/config.js
+# Database config files
+persistance/
 

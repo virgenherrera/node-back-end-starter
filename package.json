@@ -1,7 +1,7 @@
 {
   "name": "node-back-end-starter",
   "version": "1.0.0",
-  "description": "a tool for begin a node js back-end project",
+  "description": "a  helpful tool for begin a node js back-end project",
   "main": "dist/Service/index.js",
   "engines": {
     "node": "^8.9.0",
@@ -13,41 +13,45 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/virgenherrera/node-back-end-starter.git"
+    "url": "git+https://github.com/virgenherrera/node-back-end-starter"
   },
-  "contributors": [
-    "Hugo Virgen <virgenherrera@gmail.com>"
-  ],
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/virgenherrera/node-back-end-starter/issues"
   },
+  "license": "MIT",
   "homepage": "https://github.com/virgenherrera/node-back-end-starter#readme",
   "scripts": {
-    "lint": "node ./node_modules/tslint/bin/tslint -c tslint.json -p tsconfig.json",
-    "start": "run-s cleanup test build-ts serve-nodemon",
-    "develop": "run-s clean build-ts serve-development",
-    "serve-development": "run-p serve-nodemon-debug watch-ts",
-    "production": "run-s cleanup test build-ts serve-prod",
-    "serve-prod": "forever start forever.json",
-    "serve-nodemon": "nodemon -w .env -w dist/ -V",
-    "serve-nodemon-debug": "nodemon -w .env -w dist/ -V --inspect",
+    "start": "npm-run-all -s -l cleanup lint build-ts serve-nodemon",
+    "develop": "npm-run-all -s -l -c cleanup lint build-ts serve-development",
+    "production": "npm-run-all -s -l cleanup lint build-ts serve-prod",
     "build-ts": "tsc",
     "watch-ts": "tsc -w",
-    "clean": "node ./tasks/clean.js",
-    "cleanup": "run-p clean clean-logs",
+    "lint": "node ./node_modules/tslint/bin/tslint -c tslint.json -p tsconfig.json",
+    "cleanup": "npm-run-all -p clean-transpilated clean-logs",
     "clean-logs": "node ./tasks/cleanLogs.js",
+    "clean-transpilated": "node ./tasks/cleanTranspilated.js",
+    "provision": "npm-run-all -p -l -c provide-env provide-forever-config provide-dbconfig",
     "provide-dbconfig": "node ./tasks/provideDbConf.js",
     "provide-env": "node ./tasks/provideEnv.js",
     "provide-forever-config": "node ./tasks/provideForeverJson.js",
-    "provision": "run-p provide-env provide-forever-config provide-dbconfig",
-    "create-rest-handler": "node ./tasks/createRestHandler.js",
+    "provide-persistance": "npm-run-all -s -l -c create-database run-migrations run-seeds",
+    "create-module": "node ./tasks/createModule.js",
     "create-controller": "node ./tasks/createController.js",
     "create-model": "node ./tasks/createModel.js",
-    "create-repository": "node ./tasks/createRepository.js",
     "create-poco": "node ./tasks/createPoco.js",
-    "create-module": "node ./tasks/createModule.js",
-    "sequelize": "node ./node_modules/sequelize-cli/lib/sequelize"
+    "create-repository": "node ./tasks/createRepository.js",
+    "create-rest-handler": "node ./tasks/createRestHandler.js",
+    "create-database": "./node_modules/.bin/sequelize db:create",
+    "drop-database": "./node_modules/.bin/sequelize db:drop",
+    "run-migrations": "./node_modules/.bin/sequelize db:migrate",
+    "revert-migrations": "./node_modules/.bin/sequelize db:migrate:undo:all",
+    "run-seeds": "./node_modules/.bin/sequelize db:seed:all",
+    "revert-seeds": "./node_modules/.bin/sequelize db:seed:undo:all",
+    "sequelize": "./node_modules/.bin/sequelize",
+    "serve-development": "npm-run-all -p serve-nodemon-debug watch-ts",
+    "serve-nodemon": "nodemon -w .env -w dist/ -V",
+    "serve-nodemon-debug": "nodemon -w .env -w dist/ -V --inspect",
+    "serve-prod": "forever start forever.json"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -68,11 +72,15 @@
     "pg-hstore": "^2.3.2",
     "pluralize": "^7.0.0",
     "pug": "^2.0.0-rc.4",
+    "reflect-metadata": "^0.1.10",
     "sequelize": "^4.27.0",
     "sequelize-cli": "^3.2.0",
+    "sequelize-typescript": "^0.6.1",
     "serve-favicon": "^2.4.5",
+    "socket.io": "^2.0.4",
     "ts-node": "^3.3.0",
     "typescript": "^2.6.2",
+    "uuid": "^3.1.0",
     "yargs": "^10.0.3"
   },
   "devDependencies": {
@@ -91,6 +99,7 @@
     "@types/pug": "^2.0.4",
     "@types/sequelize": "^4.0.79",
     "@types/serve-favicon": "^2.2.29",
+    "@types/socket.io": "^1.4.31",
     "tslint": "^5.8.0"
   }
 }

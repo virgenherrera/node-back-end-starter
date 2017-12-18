@@ -1,23 +1,29 @@
-import { IUser } from '../Model/user';
 // only for debugging
 // import { dd } from '../Sys/Debug';
 
-export default class User implements IUser {
-	_id: string;
-	firstName: string;
-	lastName: string;
+export class IUser {
+	id: string;
+	first_name: string;
+	last_name: string;
 	email: string;
 	password: string;
 	role: string;
-	rememberToken: string;
+}
+
+export default class User implements IUser {
+	id: string;
+	first_name: string;
+	last_name: string;
+	email: string;
+	password: string;
+	role: string;
 
 	constructor(params= null) {
-		this._id = params._id;
-		this.firstName = params.firstName;
-		this.lastName = params.lastName;
+		this.id = params.id;
+		this.first_name = params.first_name;
+		this.last_name = params.last_name;
 		this.email = params.email;
 		this.password = params.password;
 		this.role = params.role;
-		this.rememberToken = params.rememberToken;
 	}
 }
