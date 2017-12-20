@@ -1,16 +1,7 @@
 // only for debugging
 // import { dd } from '../Sys/Debug';
 
-export class IUser {
-	id: string;
-	first_name: string;
-	last_name: string;
-	email: string;
-	password: string;
-	role: string;
-}
-
-export default class User implements IUser {
+export default class User {
 	id: string;
 	first_name: string;
 	last_name: string;

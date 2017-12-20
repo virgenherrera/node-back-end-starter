@@ -2,12 +2,12 @@ import { Router, Request, Response, NextFunction } from 'express';
 import { IHandler } from '../../Sys/interfaces';
 import HandlerUtility from '../../Sys/HandlerUtility';
 import renderedJwtAuth from '../../Middleware/renderedJwtAuth';
-import UserController from '../../Controller/User';
+import SessionController from '../../Controller/Session';
 // only for debugging
-// import { dump } from '../../Sys/Debug';
+// import { dd } from '../../Sys/Debug';
 
 /* mainHandler Router Class */
-class MainHandler implements IHandler {
+class LogoutHandler implements IHandler {
 
 	/**
 	* Mandatory Properties Description
@@ -15,18 +15,20 @@ class MainHandler implements IHandler {
 	* path: 	the path that handles this class
 	* router: 	the ExpressRouter itself to fill
 	*/
-	name = 'main';
-	path = `/`;
+	name = 'logout';
+	path = `/${this.name}`;
 	router: Router = Router();
 
 	constructor() {
 		// Attach handlers to express Router
 		this.router
-		.get('/', renderedJwtAuth, this.mainView.bind(this));
+		.get('/', renderedJwtAuth, this.mainView.bind(this))
+		.post('/', renderedJwtAuth, this.mainView.bind(this))
+		;
 	}
 
 	get controller() {
-		return new UserController;
+		return new SessionController;
 	}
 
 	async mainView(req: Request, res: Response, next: NextFunction): Promise<any> {
@@ -35,14 +37,12 @@ class MainHandler implements IHandler {
 		let data;
 
 		try {
-			data = await this.controller.showAction({id: params.userId});
-			data.title = `Wellcome ${data.first_name}`;
-
-			return res.render('dashboard_example', data);
+			data = await this.controller.destroyAction(params);
+			return res.status(200).clearCookie('token').redirect('/');
 		} catch (E) {
 			return handUtil.ErrorJsonResponse(E);
 		}
 	}
 }
 
-export default new MainHandler;
+export default new LogoutHandler;

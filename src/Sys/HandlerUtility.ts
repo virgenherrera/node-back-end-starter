@@ -83,7 +83,7 @@ export default class HandlerUtility {
 
 	public getRequestParams(paramString: string | string[]): any {
 		const Req = this.req;
-		let params = [];
+		let params = [{}];
 
 		if ( typeof paramString === 'string' ) {
 			paramString = paramString.split(',');

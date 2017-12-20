@@ -1,6 +1,6 @@
 import { IcrudController } from '../Sys/interfaces';
-import userRepository from '../Repository/user';
-import user from '../Poco/user';
+import UserRepository from '../Repository/User';
+import User from '../Poco/user';
 // only for debugging
 // import {dd} from '../Sys/Debug';
 
@@ -8,14 +8,14 @@ import user from '../Poco/user';
 export default class UserController implements IcrudController {
 
 	get repository() {
-		return new userRepository;
+		return new UserRepository;
 	}
 
 	async createAction(params): Promise<any> {
-		const Entity	= new user(params);
+		const Entity	= new User(params);
 		const data	= await this.repository.Create(Entity);
 
-		const Res = new user( data );
+		const Res = new User( data );
 		delete Res.password;
 		return Res;
 	}
@@ -24,7 +24,7 @@ export default class UserController implements IcrudController {
 		const {limit, offset} = params;
 		const data = await this.repository.GetAll(params);
 
-		data.rows = data.rows.map( row => new user(row) );
+		data.rows = data.rows.map( row => new User(row) );
 		const {count, rows} = data;
 
 		return {count, rows, limit, offset};
@@ -32,7 +32,7 @@ export default class UserController implements IcrudController {
 
 	async showAction(params): Promise<any> {
 		let data	= await this.repository.GetById(params);
-		data		= (data) ? new user(data) : null;
+		data		= (data) ? new User(data) : null;
 
 		return data;
 	}
@@ -40,7 +40,7 @@ export default class UserController implements IcrudController {
 	async editAction(params): Promise<any> {
 		const data = await this.repository.Update(params);
 
-		return new user(data);
+		return new User(data);
 	}
 
 	async deleteAction({id}): Promise<any> {

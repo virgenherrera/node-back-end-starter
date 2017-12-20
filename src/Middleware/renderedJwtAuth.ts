@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import HandlerUtility from '../Sys/HandlerUtility';
 import SessionController from '../Controller/Session';
 // only for debugging
-// import { dd } from '../Sys/Debug';
+import { dd } from '../Sys/Debug';
 
 export default async function restJwtAuth( req: Request, res: Response, next: NextFunction ): Promise<any> {
 	const handUtil = new HandlerUtility(req, res, next);
@@ -16,21 +16,14 @@ export default async function restJwtAuth( req: Request, res: Response, next: Ne
 		req['decodedToken'] = decodedToken;
 		return next();
 	} catch (E) {
-		return handUtil.ErrorJsonResponse(E);
+		return res.redirect(302, '/login');
 	}
 }
 
 function getRawToken( req: Request ): string {
-	const rawToken	=
-	req.body.token ||
-	req.query.token ||
-	req.headers.token ||
-	req.headers['Authorization'] ||
-	req.headers['authorization'] ||
-	req.headers['token'] ||
-	req.headers['Token'] ||
-	req.headers['JWT'] ||
-	req.headers['jwt'];
+	const { cookies = {} } = req;
+	const { token = {} } = cookies;
+	const rawToken = token.token || '';
 
 	return rawToken;
 }

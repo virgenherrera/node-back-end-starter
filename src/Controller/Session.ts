@@ -1,10 +1,9 @@
 import { sign, verify } from 'jsonwebtoken';
-import { validatePassword } from '../Lib/passwordUtil';
 import { IcreateAction } from '../Sys/interfaces';
-import UserRepository from '../Repository/user';
-import User from '../Poco/user';
+import SessionRepository from '../Repository/Session';
+import Session from '../Poco/session';
 // only for debugging
-// import { dd } from '../Sys/Debug';
+import { dd, dump } from '../Sys/Debug';
 
 /* Session Controller Class */
 export default class SessionController implements IcreateAction {
@@ -12,43 +11,32 @@ export default class SessionController implements IcreateAction {
 	options: object	= { expiresIn: process.env.JWT_EXPIRATION };
 
 	get repository() {
-		return new UserRepository;
+		return new SessionRepository;
 	}
 
-	async createAction({email= null, password= null}): Promise<any> {
-		const data	= await this.repository.FindOne({email}, 'full');
-
-		if ( !data ) {
-			throw new Error(`Non-existent email: ${email}`);
-		}
-		if ( !validatePassword(password, data.dataValues.password) ) {
-			throw new Error(`bad credentials`);
-		}
-
-		const { id, role } = new User(data);
-		const jwtPayload = {
-			id	: id,
-			role: role
-		};
+	async createAction(params): Promise<any> {
+		const data = await this.repository.Create(params);
 
 		return {
-			token : sign(jwtPayload, this.secret, this.options)
+			token: sign(data, this.secret, this.options)
 		};
 	}
 
 	async validateAction(token: string): Promise<any> {
 		let decodedToken;
+
 		try {
 			decodedToken = verify(token, this.secret);
-			const Wh = {
-				id	: decodedToken.id,
-				role: decodedToken.role,
-			};
-			const data = await this.repository.FindOne(Wh, 'full');
+			const data = await this.repository.FindOne(decodedToken);
 
-			return new User(data);
-		} catch (e) {
-			throw e;
+			return new Session( decodedToken );
+
+		} catch (E) {
+			throw E;
 		}
+	}
+
+	async destroyAction(params): Promise<any> {
+		return await this.repository.Delete(params);
 	}
 }
