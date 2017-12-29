@@ -4,7 +4,7 @@ import Directories from '../Sys/Directories';
 
 
 
-export default async function sequelizeConnection(): Promise<string|void> {
+export async function sequelizeConnection(): Promise<string|void> {
 	const ENV = process.env.NODE_ENV.toUpperCase();
 	const connParams: any = {
 		username : process.env[`${ENV}_DB_USERNAME`],
@@ -14,7 +14,13 @@ export default async function sequelizeConnection(): Promise<string|void> {
 		dialect : process.env[`${ENV}_DB_DIALECT`],
 		port: process.env[`${ENV}_DB_PORT`],
 		modelPaths: [Directories.Model],
+		logging : false,
 	};
+
+	if ( process.env.NODE_ENV === 'development' ) {
+		connParams.logging = console.log,
+		connParams.benchmark = true;
+	}
 
 	const sequelize = new Sequelize( connParams );
 	try {

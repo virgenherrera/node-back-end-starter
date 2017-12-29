@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import HandlerUtility from '../Sys/HandlerUtility';
-import SessionController from '../Controller/Session';
+import { SessionController } from '../Controller/Session';
 // only for debugging
-import { dd } from '../Sys/Debug';
+// import { dd } from '../Sys/Debug';
 
 export default async function restJwtAuth( req: Request, res: Response, next: NextFunction ): Promise<any> {
 	const handUtil = new HandlerUtility(req, res, next);

@@ -1,7 +1,7 @@
 // only for debugging
 // import { dd } from '../Sys/Debug';
 
-export default class Session {
+export class Session {
 	userId: string;
 	role: string;
 	historyId: number;

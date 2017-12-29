@@ -1,9 +1,9 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { IHandler } from '../../Sys/interfaces';
 import HandlerUtility from '../../Sys/HandlerUtility';
-import SessionController from '../../Controller/Session';
+import { SessionController } from '../../Controller/Session';
 // only for debugging
-import { dd, dump } from '../../Sys/Debug';
+// import { dd } from '../../Sys/Debug';
 
 /* mainHandler Router Class */
 class MainHandler implements IHandler {

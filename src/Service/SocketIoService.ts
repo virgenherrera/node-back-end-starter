@@ -1,8 +1,8 @@
 import * as SocketIo from 'socket.io';
-import SessionController from '../Controller/Session';
+import { SessionController } from '../Controller/Session';
 import { USE_REAL_TIME_SERVICE } from '../config/config';
 
-let IO: any|null = null;
+export let IO: any|null = null;
 
 export default class SocketIoService {
 	constructor(ioServer) {
@@ -25,7 +25,7 @@ export default class SocketIoService {
 	async onConnectAuthenticate(incomingSocket): Promise<void> {
 		const { token = null } = incomingSocket.handshake.query;
 
-		// kick-out user if doesn't provide a token
+		// kick-out user if doesn't provided a token
 		if ( !token ) {
 			incomingSocket.disconnect();
 		}
@@ -37,11 +37,11 @@ export default class SocketIoService {
 			decodedToken = await ctrl.validateAction( token );
 
 			// call actual onConnect handler
-			this.onConnectHandler.call(this, incomingSocket, decodedToken);
+			return this.onConnectHandler.call(this, incomingSocket, decodedToken);
 		} catch ( E ) {
 			console.log('Kicking-out user due Authentication Error');
 
-			incomingSocket.disconnect();
+			return incomingSocket.disconnect();
 		}
 	}
 
@@ -54,11 +54,5 @@ export default class SocketIoService {
 		/**
 		 * Actual onConnection code here!!!
 		 */
-	}
-}
-
-export class IoHandler {
-	get io() {
-		return IO;
 	}
 }

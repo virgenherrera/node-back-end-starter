@@ -1,11 +1,11 @@
 import { IcrudController } from '../Sys/interfaces';
-import UserRepository from '../Repository/User';
+import { UserRepository } from '../Repository/User';
 import User from '../Poco/user';
 // only for debugging
 // import {dd} from '../Sys/Debug';
 
 /* user Controller Class */
-export default class UserController implements IcrudController {
+export class UserController implements IcrudController {
 
 	get repository() {
 		return new UserRepository;

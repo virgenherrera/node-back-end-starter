@@ -1,17 +1,19 @@
 import { AllowNull, Column, CreatedAt, DataType, DefaultScope, HasMany, IsEmail, Length, Model, Scopes, Table, Unique, UpdatedAt } from 'sequelize-typescript';
-import SessionHistoryModel from './session_history';
+import { SessionHistory } from './SessionHistory';
 import { obfuscatePassword } from '../Lib/passwordUtil';
 const defaultAttributes = ['id', 'first_name', 'last_name', 'email', 'role'];
-
+const fullAttributes = defaultAttributes.concat(['password', 'createdAt', 'updatedAt']);
+// only for debugging
+// import { dd } from "../Sys/Debug";
 
 @Scopes({
 	default: { attributes: defaultAttributes },
-	full: { attributes: defaultAttributes.concat(['password', 'createdAt', 'updatedAt']) },
+	full: { attributes: fullAttributes },
 })
 @Table({
 	tableName: 'users',
 })
-export default class UserModel extends Model<UserModel> {
+export class User extends Model<User> {
 
 	@Column({
 		allowNull: false,
@@ -58,7 +60,7 @@ export default class UserModel extends Model<UserModel> {
 	@UpdatedAt
 	updatedAt: Date;
 
-	@HasMany(() => SessionHistoryModel)
-	session_histories: SessionHistoryModel[];
+	@HasMany(() => SessionHistory)
+	session_histories: SessionHistory[];
 }
 

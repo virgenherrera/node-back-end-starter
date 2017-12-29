@@ -1,11 +1,11 @@
-import UserModel from '../Model/user';
-import SessionHistoryModel from '../Model/session_history';
+import { User } from '../Model/User';
+import { SessionHistory } from '../Model/SessionHistory';
 import { IFindOne, ICreate, IDelete } from '../Sys/interfaces';
 import { validatePassword } from '../Lib/passwordUtil';
 // only for debugging
-import { dd } from '../Sys/Debug';
+// import { dd } from '../Sys/Debug';
 
-export default class SessionRepository implements IFindOne, ICreate, IDelete {
+export class SessionRepository implements IFindOne, ICreate, IDelete {
 	async FindOne(params, scope: string = 'default'): Promise<any> {
 		const Wh = {
 			where: {
@@ -15,12 +15,12 @@ export default class SessionRepository implements IFindOne, ICreate, IDelete {
 			},
 			// include: [{
 			// 	attributes: ['id', 'first_name', 'last_name', 'email', 'role'],
-			// 	model: UserModel,
+			// 	model: User,
 			// 	required: true,
 			// }]
 		};
 
-		const data = await SessionHistoryModel.scope( scope ).findOne(Wh);
+		const data = await SessionHistory.scope( scope ).findOne(Wh);
 		if ( !data ) {
 			throw new Error('your token has expired');
 		}
@@ -29,21 +29,21 @@ export default class SessionRepository implements IFindOne, ICreate, IDelete {
 	}
 
 	async Create({ email = null, password = null }): Promise<any> {
-		const User = await UserModel.findOne({ where: { email } });
+		const user = await User.findOne({ where: { email } });
 
-		if (!User) {
+		if (!user) {
 			throw new Error(`Non-existent email: ${email}`);
 		}
-		if (!validatePassword(password, User.password)) {
+		if (!validatePassword(password, user.password)) {
 			throw new Error(`bad credentials`);
 		}
 
-		const History = await SessionHistoryModel.create({ user_id: User.id });
+		const history = await SessionHistory.create({ user_id: user.id });
 
 		return {
-			userId: User.id,
-			role: User.role,
-			historyId: History.id,
+			userId: user.id,
+			role: user.role,
+			historyId: history.id,
 		};
 	}
 
@@ -54,7 +54,7 @@ export default class SessionRepository implements IFindOne, ICreate, IDelete {
 			}
 		};
 
-		const data = await SessionHistoryModel.update({logout: new Date}, Wh );
+		const data = await SessionHistory.update({logout: new Date}, Wh );
 
 		return (data);
 	}

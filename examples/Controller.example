@@ -1,11 +1,11 @@
 import { IcrudController } from '../Sys/interfaces';
-import {{Module}}Repository from '../Repository/{{module}}';
-import {{Module}} from '../Poco/{{module}}';
+import { {{Module}}Repository } from '../Repository/{{module}}';
+import { {{Module}} } from '../Poco/{{module}}';
 // only for debugging
 // import { dd } from '../Sys/Debug';
 
 /* {{Module}} Controller Class */
-export default class {{Module}}Controller implements IcrudController {
+export class {{Module}}Controller implements IcrudController {
 
 	get repository() {
 		return new {{Module}}Repository;

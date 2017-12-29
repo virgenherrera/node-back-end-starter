@@ -26,9 +26,9 @@ return (()=>{
 	const ModuleRegex = new RegExp('{{Module}}','g');
 	const attributesArrRegex = new RegExp('{{attributesArr}}','g');
 	const attrDeclarationsRegex = new RegExp('{{attrDeclarations}}','g');
-	const origin			= join( __dirname , '../examples/model.example' );
-	const destiny			= join(__dirname, `../src/Model/${name}.ts`);
-	const fileContent		= readFileSync(origin,'utf-8');
+	const origin = join( __dirname , '../examples/model.example' );
+	const destiny = join(__dirname, `../src/Model/${ucfirst(name)}.ts`);
+	const fileContent = readFileSync(origin,'utf-8');
 
 	if( !name ){
 		console.error(`Cannot create unnamed model`);

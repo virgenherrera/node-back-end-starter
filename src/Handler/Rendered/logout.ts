@@ -2,7 +2,7 @@ import { Router, Request, Response, NextFunction } from 'express';
 import { IHandler } from '../../Sys/interfaces';
 import HandlerUtility from '../../Sys/HandlerUtility';
 import renderedJwtAuth from '../../Middleware/renderedJwtAuth';
-import SessionController from '../../Controller/Session';
+import { SessionController } from '../../Controller/Session';
 // only for debugging
 // import { dd } from '../../Sys/Debug';
 

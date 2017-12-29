@@ -1,5 +1,5 @@
 import { BelongsTo, Column, DataType, ForeignKey, Model, Scopes, Table } from 'sequelize-typescript';
-import UserModel from './user';
+import { User } from './User';
 const defaultAttributes = ['id', 'login', 'logout', 'user_id', ];
 // only for debugging
 // import { dd } from "../Sys/Debug";
@@ -9,13 +9,13 @@ const defaultAttributes = ['id', 'login', 'logout', 'user_id', ];
 	full: { attributes: defaultAttributes },
 	includeUser: {
 		attributes: defaultAttributes,
-		include: [() => UserModel]
+		include: [() => User]
 	},
 })
 @Table({
 	tableName: 'session_histories',
 })
-export default class SessionHistoryModel extends Model<SessionHistoryModel> {
+export class SessionHistory extends Model<SessionHistory> {
 
 	// integer Type
 	@Column({
@@ -40,11 +40,11 @@ export default class SessionHistoryModel extends Model<SessionHistoryModel> {
 	})
 	logout: Date;
 
-	@ForeignKey(() => UserModel)
+	@ForeignKey(() => User)
 	@Column
 	user_id: string;
 
-	@BelongsTo(() => UserModel)
-	user: UserModel;
+	@BelongsTo(() => User)
+	user: User;
 }
 

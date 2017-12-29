@@ -1,16 +1,17 @@
 import { Column, CreatedAt, DataType, Model, Scopes, Table, UpdatedAt } from 'sequelize-typescript';
+const defaultAttributes = ['id',{{attributesArr}}];
+const fullAttributes = defaultAttributes.concat(['createdAt', 'updatedAt']);
 // only for debugging
 // import { dd } from "../Sys/Debug";
 
 @Scopes({
-	default: { attributes: ['id',{{attributesArr}}] },
-	full: { attributes: ['id',{{attributesArr}}'CreatedAt', 'UpdatedAt'] },
+	default: { attributes: defaultAttributes },
+	full: { attributes: fullAttributes },
 })
 @Table({
 	tableName: '{{tableName}}',
 })
-export default class {{Module}}Model extends Model<{{Module}}Model> {
-
+export class {{Module}} extends Model<{{Module}}> {
 	// UUID Type
 	@Column({
 		allowNull: false,

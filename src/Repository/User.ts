@@ -1,25 +1,25 @@
-import UserModel from '../Model/user';
+import { User } from '../Model/User';
 import { IfullRepository } from '../Sys/interfaces';
 // only for debugging
 // import { dd } from '../Sys/Debug';
 
-export default class UserModelRepository implements IfullRepository {
+export class UserRepository implements IfullRepository {
 	async GetById({ id = null, scope = 'default' }): Promise<any> {
-		return await UserModel.scope( scope ).findById(id);
+		return await User.scope( scope ).findById(id);
 	}
 
 	async FindOne(params, scope: string = 'default'): Promise<any> {
-		return await UserModel.scope( scope ).findOne(params);
+		return await User.scope( scope ).findOne(params);
 	}
 
 	async GetAll({ where = {}, limit = null, offset = null, sort = [], scope = 'default' }): Promise<any> {
 		const Wh = {where, limit, offset, order: sort};
 
-		return await UserModel.scope( scope ).findAndCountAll(Wh);
+		return await User.scope( scope ).findAndCountAll(Wh);
 	}
 
 	async Create(params): Promise<any> {
-		return await UserModel.create(params);
+		return await User.create(params);
 	}
 
 	async Update(params): Promise<any> {
@@ -31,7 +31,7 @@ export default class UserModelRepository implements IfullRepository {
 			password = null,
 			role = null,
 		} = params;
-		const Entity = await UserModel.findById(id);
+		const Entity = await User.findById(id);
 
 		if (!Entity) { return `non-existent Entity with id: ${id}`; }
 
@@ -48,6 +48,6 @@ export default class UserModelRepository implements IfullRepository {
 		const Wh = {
 			where: {id}
 		};
-		return await UserModel.destroy(Wh);
+		return await User.destroy(Wh);
 	}
 }

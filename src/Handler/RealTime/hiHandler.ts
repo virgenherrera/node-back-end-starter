@@ -1,16 +1,11 @@
-import { IoHandler } from '../../Service/SocketIoService';
+import { IO } from '../../Service/SocketIoService';
 
-class HiHandler extends IoHandler {
-	constructor() {
-		super();
+
+export function onHi(name: string): any {
+	if ( !IO ) {
+		return;
 	}
 
-	onHi( name: string ) {
-		if ( !this.io ) {
-			return;
-		}
-		this.io.of('/').emit('hi', `Hi there ${name}!`);
-	}
+	// Emit hi to all clients on default namespace
+	return IO.of('/').emit('hi', `Hi there ${name}!`);
 }
-
-export default new HiHandler;

@@ -3,7 +3,7 @@ import { plural } from 'pluralize';
 import { IRestFull } from '../../Sys/interfaces';
 import HandlerUtility from '../../Sys/HandlerUtility';
 import restJwtAuth from '../../Middleware/restJwtAuth';
-import {{Module}}Controller from '../../Controller/{{Module}}';
+import { {{Module}}Controller } from '../../Controller/{{Module}}';
 // only for debugging
 // import { dd } from '../../Sys/Debug';
 

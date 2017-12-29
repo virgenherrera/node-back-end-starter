@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import HandlerUtility from '../Sys/HandlerUtility';
-import SessionController from '../Controller/Session';
+import { SessionController } from '../Controller/Session';
 // only for debugging
 // import { dd } from '../Sys/Debug';
 

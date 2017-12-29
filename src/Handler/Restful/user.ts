@@ -3,7 +3,7 @@ import { IRestFull } from '../../Sys/interfaces';
 import { plural } from 'pluralize';
 import HandlerUtility from '../../Sys/HandlerUtility';
 import restJwtAuth from '../../Middleware/restJwtAuth';
-import UserController from '../../Controller/User';
+import { UserController } from '../../Controller/User';
 // only for debugging
 // import { dd } from '../../Sys/Debug';
 

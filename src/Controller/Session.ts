@@ -1,12 +1,12 @@
 import { sign, verify } from 'jsonwebtoken';
 import { IcreateAction } from '../Sys/interfaces';
-import SessionRepository from '../Repository/Session';
-import Session from '../Poco/session';
+import { SessionRepository } from '../Repository/Session';
+import { Session } from '../Poco/session';
 // only for debugging
-import { dd, dump } from '../Sys/Debug';
+// import { dd } from '../Sys/Debug';
 
 /* Session Controller Class */
-export default class SessionController implements IcreateAction {
+export class SessionController implements IcreateAction {
 	secret: string	= process.env.JWT_SECRET;
 	options: object	= { expiresIn: process.env.JWT_EXPIRATION };
 

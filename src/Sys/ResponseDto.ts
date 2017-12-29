@@ -51,7 +51,7 @@ export class Error404 implements IResDto {
 export class Error406 implements IResDto {
 	public status	= 406;
 	public success	= false;
-	public message	= `Requests header must contain: \'content-type\': \'application/x-www-form-urlencoded\'`;
+	public message = `Requests header must contain: \'content-type\': \'application/x-www-form-urlencoded\' OR  \'content-type\': \'application/json\'`;
 
 	constructor(message= null) {
 		if ( message )	{ this.message = message; }

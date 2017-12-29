@@ -1,32 +1,32 @@
-import {{Module}}Model from '../Model/{{module}}';
+import { {{Module}} } from '../Model/{{Module}}';
 import { IfullRepository } from '../Sys/interfaces';
 // only for debugging
 // import { dd } from '../Sys/Debug';
 
-export default class {{Module}}Repository implements IfullRepository {
+export class {{Module}}Repository implements IfullRepository {
 	async GetById({ id = null, scope = 'default' }): Promise<any> {
-		return await {{Module}}Model.scope( scope ).findById(id);
+		return await {{Module}}.scope( scope ).findById(id);
 	}
 
 	async findOne(params, scope: string = 'default'): Promise<any> {
-		return await {{Module}}Model.scope( scope ).findOne(params);
+		return await {{Module}}.scope( scope ).findOne(params);
 	}
 
 	async GetAll({ where = {}, limit = null, offset = null, sort = [], scope = 'default' }): Promise<any> {
 		const Wh = {where, limit, offset, order: sort};
 
-		return await {{Module}}Model.scope( scope ).findAndCountAll(Wh);
+		return await {{Module}}.scope( scope ).findAndCountAll(Wh);
 	}
 
 	async Create(params): Promise<any> {
-		return await {{Module}}Model.create(params);
+		return await {{Module}}.create(params);
 	}
 
 	async Update(params): Promise<any> {
 		const {
 			id = null,
 {{letDeclarations}}} = params;
-		const Entity = await {{Module}}Model.findById(id);
+		const Entity = await {{Module}}.findById(id);
 
 		if (!Entity) { return `non-existent Entity with id: ${id}`; }
 
@@ -38,6 +38,6 @@ export default class {{Module}}Repository implements IfullRepository {
 		const Wh = {
 			where: {id}
 		};
-		return await {{Module}}Model.destroy(Wh);
+		return await {{Module}}.destroy(Wh);
 	}
 }

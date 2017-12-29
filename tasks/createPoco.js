@@ -26,7 +26,7 @@ return (()=>{
 	const propDefinitionRegExp		= new RegExp("{{propDefinition}}","g");
 	const propAssignRegExp		= new RegExp("{{propAssign}}","g");
 	const origin			= join( __dirname , '../examples/poco.example' );
-	const destiny			= join(__dirname, `../src/Poco/${name}.ts`);
+	const destiny			= join(__dirname, `../src/Poco/${ucfirst(name)}.ts`);
 	const fileContent		= readFileSync(origin,'utf-8');
 
 	if( !name ){

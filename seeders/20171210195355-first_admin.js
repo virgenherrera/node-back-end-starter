@@ -1,7 +1,7 @@
 'use strict';
 require('ts-node').register();
-const { obfuscatePassword } = require('../src/Lib/passwordUtil');
-const UUID = require('uuid/v4');
+const { sequelizeConnection } = require('../src/Sys/sequelizeConnection');
+const { User } = require('../src/Model/User');
 const adminUser = {
 	first_name: 'Admin Name',
 	last_name: 'Admin Last Name',
@@ -12,12 +12,18 @@ const adminUser = {
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-		adminUser.id = UUID();
-		adminUser.password = obfuscatePassword( adminUser.password );
-		return queryInterface.bulkInsert('users', [ adminUser ],{});
+		/**
+		* Requiring a model way
+		*/
+		return sequelizeConnection()
+		.then(() => User.create(adminUser) )
+		.catch(E => console.log(E));
 	},
 
 	down: (queryInterface, Sequelize) => {
+		/**
+		* queryInterface way
+		*/
 		delete adminUser.password;
 		return queryInterface.bulkDelete('users', adminUser );
 	}

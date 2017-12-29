@@ -4,7 +4,7 @@ import * as favicon from 'serve-favicon';
 import * as Handlers from '../config/handler';
 import loadEnvironmentVars from '../Sys/loadEnvironmentVars';
 import Directories from '../Sys/Directories';
-import sequelizeConnection from '../Sys/sequelizeConnection';
+import { sequelizeConnection } from '../Sys/sequelizeConnection';
 import notFound from '../Middleware/notFound';
 import { middleware } from '../config/middleware';
 import { USE_DATA_PERSISTANCE } from '../config/config';

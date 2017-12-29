@@ -16,7 +16,7 @@ module.exports = {
 			logout: {
 				allowNull: true,
 				type: Sequelize.DATE,
-				defaultValue: null
+				defaultValue: Sequelize.literal('now()'),
 			},
 			user_id: {
 				type: Sequelize.UUID,

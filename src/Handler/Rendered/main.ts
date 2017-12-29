@@ -2,7 +2,7 @@ import { Router, Request, Response, NextFunction } from 'express';
 import { IHandler } from '../../Sys/interfaces';
 import HandlerUtility from '../../Sys/HandlerUtility';
 import renderedJwtAuth from '../../Middleware/renderedJwtAuth';
-import UserController from '../../Controller/User';
+import { UserController } from '../../Controller/User';
 // only for debugging
 // import { dump } from '../../Sys/Debug';
 
@@ -36,7 +36,7 @@ class MainHandler implements IHandler {
 
 		try {
 			data = await this.controller.showAction({id: params.userId});
-			data.title = `Wellcome ${data.first_name}`;
+			data.title = `Hi ${data.first_name}`;
 
 			return res.render('dashboard_example', data);
 		} catch (E) {
