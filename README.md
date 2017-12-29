@@ -1,4 +1,4 @@
-# onmessage-backend
+# node-back-end-starter
 initial scaffold for a back-end with node js, yarn, express, sequelize and typescript
 
 # Project Setup
